@@ -136,19 +136,14 @@ export default function Navbar() {
                   onMouseLeave={closeDropdown}
                 >
                   <button
-                    className={`flex items-center gap-1 px-3.5 py-2 text-sm font-medium rounded-full transition-colors duration-150 ${
+                    className={`flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors duration-150 ${
                       activeDropdown === link.key
-                        ? 'bg-black/8 text-[#0d0f15]'
-                        : 'text-[#0d0f15] hover:bg-black/5'
+                        ? 'text-[#0d0f15]'
+                        : 'text-[#0d0f15] hover:text-[#0d0f15]/70'
                     }`}
                   >
                     {link.label}
-                    <svg
-                      className={`w-3.5 h-3.5 transition-transform duration-200 ${activeDropdown === link.key ? 'rotate-180' : ''}`}
-                      fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <span className="text-sm font-medium leading-none ml-0.5">+</span>
                   </button>
                   <AnimatePresence>
                     {activeDropdown === link.key && (
@@ -160,16 +155,16 @@ export default function Navbar() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className={`relative flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium rounded-full text-[#0d0f15] hover:bg-black/5 transition-colors duration-150 ${
-                    link.featured ? 'border border-[#0d0f15]/25 hover:border-[#0d0f15]/50' : ''
+                  className={`relative px-3 py-2 text-sm font-medium text-[#0d0f15] hover:text-[#0d0f15]/70 transition-colors duration-150 ${
+                    link.featured ? 'border border-[#0d0f15]/30 rounded-full px-4 hover:border-[#0d0f15]/60' : ''
                   }`}
                 >
-                  {link.label}
                   {link.badge && (
-                    <span className="bg-[#b2f6e3] text-[#0d0f15] text-[9px] font-black px-1.5 py-0.5 rounded-full leading-none">
+                    <span className="absolute -top-1 right-0 bg-[#b2f6e3] text-[#0d0f15] text-[8px] font-black px-1.5 py-0.5 rounded-full leading-none">
                       {link.badge}
                     </span>
                   )}
+                  {link.label}
                 </a>
               )
             )}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const HERO_IMAGES = [
   'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=85&fit=crop',
@@ -16,14 +16,14 @@ function Laurel({ flip = false }) {
       className="w-5 h-10 sm:w-6 sm:h-12 flex-shrink-0"
       style={{ transform: flip ? 'scaleX(-1)' : undefined }}
     >
-      <path d="M22 3 Q18 8 20 15" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M20 5 Q24 10 22 17" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M17 11 Q12 15 14 22" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M20 13 Q22 19 19 26" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M13 21 Q8 25 10 32" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M18 23 Q20 30 17 36" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M10 31 Q7 37 10 42" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M16 35 Q17 42 15 48" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M22 3 Q18 8 20 15"  stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M20 5 Q24 10 22 17" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M17 11 Q12 15 14 22" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M20 13 Q22 19 19 26" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M13 21 Q8 25 10 32"  stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M18 23 Q20 30 17 36" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M10 31 Q7 37 10 42"  stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M16 35 Q17 42 15 48" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   );
 }
@@ -48,37 +48,42 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden" style={{ minHeight: '100svh', backgroundColor: '#0d0f15' }}>
-
-      {/* Blurred background — matches the pill image, crossfades on change */}
-      <AnimatePresence>
-        <motion.div
-          key={current}
-          className="absolute inset-0 z-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.4 }}
-        >
+    /*
+     * marginTop: -64px slides the hero behind the sticky navbar so the dark
+     * background covers the transparent navbar area (no light body-bg bleed).
+     */
+    <section
+      className="relative overflow-hidden"
+      style={{ minHeight: '100svh', backgroundColor: '#0d0f15', marginTop: '-64px' }}
+    >
+      {/* ── Blurred backgrounds ──
+          All images are rendered simultaneously; only `current` is opaque.
+          CSS opacity transition is far more reliable than AnimatePresence here. */}
+      <div className="absolute inset-0 z-0">
+        {HERO_IMAGES.map((src, i) => (
           <img
-            src={HERO_IMAGES[current]}
+            key={src}
+            src={src}
             alt=""
             aria-hidden="true"
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover"
             style={{
-              filter: 'blur(72px) saturate(1.3) brightness(0.38)',
+              filter: 'blur(72px) saturate(1.3) brightness(0.4)',
               transform: 'scale(1.18)',
+              opacity: i === current ? 1 : 0,
+              transition: 'opacity 1.4s ease',
             }}
           />
-        </motion.div>
-      </AnimatePresence>
+        ))}
+      </div>
 
       <div className="absolute inset-0 z-[1] bg-black/20" />
 
-      {/* ── Centered content ── */}
+      {/* ── Main content ──
+          paddingTop: 136px = 64px (navbar height) + 72px (visual breathing room) */}
       <div
         className="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-10"
-        style={{ minHeight: '100svh', paddingTop: '72px', paddingBottom: '140px' }}
+        style={{ minHeight: '100svh', paddingTop: '136px', paddingBottom: '140px' }}
       >
         {/* Award strip */}
         <motion.div
@@ -93,10 +98,10 @@ export default function Hero() {
           <div className="flex items-center justify-center gap-2 sm:gap-3">
             <Laurel />
             <div className="flex items-center gap-3 sm:gap-5 px-3 sm:px-5 border-l border-r border-white/20">
-              <AwardBadge icon="▶▶" label={"GLOBAL\nSEARCH\nAWARDS"} />
-              <AwardBadge icon="▲▲▲" label={"THE\nDRUM"} />
+              <AwardBadge icon="▶▶"   label={"GLOBAL\nSEARCH\nAWARDS"} />
+              <AwardBadge icon="▲▲▲"  label={"THE\nDRUM"} />
               <AwardBadge icon="●● ●●" label={"UK SOCIAL\nMEDIA AWARDS"} />
-              <AwardBadge icon="≡ ≡" label={"CONTENT\nAWARDS"} />
+              <AwardBadge icon="≡ ≡"   label={"CONTENT\nAWARDS"} />
             </div>
             <Laurel flip />
           </div>
@@ -112,7 +117,7 @@ export default function Hero() {
           We Create
         </motion.h1>
 
-        {/* "Category [PILL] Leaders" */}
+        {/* "Category [pill] Leaders" */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -123,29 +128,34 @@ export default function Hero() {
             Category
           </span>
 
-          {/* Rotating pill image */}
+          {/* ── Floating pill ──
+              Same CSS-opacity-transition approach as the background */}
           <motion.div
-            className="relative overflow-hidden shadow-2xl flex-shrink-0"
-            style={{
-              width: 'clamp(68px, 8.5vw, 128px)',
-              height: 'clamp(68px, 8.5vw, 128px)',
-              borderRadius: 'clamp(12px, 2vw, 26px)',
-            }}
+            className="flex-shrink-0"
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={current}
-                src={HERO_IMAGES[current]}
-                alt="Client showcase"
-                className="absolute inset-0 w-full h-full object-cover"
-                initial={{ opacity: 0, scale: 1.08 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.9 }}
-              />
-            </AnimatePresence>
+            <div
+              className="relative overflow-hidden shadow-2xl"
+              style={{
+                width: 'clamp(68px, 8.5vw, 128px)',
+                height: 'clamp(68px, 8.5vw, 128px)',
+                borderRadius: 'clamp(12px, 2vw, 26px)',
+              }}
+            >
+              {HERO_IMAGES.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{
+                    opacity: i === current ? 1 : 0,
+                    transition: 'opacity 0.9s ease',
+                  }}
+                />
+              ))}
+            </div>
           </motion.div>
 
           <span className="text-[clamp(52px,10.5vw,148px)] font-black text-white leading-[0.88] tracking-[-0.04em] flex-shrink-0">
@@ -164,7 +174,7 @@ export default function Hero() {
         </motion.p>
       </div>
 
-      {/* ── Bottom-left: description ── */}
+      {/* ── Bottom-left description ── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -178,7 +188,7 @@ export default function Hero() {
         </p>
       </motion.div>
 
-      {/* ── Bottom-right: offices ── */}
+      {/* ── Bottom-right offices ── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -191,7 +201,7 @@ export default function Hero() {
         </p>
       </motion.div>
 
-      {/* Curved bottom edge into light bg */}
+      {/* Curved transition into light bg */}
       <div className="absolute bottom-0 left-0 right-0 z-10">
         <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
           <path d="M0 60 C360 0 1080 0 1440 60 L1440 60 L0 60 Z" fill="#e9edf4" />
