@@ -1,7 +1,7 @@
 import './index.css'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import TextTicker from './components/TextTicker'
+import BrandsIntro from './components/BrandsIntro'
 import FeaturedWork from './components/FeaturedWork'
 import Services from './components/Services'
 import WhyUs from './components/WhyUs'
@@ -10,11 +10,11 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#e9edf4]">
       <Navbar />
       <main>
         <Hero />
-        <TextTicker />
+        <BrandsIntro />
         <FeaturedWork />
         <Services />
         <WhyUs />

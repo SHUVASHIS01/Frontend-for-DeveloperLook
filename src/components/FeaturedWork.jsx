@@ -8,238 +8,231 @@ const workItems = [
     category: 'Car rental',
     period: '[2023-2025]',
     client: 'SIXT',
-    description: 'An extra 3m clicks regionally through SEO',
     href: '/work/sixt/',
-    color: '#ff6b00',
+    // BMW / luxury car photo
+    img: 'https://images.unsplash.com/photo-1617814076668-8dfc6fe3b744?w=800&q=85',
+    result: 'An extra 3m clicks regionally through SEO',
   },
   {
     id: 'dojo',
     category: 'Card Machines',
     period: '[2021-2025]',
-    client: 'Dojo - B2B',
-    description: 'A B2B success story for Dojo card machines',
+    client: 'Dojo – B2B',
     href: '/work/dojo/',
-    color: '#1a1a2e',
+    // Teal/tech payment terminal
+    img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=85',
+    result: 'A B2B success story for Dojo card machines',
   },
   {
     id: 'magnet',
     category: '',
     period: '[2023-2024]',
-    client: 'Magnet Trade - B2B',
-    description: 'A full service SEO success story 170%+ increase',
+    client: 'Magnet Trade – B2B',
     href: '/work/magnet-trade-b2b/',
-    color: '#2d2d2d',
+    // Dark kitchen/showroom
+    img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85',
+    result: 'A full service SEO success story 170%+ increase',
   },
   {
     id: 'esim',
     category: 'Esims',
     period: '[2023-2025]',
     client: 'Leading E Sim brand globally',
-    description: 'Increasing brand and non brand visibility UK/ES',
     href: '/work/esim-case-study/',
-    color: '#0f3460',
+    // SIM / tech product
+    img: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=85',
+    result: 'Increasing brand and non brand visibility UK/ES',
   },
   {
     id: 'jd',
     category: 'Trainers',
     period: '[2025]',
     client: 'JD Sports',
-    description: '65% up YoY in clicks for JDSports FR, IT, ES',
     href: '/work/jd-sports-/',
-    color: '#ff6900',
+    // People in streetwear
+    img: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800&q=85',
+    result: '65% up YoY in clicks for JDSports FR, IT, ES',
   },
   {
     id: 'parkdean1',
     category: 'Easter Breaks',
     period: '[2019-2025]',
     client: 'Parkdean Resorts',
-    description: 'Dominating Google and AI search',
     href: '/work/parkdean-resorts-easter-breaks/',
-    color: '#006b3c',
+    // Kids on beach
+    img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=85',
+    result: 'Dominating Google and AI search',
   },
   {
     id: 'pooky',
     category: 'Rechargeable Lights',
     period: '[2025]',
     client: 'Pooky',
-    description: 'Driving demand for Pooky Rechargeable Lights',
     href: '/work/pooky/',
-    color: '#4a1b6e',
+    // Elegant lamp / interior
+    img: 'https://images.unsplash.com/photo-1513506003901-1e6a35eb4d55?w=800&q=85',
+    result: 'Driving demand for Pooky Rechargeable Lights',
   },
   {
     id: 'parkdean2',
     category: 'UK holidays',
     period: '[2019-2025]',
     client: 'Parkdean Resorts',
-    description: 'Social search and multi channel content to #1',
     href: '/work/parkdean-resorts-social-search/',
-    color: '#006b3c',
+    // Lake/countryside
+    img: 'https://images.unsplash.com/photo-1563974318767-a5a24e34a573?w=800&q=85',
+    result: 'Social search and multi channel content to #1',
   },
   {
     id: 'revolution',
     category: 'Beauty Dupes',
     period: '[2022-2025]',
     client: 'Revolution Beauty',
-    description: "Building the UK's leading beauty dupe brand",
     href: '/work/revolution-beauty/',
-    color: '#8b0045',
+    // Beauty/cosmetics flatlay
+    img: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=85',
+    result: "Building the UK's leading beauty dupe brand",
   },
   {
     id: 'lloyds',
     category: 'STI tests',
     period: '[2022-23]',
     client: 'Lloyds Pharmacy',
-    description: 'Driving category leadership for STI tests',
     href: '/work/lloyds-pharmacy/',
-    color: '#00833e',
+    // Pharmacy/health
+    img: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800&q=85',
+    result: 'Driving category leadership for STI tests',
   },
   {
     id: 'plt',
     category: 'Outfits',
     period: '[2021-2023]',
     client: 'PrettyLittleThing',
-    description: 'Driving discovery for everything "outfits" for PLT',
     href: '/work/prettylittlething/',
-    color: '#ff5f00',
+    // Fashion models
+    img: 'https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800&q=85',
+    result: 'Driving discovery for everything "outfits" for PLT',
   },
 ];
 
-const WorkCard = ({ item, index }) => {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+function WorkCard({ item, index }) {
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 });
   const [hovered, setHovered] = useState(false);
 
   return (
     <motion.a
       ref={ref}
       href={item.href}
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: (index % 4) * 0.1 }}
+      transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="work-card relative block overflow-hidden group cursor-pointer"
-      style={{ aspectRatio: index === 0 || index === 3 ? '16/10' : '4/3' }}
+      className="work-card relative block overflow-hidden card-radius bg-[#1a1d26] cursor-pointer"
+      style={{ aspectRatio: '4/3' }}
     >
-      {/* Background */}
-      <div
-        className="absolute inset-0 transition-transform duration-700"
+      {/* Image */}
+      <img
+        src={item.img}
+        alt={item.client}
+        className="absolute inset-0 w-full h-full object-cover"
         style={{
-          background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}aa 100%)`,
-          transform: hovered ? 'scale(1.05)' : 'scale(1)',
+          transform: hovered ? 'scale(1.04)' : 'scale(1)',
+          transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        }}
+        loading="lazy"
+      />
+
+      {/* Gradient overlay */}
+      <div
+        className="absolute inset-0 transition-opacity duration-400"
+        style={{
+          background: 'linear-gradient(to top, rgba(13,15,21,0.85) 0%, rgba(13,15,21,0.2) 50%, rgba(13,15,21,0.1) 100%)',
         }}
       />
 
-      {/* Pattern overlay */}
+      {/* Top right: category tag */}
+      {item.category && (
+        <div className="absolute top-4 right-4 flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1.5 z-10">
+          <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <span className="text-white text-xs font-semibold">{item.category}</span>
+          <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+          </svg>
+        </div>
+      )}
+
+      {/* Bottom text */}
+      <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
+        <p className="text-white/60 text-xs font-medium mb-1">{item.period}</p>
+        <h3 className="text-white text-xl sm:text-2xl font-black leading-tight">{item.client}</h3>
+        <p
+          className="text-white/70 text-sm mt-1.5 transition-all duration-300"
+          style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateY(0)' : 'translateY(6px)' }}
+        >
+          {item.result}
+        </p>
+      </div>
+
+      {/* Arrow button */}
       <div
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage: 'radial-gradient(circle at 30% 70%, rgba(255,255,255,0.3) 0%, transparent 60%)',
-        }}
-      />
-
-      {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-between p-6">
-        <div className="flex items-start justify-between">
-          <div>
-            {item.category && (
-              <span className="inline-block text-white/60 text-xs font-semibold uppercase tracking-widest border border-white/20 px-2 py-1 mb-2">
-                {item.category}
-              </span>
-            )}
-            <p className="text-white/50 text-sm font-medium">{item.period}</p>
-          </div>
-          <div
-            className={`w-10 h-10 bg-white flex items-center justify-center transition-all duration-300 ${
-              hovered ? 'bg-[#ff3c00]' : 'bg-white'
-            }`}
-          >
-            <svg
-              className={`w-4 h-4 transition-colors duration-300 ${hovered ? 'text-white' : 'text-black'}`}
-              fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-white text-xl sm:text-2xl font-black mb-2 leading-tight">
-            {item.client}
-          </h3>
-          <p className="text-white/70 text-sm font-medium leading-relaxed">
-            {item.description}
-          </p>
-        </div>
+        className="absolute top-4 left-4 w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-md z-10 transition-all duration-300"
+        style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'scale(1)' : 'scale(0.8)' }}
+      >
+        <svg className="w-4 h-4 text-[#0d0f15]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+        </svg>
       </div>
     </motion.a>
   );
-};
+}
 
-const FeaturedWork = () => {
+export default function FeaturedWork() {
   const [titleRef, titleInView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="featured-work" className="bg-black py-20 lg:py-28">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-        {/* Header */}
-        <motion.div
-          ref={titleRef}
-          initial={{ opacity: 0, y: 30 }}
-          animate={titleInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="flex items-end justify-between mb-12"
-        >
-          <div>
-            <p className="text-white/40 text-sm uppercase tracking-widest font-semibold mb-3">Portfolio</p>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white">
-              Featured <span className="text-[#ff3c00]">Work</span>
-            </h2>
+    <section id="featured-work" className="bg-[#e9edf4] pb-6">
+      {/* Dark rounded container — exactly like the real site */}
+      <div className="mx-3 sm:mx-4 lg:mx-6 bg-[#0d0f15] rounded-3xl overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-12 lg:py-16">
+          {/* Header */}
+          <motion.div
+            ref={titleRef}
+            initial={{ opacity: 0, y: 20 }}
+            animate={titleInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="flex items-center justify-between mb-8"
+          >
+            <h2 className="text-white text-2xl font-bold">Featured Work</h2>
+          </motion.div>
+
+          {/* Grid */}
+          <div className="flex flex-col gap-3">
+            {workItems.map((item, index) => (
+              <WorkCard key={item.id} item={item} index={index} />
+            ))}
           </div>
-          <a
-            href="/work/"
-            id="explore-work-btn"
-            className="hidden sm:inline-flex items-center gap-2 text-white border border-white/20 hover:border-[#ff3c00] hover:text-[#ff3c00] text-sm font-semibold px-6 py-3 transition-all duration-300"
-          >
-            Explore Our Work
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-        </motion.div>
 
-        {/* Work Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {workItems.slice(0, 9).map((item, index) => (
-            <div
-              key={item.id}
-              className={
-                index === 0
-                  ? 'lg:col-span-2 lg:row-span-1'
-                  : index === 3
-                  ? 'lg:col-span-1 lg:row-span-1'
-                  : ''
-              }
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={titleInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-8 text-center"
+          >
+            <a
+              href="/work/"
+              id="explore-work-btn"
+              className="inline-flex items-center gap-2 bg-white text-[#0d0f15] text-sm font-semibold px-7 py-3.5 rounded-full hover:bg-[#b2f6e3] transition-colors duration-300"
             >
-              <WorkCard item={item} index={index} />
-            </div>
-          ))}
-        </div>
-
-        {/* Mobile CTA */}
-        <div className="sm:hidden mt-8 text-center">
-          <a
-            href="/work/"
-            className="inline-flex items-center gap-2 text-white border border-white/20 hover:border-[#ff3c00] hover:text-[#ff3c00] text-sm font-semibold px-6 py-3 transition-all duration-300"
-          >
-            Explore Our Work
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
+              Explore Our Work
+              <span className="text-base">↗</span>
+            </a>
+          </motion.div>
         </div>
       </div>
     </section>
   );
-};
-
-export default FeaturedWork;
+}

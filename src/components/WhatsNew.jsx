@@ -10,7 +10,7 @@ const blogPosts = [
     author: 'Carrie Rose',
     title: "Ryan McNamara Is Now Rise at Seven's Global Operations Director",
     href: '/blog/global-operations-director-promotion/',
-    authorColor: '#ff3c00',
+    img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=85',
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const blogPosts = [
     author: 'Ray Saddiq',
     title: 'Rise at Seven Appointed by Coneys to Drive Demand and Retail Growth for them in the Chocolate Confectionery Category',
     href: '/blog/coneys-chooses-riseatseven-for-demand-brief-2/',
-    authorColor: '#ff3c00',
+    img: 'https://images.unsplash.com/photo-1481070414801-51fd732d7184?w=600&q=85',
   },
   {
     id: 3,
@@ -28,143 +28,103 @@ const blogPosts = [
     author: 'Carrie Rose',
     title: 'Rise at Seven Appointed by Langtins to drive demand and retail growth for Noomz',
     href: '/blog/noomz-chooses-riseatseven-for-demand-brief/',
-    authorColor: '#ff3c00',
+    img: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=85',
   },
 ];
 
 const categoryColors = {
-  'News': 'bg-blue-500/20 text-blue-400',
-  'Food/Hospitality/Drink': 'bg-amber-500/20 text-amber-400',
+  'News': 'bg-[#0d0f15] text-white',
+  'Food/Hospitality/Drink': 'bg-[#0d0f15] text-white',
 };
 
-const BlogCard = ({ post, index, inView }) => (
-  <motion.a
-    href={post.href}
-    initial={{ opacity: 0, y: 40 }}
-    animate={inView ? { opacity: 1, y: 0 } : {}}
-    transition={{ duration: 0.5, delay: index * 0.15 }}
-    className="group block bg-white/3 border border-white/10 hover:border-[#ff3c00]/50 transition-all duration-300 overflow-hidden"
-  >
-    {/* Colored top bar */}
-    <div className="h-1 bg-[#ff3c00] w-0 group-hover:w-full transition-all duration-500" />
-
-    <div className="p-7">
-      {/* Meta */}
-      <div className="flex items-center gap-3 mb-5">
-        <span className={`text-xs font-semibold px-2 py-1 rounded ${categoryColors[post.category] || 'bg-white/10 text-white/60'}`}>
-          {post.category}
-        </span>
-        <span className="text-white/30 text-xs">{post.readTime}</span>
-      </div>
-
-      {/* Title */}
-      <h3 className="text-white text-lg font-black leading-snug mb-6 group-hover:text-[#ff3c00] transition-colors duration-300 line-clamp-3">
-        {post.title}
-      </h3>
-
-      {/* Author */}
-      <div className="flex items-center justify-between mt-auto">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#ff3c00] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-            {post.author.charAt(0)}
-          </div>
-          <span className="text-white/50 text-sm font-medium">{post.author}</span>
-        </div>
-        <svg
-          className="w-5 h-5 text-white/20 group-hover:text-[#ff3c00] transition-colors duration-300"
-          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-        </svg>
-      </div>
-    </div>
-  </motion.a>
-);
-
-const WhatsNew = () => {
+export default function WhatsNew() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="whats-new" className="bg-[#0d0d0d] py-20 lg:py-28">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
+    <section id="whats-new" className="bg-[#e9edf4] py-16 lg:py-20">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10" ref={ref}>
         {/* Header */}
         <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="flex items-end justify-between mb-12"
+          transition={{ duration: 0.5 }}
+          className="flex items-end justify-between mb-10"
         >
-          <div>
-            <p className="text-white/40 text-sm uppercase tracking-widest font-semibold mb-3">Latest</p>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white">
-              What's<span className="text-[#ff3c00]">New</span>
-            </h2>
-          </div>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-black text-[#0d0f15] leading-tight tracking-[-0.03em]">
+            What's New
+          </h2>
           <a
             href="/blog/"
             id="explore-blog-btn"
-            className="hidden sm:inline-flex items-center gap-2 text-white border border-white/20 hover:border-[#ff3c00] hover:text-[#ff3c00] text-sm font-semibold px-6 py-3 transition-all duration-300"
+            className="hidden sm:inline-flex items-center gap-2 bg-white text-[#0d0f15] text-sm font-semibold px-6 py-3 rounded-full hover:bg-[#0d0f15] hover:text-white transition-all duration-300 shadow-sm border border-black/10"
           >
-            Explore More Thoughts
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+            Explore More Thoughts ↗
           </a>
         </motion.div>
 
-        {/* Blog grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Horizontal scroll on mobile, grid on desktop */}
+        <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-x-auto sm:overflow-visible pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
           {blogPosts.map((post, i) => (
-            <BlogCard key={post.id} post={post} index={i} inView={inView} />
+            <motion.a
+              key={post.id}
+              href={post.href}
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="group flex-shrink-0 w-[78vw] sm:w-auto block overflow-hidden card-radius bg-white hover:shadow-lg transition-shadow duration-300"
+            >
+              {/* Image */}
+              <div className="relative overflow-hidden" style={{ aspectRatio: '16/9' }}>
+                <img
+                  src={post.img}
+                  alt={post.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                {/* Category tag */}
+                <div className="absolute top-3 left-3">
+                  <span className={`text-xs font-bold px-3 py-1.5 rounded-full ${categoryColors[post.category] || 'bg-white text-[#0d0f15]'}`}>
+                    {post.category}
+                  </span>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-5">
+                <h3 className="text-[#0d0f15] text-base font-bold leading-snug mb-4 group-hover:text-[#0d0f15]/70 transition-colors line-clamp-3">
+                  {post.title}
+                </h3>
+
+                {/* Footer */}
+                <div className="flex items-center gap-3 mt-auto">
+                  <div className="w-7 h-7 rounded-full bg-[#e9edf4] flex items-center justify-center text-[#0d0f15] text-xs font-black flex-shrink-0">
+                    {post.author.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="text-[#0d0f15] text-xs font-semibold">{post.author}</p>
+                    <p className="text-[#0d0f15]/50 text-xs">{post.readTime}</p>
+                  </div>
+                  <div className="ml-auto">
+                    <div className="w-7 h-7 bg-[#e9edf4] rounded-full flex items-center justify-center text-xs group-hover:bg-[#0d0f15] group-hover:text-white transition-all duration-200">
+                      ↗
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.a>
           ))}
         </div>
 
-        {/* Newsletter strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 bg-white/3 border border-white/10 p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
-        >
-          <div>
-            <h3 className="text-2xl font-black text-white mb-2">Stay updated with Rise news</h3>
-            <p className="text-white/50 text-sm">Get the latest insights, case studies and industry news.</p>
-          </div>
-          <form
-            className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto min-w-[300px]"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input
-              type="email"
-              placeholder="Your email address"
-              className="flex-1 bg-white/10 border border-white/20 text-white placeholder-white/30 px-4 py-3 text-sm focus:outline-none focus:border-[#ff3c00] transition-colors duration-200"
-            />
-            <button
-              type="submit"
-              id="newsletter-submit"
-              className="bg-[#ff3c00] hover:bg-[#e03500] text-white text-sm font-bold px-6 py-3 transition-colors duration-200 whitespace-nowrap"
-            >
-              Subscribe
-            </button>
-          </form>
-        </motion.div>
-
         {/* Mobile CTA */}
-        <div className="sm:hidden mt-8 text-center">
+        <div className="sm:hidden mt-6 text-center">
           <a
             href="/blog/"
-            className="inline-flex items-center gap-2 text-white border border-white/20 hover:border-[#ff3c00] hover:text-[#ff3c00] text-sm font-semibold px-6 py-3 transition-all duration-300"
+            className="inline-flex items-center gap-2 bg-white text-[#0d0f15] text-sm font-semibold px-6 py-3 rounded-full border border-black/10"
           >
-            Explore More Thoughts
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+            Explore More Thoughts ↗
           </a>
         </div>
       </div>
     </section>
   );
-};
-
-export default WhatsNew;
+}

@@ -1,155 +1,121 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 
-// Animated counter hook
-const useCounter = (target, duration = 1500, start = false) => {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!start) return;
-    let startTime = null;
-    const step = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      setCount(Math.floor(progress * target));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [target, duration, start]);
-  return count;
-};
+// Award badge logos (SVG text approximations)
+const AwardBadge = ({ label }) => (
+  <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1.5">
+    <div className="w-5 h-5 bg-white/30 rounded-full flex items-center justify-center">
+      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+      </svg>
+    </div>
+    <span className="text-white text-[10px] font-bold uppercase tracking-wider">{label}</span>
+  </div>
+);
 
-const brands = ['SIXT', 'JD Sports', 'Parkdean Resorts', 'Revolution Beauty', 'PrettyLittleThing', 'Lloyds Pharmacy', 'Dojo', 'Pooky'];
+// Floating pill image (mimics the site's emoji-like floating images)
+const FloatingPill = ({ src, alt, className, style }) => (
+  <motion.div
+    className={`absolute overflow-hidden rounded-2xl shadow-2xl ${className}`}
+    style={style}
+    animate={{ y: [0, -10, 0] }}
+    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: Math.random() * 2 }}
+  >
+    <img src={src} alt={alt} className="w-full h-full object-cover" />
+  </motion.div>
+);
 
-const Hero = () => {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 });
-
-  const containerVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.12 } },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 35 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
-  };
+export default function Hero() {
+  const videoRef = useRef(null);
 
   return (
-    <section
-      ref={ref}
-      id="hero"
-      className="relative bg-[#0a0a0a] text-white min-h-[90vh] flex flex-col justify-center overflow-hidden"
-    >
-      {/* Grid overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.025]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)
-          `,
-          backgroundSize: '80px 80px',
-        }}
-      />
-
-      {/* Red glow */}
-      <div className="pointer-events-none absolute -top-40 -left-20 w-[600px] h-[600px] bg-[#ff3c00] rounded-full opacity-[0.04] blur-[100px]" />
-
-      <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-10 xl:px-14 pt-16 pb-24">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
+    <section id="hero" className="relative overflow-hidden bg-[#1a1d26]" style={{ minHeight: '90vh' }}>
+      {/* Video background */}
+      <div className="absolute inset-0 z-0">
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover opacity-60"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&q=80"
         >
-          {/* Location badge */}
-          <motion.div variants={itemVariants}>
-            <div className="inline-flex items-center gap-2.5 border border-white/10 bg-white/4 px-4 py-2 mb-10">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3c00] animate-pulse" />
-              <span className="text-sm text-white/60 font-medium tracking-wide">
-                4 Global Offices serving UK, USA (New York) &amp; EU
-              </span>
-            </div>
-          </motion.div>
+          {/* Using a fallback video source */}
+          <source
+            src="https://www.w3schools.com/html/mov_bbb.mp4"
+            type="video/mp4"
+          />
+        </video>
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/65" />
+      </div>
 
-          {/* Main headline */}
-          <motion.h1
-            variants={itemVariants}
-            className="text-[clamp(38px,6.5vw,88px)] font-black leading-[1.0] tracking-[-0.02em] mb-7 max-w-[900px]"
-          >
-            Organic media planners
-            <br />
-            creating, distributing &amp;{' '}
-            <br />
-            <span className="text-[#ff3c00] italic">optimising</span>
-          </motion.h1>
-
-          {/* Sub-headline */}
-          <motion.p
-            variants={itemVariants}
-            className="text-xl sm:text-2xl text-white/55 font-light leading-snug mb-10 max-w-[680px]"
-          >
-            search-first content for{' '}
-            <strong className="text-white font-bold">SEO</strong>,{' '}
-            <strong className="text-white font-bold">Social</strong>,{' '}
-            <strong className="text-white font-bold">PR</strong>,{' '}
-            <strong className="text-white font-bold">AI</strong> and{' '}
-            <strong className="text-white font-bold">LLM search</strong>
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
-            <a
-              href="/about/"
-              id="hero-our-story-btn"
-              className="group inline-flex items-center gap-3 bg-white text-black text-[15px] font-black px-8 py-4 hover:bg-[#ff3c00] hover:text-white transition-all duration-300"
-            >
-              Our Story
-              <svg
-                className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-            <a
-              href="/services/"
-              id="hero-services-btn"
-              className="group inline-flex items-center gap-3 bg-transparent text-white border border-white/25 text-[15px] font-black px-8 py-4 hover:border-[#ff3c00] hover:text-[#ff3c00] transition-all duration-300"
-            >
-              Our Services
-              <svg
-                className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </motion.div>
-
-          {/* Brand strip */}
-          <motion.div
-            variants={itemVariants}
-            className="mt-20 pt-10 border-t border-white/8"
-          >
-            <p className="text-[11px] text-white/30 uppercase tracking-[0.2em] font-bold mb-5">
-              The agency behind ...
-            </p>
-            <div className="flex flex-wrap gap-x-8 gap-y-2.5">
-              {brands.map((brand, i) => (
-                <span
-                  key={brand}
-                  className="text-white/25 font-black text-base sm:text-xl hover:text-white/70 transition-colors duration-300 cursor-default"
-                  style={{ transitionDelay: `${i * 30}ms` }}
-                >
-                  {brand}
-                </span>
-              ))}
-            </div>
-          </motion.div>
+      {/* Content */}
+      <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex flex-col items-center justify-center text-center min-h-[90vh] py-20">
+        {/* Award Badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-6"
+        >
+          <p className="text-white/70 text-xs font-bold uppercase tracking-[0.2em] mb-3">
+            #1 Most Recommended Content Marketing Agency
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <AwardBadge label="Global Search Awards" />
+            <AwardBadge label="The Drum" />
+            <AwardBadge label="UK Social Media Awards" />
+          </div>
         </motion.div>
+
+        {/* Main Headline */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="relative"
+        >
+          <h1 className="text-[clamp(52px,10vw,130px)] font-black text-white leading-[0.9] tracking-[-0.03em] mb-0">
+            We Create
+          </h1>
+          <h1 className="text-[clamp(52px,10vw,130px)] font-black text-white leading-[0.9] tracking-[-0.03em]">
+            Category
+          </h1>
+          <h1 className="text-[clamp(52px,10vw,130px)] font-black text-white leading-[0.9] tracking-[-0.03em]">
+            Leaders
+          </h1>
+        </motion.div>
+
+        {/* Sub-headline */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="text-white/80 text-lg sm:text-xl font-medium mt-5 mb-2"
+        >
+          on every searchable platform
+        </motion.p>
+
+        {/* Offices */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="text-white/60 text-sm font-medium mt-6"
+        >
+          4 Global Offices serving<br />
+          UK, USA (New York) &amp; EU
+        </motion.p>
+      </div>
+
+      {/* Bottom curved edge */}
+      <div className="absolute bottom-0 left-0 right-0 z-10">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path d="M0 60 C360 0 1080 0 1440 60 L1440 60 L0 60 Z" fill="#e9edf4" />
+        </svg>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}
