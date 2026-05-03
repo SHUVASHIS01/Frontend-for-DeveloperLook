@@ -1,122 +1,151 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
+// Animated counter hook
+const useCounter = (target, duration = 1500, start = false) => {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    let startTime = null;
+    const step = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      setCount(Math.floor(progress * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [target, duration, start]);
+  return count;
+};
+
+const brands = ['SIXT', 'JD Sports', 'Parkdean Resorts', 'Revolution Beauty', 'PrettyLittleThing', 'Lloyds Pharmacy', 'Dojo', 'Pooky'];
+
 const Hero = () => {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 });
+
+  const containerVariants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.12 } },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 35 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+  };
 
   return (
     <section
       ref={ref}
       id="hero"
-      className="relative bg-black text-white min-h-[92vh] flex flex-col justify-center overflow-hidden"
+      className="relative bg-[#0a0a0a] text-white min-h-[90vh] flex flex-col justify-center overflow-hidden"
     >
-      {/* Subtle grid background */}
+      {/* Grid overlay */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="pointer-events-none absolute inset-0 opacity-[0.025]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)
           `,
-          backgroundSize: '60px 60px',
+          backgroundSize: '80px 80px',
         }}
       />
 
-      {/* Red accent line top */}
-      <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#ff3c00] to-transparent" />
+      {/* Red glow */}
+      <div className="pointer-events-none absolute -top-40 -left-20 w-[600px] h-[600px] bg-[#ff3c00] rounded-full opacity-[0.04] blur-[100px]" />
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-10 pt-16 pb-20">
-        <div className="max-w-[900px]">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 mb-8"
-          >
-            <span className="w-2 h-2 rounded-full bg-[#ff3c00] animate-pulse" />
-            <span className="text-sm text-white/70 font-medium">
-              4 Global Offices — UK, USA (New York) &amp; EU
-            </span>
+      <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-10 xl:px-14 pt-16 pb-24">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? 'visible' : 'hidden'}
+        >
+          {/* Location badge */}
+          <motion.div variants={itemVariants}>
+            <div className="inline-flex items-center gap-2.5 border border-white/10 bg-white/4 px-4 py-2 mb-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3c00] animate-pulse" />
+              <span className="text-sm text-white/60 font-medium tracking-wide">
+                4 Global Offices serving UK, USA (New York) &amp; EU
+              </span>
+            </div>
           </motion.div>
 
           {/* Main headline */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl sm:text-6xl lg:text-7xl xl:text-[80px] font-black leading-[1.0] tracking-tight mb-8"
+            variants={itemVariants}
+            className="text-[clamp(38px,6.5vw,88px)] font-black leading-[1.0] tracking-[-0.02em] mb-7 max-w-[900px]"
           >
-            Organic media planners{' '}
-            <br className="hidden sm:block" />
+            Organic media planners
+            <br />
             creating, distributing &amp;{' '}
-            <br className="hidden sm:block" />
-            <span className="text-[#ff3c00]">optimising</span>
+            <br />
+            <span className="text-[#ff3c00] italic">optimising</span>
           </motion.h1>
 
           {/* Sub-headline */}
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl sm:text-2xl text-white/60 font-light leading-relaxed mb-10 max-w-[700px]"
+            variants={itemVariants}
+            className="text-xl sm:text-2xl text-white/55 font-light leading-snug mb-10 max-w-[680px]"
           >
             search-first content for{' '}
-            <span className="text-white font-medium">SEO</span>,{' '}
-            <span className="text-white font-medium">Social</span>,{' '}
-            <span className="text-white font-medium">PR</span>,{' '}
-            <span className="text-white font-medium">AI</span> and{' '}
-            <span className="text-white font-medium">LLM search</span>
+            <strong className="text-white font-bold">SEO</strong>,{' '}
+            <strong className="text-white font-bold">Social</strong>,{' '}
+            <strong className="text-white font-bold">PR</strong>,{' '}
+            <strong className="text-white font-bold">AI</strong> and{' '}
+            <strong className="text-white font-bold">LLM search</strong>
           </motion.p>
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4"
-          >
+          {/* CTA Buttons */}
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
             <a
               href="/about/"
               id="hero-our-story-btn"
-              className="group inline-flex items-center gap-3 bg-white text-black text-base font-bold px-8 py-4 hover:bg-[#ff3c00] hover:text-white transition-all duration-300"
+              className="group inline-flex items-center gap-3 bg-white text-black text-[15px] font-black px-8 py-4 hover:bg-[#ff3c00] hover:text-white transition-all duration-300"
             >
               Our Story
-              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg
+                className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
             <a
               href="/services/"
               id="hero-services-btn"
-              className="group inline-flex items-center gap-3 bg-transparent text-white border border-white/30 text-base font-bold px-8 py-4 hover:border-[#ff3c00] hover:text-[#ff3c00] transition-all duration-300"
+              className="group inline-flex items-center gap-3 bg-transparent text-white border border-white/25 text-[15px] font-black px-8 py-4 hover:border-[#ff3c00] hover:text-[#ff3c00] transition-all duration-300"
             >
               Our Services
-              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg
+                className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
           </motion.div>
-        </div>
 
-        {/* The agency behind */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-20 pt-10 border-t border-white/10"
-        >
-          <p className="text-sm text-white/40 uppercase tracking-widest font-semibold mb-6">
-            The agency behind ...
-          </p>
-          <div className="flex flex-wrap gap-x-10 gap-y-3">
-            {['SIXT', 'JD Sports', 'Parkdean Resorts', 'Revolution Beauty', 'PrettyLittleThing', 'Lloyds Pharmacy', 'Dojo', 'Pooky'].map((brand) => (
-              <span key={brand} className="text-white/30 font-bold text-lg hover:text-white/70 transition-colors duration-300 cursor-default">
-                {brand}
-              </span>
-            ))}
-          </div>
+          {/* Brand strip */}
+          <motion.div
+            variants={itemVariants}
+            className="mt-20 pt-10 border-t border-white/8"
+          >
+            <p className="text-[11px] text-white/30 uppercase tracking-[0.2em] font-bold mb-5">
+              The agency behind ...
+            </p>
+            <div className="flex flex-wrap gap-x-8 gap-y-2.5">
+              {brands.map((brand, i) => (
+                <span
+                  key={brand}
+                  className="text-white/25 font-black text-base sm:text-xl hover:text-white/70 transition-colors duration-300 cursor-default"
+                  style={{ transitionDelay: `${i * 30}ms` }}
+                >
+                  {brand}
+                </span>
+              ))}
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
