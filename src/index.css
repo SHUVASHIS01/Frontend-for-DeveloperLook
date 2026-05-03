@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #ff3c00;
+  --color-primary-dark: #e03500;
+  --color-black: #0a0a0a;
+  --color-white: #ffffff;
+  --color-gray-50: #f9f9f9;
+  --color-gray-100: #f0f0f0;
+  --color-gray-200: #e0e0e0;
+  --color-gray-300: #c0c0c0;
+  --color-gray-400: #909090;
+  --color-gray-500: #606060;
+  --color-gray-600: #404040;
+  --color-gray-700: #303030;
+  --color-gray-800: #1a1a1a;
+  --color-gray-900: #111111;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #ff3c00;
+  border-radius: 3px;
+}
+
+/* Custom utilities */
+.text-primary { color: #ff3c00; }
+.bg-primary { background-color: #ff3c00; }
+.border-primary { border-color: #ff3c00; }
+
+/* Ticker animation */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-animate {
+  animation: ticker 20s linear infinite;
+}
+
+.ticker-animate-reverse {
+  animation: ticker 25s linear infinite reverse;
+}
+
+/* Marquee scroll */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-inner {
+  animation: marquee 30s linear infinite;
+}
+
+/* Fade in up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Card hover */
+.work-card:hover .work-card-overlay {
+  opacity: 1;
+}
+
+.work-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Service pill active */
+.service-pill.active {
+  background-color: #ff3c00;
+  color: white;
+}
+
+/* Line clamp */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
