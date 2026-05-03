@@ -1,16 +1,86 @@
-# React + Vite
+# Rise at Seven — Frontend Recreation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Pixel-perfect recreation of [riseatseven.com](https://riseatseven.com/) built with **React + Vite + Tailwind CSS v4**.
 
-Currently, two official plugins are available:
+![Hero Section Preview](./docs/hero-preview.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Tech Stack
 
-## React Compiler
+| Technology | Version | Purpose |
+|---|---|---|
+| React | 19 | UI Component Library |
+| Vite | 6 | Build Tool & Dev Server |
+| Tailwind CSS | v4 | Utility-first Styling |
+| Framer Motion | latest | Animations & Transitions |
+| React Intersection Observer | latest | Scroll-triggered Animations |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📁 Project Structure
 
-## Expanding the ESLint configuration
+```
+src/
+├── components/
+│   ├── Navbar.jsx        # Sticky nav with dropdowns + mobile hamburger
+│   ├── Hero.jsx          # Full-screen hero section with brand list
+│   ├── TextTicker.jsx    # Animated red marquee strip
+│   ├── FeaturedWork.jsx  # Client portfolio grid
+│   ├── Services.jsx      # Service tabs + "Chasing Consumers" CTA
+│   ├── WhyUs.jsx         # Pillars + stats section
+│   ├── WhatsNew.jsx      # Blog cards + newsletter signup
+│   └── Footer.jsx        # Full footer with social links
+├── App.jsx
+├── main.jsx
+└── index.css             # Tailwind v4 + custom tokens + animations
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🎨 Design System
+
+- **Primary Color**: `#ff3c00` (Rise Red)
+- **Background**: `#0a0a0a` (Near Black)
+- **Font**: Inter (Google Fonts)
+- **Design Language**: Dark, bold, high-contrast with red accents
+
+## 🖥️ Sections Recreated
+
+1. **Alert Banner** — Red notification bar linking to report
+2. **Navbar** — Sticky with mega dropdown menus, badge counter, mobile hamburger
+3. **Hero** — Large bold headline, CTAs, brand showcase
+4. **Text Ticker** — Animated "Driving Demand & Discovery" marquee
+5. **Featured Work** — 9-card portfolio grid with hover effects
+6. **Services** — Pill tabs, animated content panel, "Chasing Consumers" CTA
+7. **Why Us** — Three pillars (Pioneers, Award Winning, Speed) + stat counters
+8. **What's New** — Blog cards with categories + newsletter form
+9. **Footer** — Full 4-column footer with offices, social links, legal
+
+## 🏃 Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+## 📱 Responsive Breakpoints
+
+| Breakpoint | Size |
+|---|---|
+| Mobile | < 640px |
+| Tablet | 640px – 1024px |
+| Desktop | > 1024px |
+
+## 🎬 Animations
+
+- **Framer Motion** scroll-triggered fade-in-up on all sections
+- **CSS ticker** for the marquee band
+- **Hover effects** on work cards (scale + color transitions)
+- **Dropdown menus** with smooth fade-in
+- **Hamburger** to X morphing transition
+
+## 🔗 Links
+
+- **Live Site**: [riseatseven.com](https://riseatseven.com/)
+- **Repository**: [GitHub](https://github.com/SHUVASHIS01/Frontend-for-DeveloperLook)
