@@ -32,9 +32,20 @@ export default function WhyUs() {
 
   return (
     <section id="why-us" className="bg-[#e9edf4] py-6 pb-16">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 mb-6">
+        <motion.h2
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-[clamp(36px,5vw,64px)] font-black text-[#0d0f15] leading-tight tracking-[-0.03em]"
+        >
+          Legacy In The Making
+        </motion.h2>
+      </div>
       <div className="mx-3 sm:mx-4 lg:mx-6">
         {/* Dark rounded panel */}
-        <div className="bg-[#0d0f15] rounded-3xl overflow-hidden" ref={ref}>
+        <div className="bg-[#0d0f15] rounded-3xl overflow-hidden">
           <div className="max-w-[1400px] mx-auto">
 
             {/* Tabs */}
