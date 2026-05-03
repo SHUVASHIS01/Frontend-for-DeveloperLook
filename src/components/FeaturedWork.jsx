@@ -9,8 +9,7 @@ const workItems = [
     period: '[2023-2025]',
     client: 'SIXT',
     href: '/work/sixt/',
-    // BMW / luxury car photo
-    img: 'https://images.unsplash.com/photo-1617814076668-8dfc6fe3b744?w=800&q=85',
+    img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80&fit=crop',
     result: 'An extra 3m clicks regionally through SEO',
   },
   {
@@ -19,8 +18,7 @@ const workItems = [
     period: '[2021-2025]',
     client: 'Dojo – B2B',
     href: '/work/dojo/',
-    // Teal/tech payment terminal
-    img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=85',
+    img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80&fit=crop',
     result: 'A B2B success story for Dojo card machines',
   },
   {
@@ -29,8 +27,7 @@ const workItems = [
     period: '[2023-2024]',
     client: 'Magnet Trade – B2B',
     href: '/work/magnet-trade-b2b/',
-    // Dark kitchen/showroom
-    img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85',
+    img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80&fit=crop',
     result: 'A full service SEO success story 170%+ increase',
   },
   {
@@ -39,8 +36,7 @@ const workItems = [
     period: '[2023-2025]',
     client: 'Leading E Sim brand globally',
     href: '/work/esim-case-study/',
-    // SIM / tech product
-    img: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=85',
+    img: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80&fit=crop',
     result: 'Increasing brand and non brand visibility UK/ES',
   },
   {
@@ -49,8 +45,7 @@ const workItems = [
     period: '[2025]',
     client: 'JD Sports',
     href: '/work/jd-sports-/',
-    // People in streetwear
-    img: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800&q=85',
+    img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80&fit=crop',
     result: '65% up YoY in clicks for JDSports FR, IT, ES',
   },
   {
@@ -59,8 +54,7 @@ const workItems = [
     period: '[2019-2025]',
     client: 'Parkdean Resorts',
     href: '/work/parkdean-resorts-easter-breaks/',
-    // Kids on beach
-    img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=85',
+    img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80&fit=crop',
     result: 'Dominating Google and AI search',
   },
   {
@@ -69,8 +63,7 @@ const workItems = [
     period: '[2025]',
     client: 'Pooky',
     href: '/work/pooky/',
-    // Elegant lamp / interior
-    img: 'https://images.unsplash.com/photo-1513506003901-1e6a35eb4d55?w=800&q=85',
+    img: 'https://images.unsplash.com/photo-1513506003901-1e6a35eb4d55?w=800&q=80&fit=crop',
     result: 'Driving demand for Pooky Rechargeable Lights',
   },
   {
@@ -79,8 +72,7 @@ const workItems = [
     period: '[2019-2025]',
     client: 'Parkdean Resorts',
     href: '/work/parkdean-resorts-social-search/',
-    // Lake/countryside
-    img: 'https://images.unsplash.com/photo-1563974318767-a5a24e34a573?w=800&q=85',
+    img: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80&fit=crop',
     result: 'Social search and multi channel content to #1',
   },
   {
@@ -89,8 +81,7 @@ const workItems = [
     period: '[2022-2025]',
     client: 'Revolution Beauty',
     href: '/work/revolution-beauty/',
-    // Beauty/cosmetics flatlay
-    img: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=85',
+    img: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80&fit=crop',
     result: "Building the UK's leading beauty dupe brand",
   },
   {
@@ -99,8 +90,7 @@ const workItems = [
     period: '[2022-23]',
     client: 'Lloyds Pharmacy',
     href: '/work/lloyds-pharmacy/',
-    // Pharmacy/health
-    img: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800&q=85',
+    img: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80&fit=crop',
     result: 'Driving category leadership for STI tests',
   },
   {
@@ -109,8 +99,7 @@ const workItems = [
     period: '[2021-2023]',
     client: 'PrettyLittleThing',
     href: '/work/prettylittlething/',
-    // Fashion models
-    img: 'https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800&q=85',
+    img: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80&fit=crop',
     result: 'Driving discovery for everything "outfits" for PLT',
   },
 ];
