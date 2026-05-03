@@ -198,7 +198,7 @@ export default function FeaturedWork() {
           </motion.div>
 
           {/* Grid */}
-          <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {workItems.map((item, index) => (
               <WorkCard key={item.id} item={item} index={index} />
             ))}

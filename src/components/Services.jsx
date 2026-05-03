@@ -9,6 +9,8 @@ const serviceList = [
   { label: 'Content Experience', href: '/services/content-experience/' },
   { label: 'Data & Insights', href: '/services/data-insights/' },
   { label: 'Onsite SEO', href: '/services/onsite-seo/' },
+  { label: 'B2B Marketing', href: '/services/b2b-marketing/' },
+  { label: 'Social SEO/Search', href: '/services/social-seo-tiktok-youtube/' },
 ];
 
 export default function Services() {

@@ -40,7 +40,7 @@ const navLinks = [
   { label: 'Work', href: '/work/', badge: '25' },
   { label: 'Careers', href: '/careers/' },
   { label: 'Blog', href: '/blog/' },
-  { label: 'Webinar', href: '/webinars/' },
+  { label: 'Webinar', href: '/webinars/', featured: true },
 ];
 
 function Dropdown({ items, viewAll }) {
@@ -160,11 +160,13 @@ export default function Navbar() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="relative flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium rounded-full text-[#0d0f15] hover:bg-black/5 transition-colors duration-150"
+                  className={`relative flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium rounded-full text-[#0d0f15] hover:bg-black/5 transition-colors duration-150 ${
+                    link.featured ? 'border border-[#0d0f15]/25 hover:border-[#0d0f15]/50' : ''
+                  }`}
                 >
                   {link.label}
                   {link.badge && (
-                    <span className="bg-[#0d0f15] text-white text-[9px] font-black px-1.5 py-0.5 rounded-full leading-none">
+                    <span className="bg-[#b2f6e3] text-[#0d0f15] text-[9px] font-black px-1.5 py-0.5 rounded-full leading-none">
                       {link.badge}
                     </span>
                   )}
@@ -178,7 +180,7 @@ export default function Navbar() {
             <a
               href="/connect-with-us/"
               id="nav-cta-btn"
-              className="hidden sm:inline-flex items-center gap-2 bg-[#0d0f15] hover:bg-black text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors duration-200"
+              className="hidden sm:inline-flex items-center gap-2 bg-white hover:bg-[#0d0f15] hover:text-white text-[#0d0f15] text-sm font-semibold px-5 py-2.5 rounded-full border border-black/15 transition-all duration-200"
             >
               Get in touch
               <span className="text-base">↗</span>
