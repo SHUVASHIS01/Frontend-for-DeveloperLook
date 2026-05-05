@@ -46,9 +46,6 @@ const navLinks = [
 
 /* ── Services mega-menu ───────────────────────────────────────────────────── */
 function ServicesMegaMenu({ items, viewAll }) {
-  const left  = items.slice(0, 4);
-  const right = items.slice(4);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -67,7 +64,7 @@ function ServicesMegaMenu({ items, viewAll }) {
             Core Services
           </p>
           <div className="grid grid-cols-2 gap-x-6 gap-y-3.5">
-            {[...left, ...right].map(item => (
+            {items.map(item => (
               <a
                 key={item.label}
                 href={item.href}
@@ -86,7 +83,6 @@ function ServicesMegaMenu({ items, viewAll }) {
             alt="Rise at Seven team"
             className="w-full h-full object-cover"
           />
-          {/* Dark gradient so button is readable */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
           <div className="absolute bottom-5 left-4 right-4">
             <a
@@ -147,6 +143,13 @@ export default function Navbar() {
   const openDropdown  = (key) => { clearTimeout(hoverTimeout.current); setActiveDropdown(key); };
   const closeDropdown = ()    => { hoverTimeout.current = setTimeout(() => setActiveDropdown(null), 120); };
 
+  /* ── Derived colours based on scroll position ── */
+  // On hero (transparent): white text. Once scrolled onto light bg: dark text.
+  const textColor    = scrolled ? 'text-[#282828]'       : 'text-white';
+  const hoverText    = scrolled ? 'hover:text-[#282828]/60' : 'hover:text-white/60';
+  const borderColor  = scrolled ? 'border-[#282828]/25'  : 'border-white/30';
+  const hoverBorder  = scrolled ? 'hover:border-[#282828]/50' : 'hover:border-white/60';
+
   return (
     <>
       {/* ── Alert bar ── */}
@@ -166,8 +169,11 @@ export default function Navbar() {
         <nav className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between h-[64px]">
 
           {/* Logo */}
-          <a href="/" aria-label="Rise at Seven"
-             className="font-bold text-[17px] tracking-tight flex-shrink-0 text-[#282828]">
+          <a
+            href="/"
+            aria-label="Rise at Seven"
+            className={`font-bold text-[17px] tracking-tight flex-shrink-0 transition-colors duration-300 ${textColor}`}
+          >
             Rise at Seven
             <sup className="text-[8px] ml-0.5 opacity-60">®</sup>
           </a>
@@ -186,7 +192,7 @@ export default function Navbar() {
                     className={`flex items-center gap-1 px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200 ${
                       activeDropdown === link.key
                         ? 'bg-white border border-black/12 shadow-sm text-[#282828]'
-                        : 'text-[#282828] hover:text-[#282828]/60'
+                        : `${textColor} ${hoverText}`
                     }`}
                   >
                     {link.label}
@@ -204,9 +210,9 @@ export default function Navbar() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className={`relative px-3.5 py-1.5 text-sm font-medium text-[#282828] hover:text-[#282828]/60 transition-colors duration-200 ${
+                  className={`relative px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 ${textColor} ${hoverText} ${
                     link.featured
-                      ? 'border border-[#282828]/25 rounded-full hover:border-[#282828]/50'
+                      ? `border ${borderColor} rounded-full ${hoverBorder}`
                       : ''
                   }`}
                 >
@@ -226,7 +232,11 @@ export default function Navbar() {
             <a
               href="/connect-with-us/"
               id="nav-cta-btn"
-              className="hidden sm:inline-flex items-center gap-1.5 bg-white hover:bg-[#282828] hover:text-white text-[#282828] text-sm font-semibold px-5 py-2.5 rounded-full border border-black/15 transition-all duration-300"
+              className={`hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full border transition-all duration-300 ${
+                scrolled
+                  ? 'bg-white text-[#282828] border-black/15 hover:bg-[#282828] hover:text-white hover:border-transparent'
+                  : 'bg-white/10 text-white border-white/30 hover:bg-white hover:text-[#282828] hover:border-transparent backdrop-blur-sm'
+              }`}
             >
               Get In Touch
               <span className="text-base">↗</span>
@@ -234,7 +244,9 @@ export default function Navbar() {
             <button
               id="hamburger-btn"
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full hover:bg-black/5 transition-colors"
+              className={`lg:hidden w-10 h-10 flex items-center justify-center rounded-full transition-colors ${
+                scrolled ? 'hover:bg-black/5' : 'hover:bg-white/10'
+              } ${textColor}`}
               aria-label="Menu"
             >
               {mobileOpen ? (
@@ -258,7 +270,7 @@ export default function Navbar() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25 }}
-              className="lg:hidden bg-[#efeeec] border-t border-black/8 overflow-hidden"
+              className="lg:hidden bg-[#111212] border-t border-white/10 overflow-hidden"
             >
               <div className="max-h-[80svh] overflow-y-auto px-5 py-3 flex flex-col gap-1">
                 {navLinks.map((link) =>
@@ -266,7 +278,7 @@ export default function Navbar() {
                     <div key={link.key}>
                       <button
                         onClick={() => setMobileExpanded(mobileExpanded === link.key ? null : link.key)}
-                        className="w-full flex items-center justify-between py-3 text-sm font-semibold text-[#282828]"
+                        className="w-full flex items-center justify-between py-3 text-sm font-semibold text-white"
                       >
                         {link.label}
                         <span className="text-base font-medium">{mobileExpanded === link.key ? '−' : '+'}</span>
@@ -283,7 +295,7 @@ export default function Navbar() {
                               <a
                                 key={item.label}
                                 href={item.href}
-                                className="block pl-4 py-2.5 text-sm text-[#6a6a6a] hover:text-[#282828] transition-colors"
+                                className="block pl-4 py-2.5 text-sm text-white/50 hover:text-white transition-colors"
                               >
                                 {item.label}
                               </a>
@@ -296,7 +308,7 @@ export default function Navbar() {
                     <a
                       key={link.label}
                       href={link.href}
-                      className="flex items-center gap-2 py-3 text-sm font-semibold text-[#282828]"
+                      className="flex items-center gap-2 py-3 text-sm font-semibold text-white"
                     >
                       {link.label}
                       {link.badge && (
@@ -309,7 +321,7 @@ export default function Navbar() {
                 )}
                 <a
                   href="/connect-with-us/"
-                  className="mt-3 flex items-center justify-center gap-2 bg-[#282828] text-white text-sm font-semibold px-5 py-3 rounded-full"
+                  className="mt-3 flex items-center justify-center gap-2 bg-white text-[#282828] text-sm font-semibold px-5 py-3 rounded-full"
                 >
                   Get In Touch ↗
                 </a>
