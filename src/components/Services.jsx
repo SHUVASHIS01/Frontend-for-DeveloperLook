@@ -17,16 +17,16 @@ export default function Services() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="services" className="bg-[#e9edf4] py-16 lg:py-20">
+    <section id="services" className="bg-[#efeeec] py-16 lg:py-20">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10" ref={ref}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.135, 0.9, 0.15, 1] }}
           className="flex items-center justify-between mb-8"
         >
-          <h2 className="text-[clamp(36px,5vw,64px)] font-black text-[#0d0f15] leading-tight tracking-[-0.03em]">
+          <h2 className="text-[clamp(36px,5vw,64px)] font-black text-[#282828] leading-tight tracking-[-0.03em]">
             Our{' '}
             <span className="relative inline-block">
               Services
@@ -34,7 +34,7 @@ export default function Services() {
           </h2>
         </motion.div>
 
-        {/* Service List — exactly matching the screenshot */}
+        {/* Service List */}
         <div className="border-t border-black/10">
           {serviceList.map((service, i) => (
             <motion.a
@@ -42,14 +42,14 @@ export default function Services() {
               href={service.href}
               initial={{ opacity: 0, x: -20 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.45, delay: i * 0.07 }}
-              className="group service-item flex items-center justify-between py-5 sm:py-6 border-b border-black/10 hover:pl-2 transition-all duration-200"
+              transition={{ duration: 0.45, delay: i * 0.07, ease: [0.135, 0.9, 0.15, 1] }}
+              className="group service-item flex items-center justify-between py-5 sm:py-6 border-b border-black/10 hover:pl-2 transition-all duration-300"
             >
-              <span className="text-[#0d0f15] text-xl sm:text-2xl lg:text-3xl font-black tracking-[-0.02em] group-hover:text-[#0d0f15]/70 transition-colors">
+              <span className="text-[#282828] text-xl sm:text-2xl lg:text-3xl font-black tracking-[-0.02em] group-hover:text-[#282828]/60 transition-colors duration-300">
                 {service.label}
               </span>
               <div className="w-8 h-8 rounded-full border border-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0">
-                <span className="text-[#0d0f15] text-sm">↗</span>
+                <span className="text-[#282828] text-sm">↗</span>
               </div>
             </motion.a>
           ))}
@@ -59,13 +59,13 @@ export default function Services() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.4, ease: [0.135, 0.9, 0.15, 1] }}
           className="mt-8"
         >
           <a
             href="/services/"
             id="view-all-services-btn"
-            className="inline-flex items-center gap-2 bg-white text-[#0d0f15] text-sm font-semibold px-7 py-3.5 rounded-full hover:bg-[#0d0f15] hover:text-white transition-all duration-300 shadow-sm border border-black/10 w-full sm:w-auto justify-center"
+            className="inline-flex items-center gap-2 bg-white text-[#282828] text-sm font-semibold px-7 py-3.5 rounded-full hover:bg-[#282828] hover:text-white transition-all duration-300 shadow-sm border border-black/10 w-full sm:w-auto justify-center"
           >
             View All Services
             <span className="text-base">↗</span>
@@ -76,8 +76,8 @@ export default function Services() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-16 bg-[#0d0f15] rounded-3xl overflow-hidden p-10 lg:p-16 relative"
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.135, 0.9, 0.15, 1] }}
+          className="mt-16 bg-[#121212] rounded-3xl overflow-hidden p-10 lg:p-16 relative"
         >
           {/* Background texture dots */}
           <div className="absolute inset-0 opacity-5"

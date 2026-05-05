@@ -31,21 +31,21 @@ export default function WhyUs() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="why-us" className="bg-[#e9edf4] py-6 pb-16">
+    <section id="why-us" className="bg-[#efeeec] py-6 pb-16">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 mb-6">
         <motion.h2
           ref={ref}
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-[clamp(36px,5vw,64px)] font-black text-[#0d0f15] leading-tight tracking-[-0.03em]"
+          transition={{ duration: 0.6, ease: [0.135, 0.9, 0.15, 1] }}
+          className="text-[clamp(36px,5vw,64px)] font-black text-[#282828] leading-tight tracking-[-0.03em]"
         >
           Legacy In The Making
         </motion.h2>
       </div>
       <div className="mx-3 sm:mx-4 lg:mx-6">
         {/* Dark rounded panel */}
-        <div className="bg-[#0d0f15] rounded-3xl overflow-hidden">
+        <div className="bg-[#121212] rounded-3xl overflow-hidden">
           <div className="max-w-[1400px] mx-auto">
 
             {/* Tabs */}
@@ -54,7 +54,7 @@ export default function WhyUs() {
                 <button
                   key={p.id}
                   onClick={() => setActive(i)}
-                  className={`flex-1 py-5 text-sm font-bold transition-all duration-200 ${
+                  className={`flex-1 py-5 text-sm font-bold transition-all duration-300 ${
                     active === i
                       ? 'text-white border-b-2 border-white'
                       : 'text-white/40 hover:text-white/70'
@@ -82,7 +82,7 @@ export default function WhyUs() {
                     alt={pillars[active].title}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0d0f15]/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#121212]/60 to-transparent" />
                 </div>
 
                 {/* Text */}

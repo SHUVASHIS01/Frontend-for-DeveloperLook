@@ -96,14 +96,14 @@ export default function Footer() {
     <footer
       ref={ref}
       id="footer"
-      className="bg-[#0d0f15] text-white pt-12 pb-8"
+      className="bg-[#111212] text-white pt-12 pb-8"
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
         {/* Newsletter */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.135, 0.9, 0.15, 1] }}
           className="mb-10"
         >
           <h3 className="text-3xl font-black mb-2">Ready to Rise at Seven?</h3>
@@ -122,7 +122,7 @@ export default function Footer() {
             <button
               type="submit"
               id="newsletter-submit"
-              className="w-12 h-12 bg-white text-[#0d0f15] rounded-full flex items-center justify-center hover:bg-[#b2f6e3] transition-colors flex-shrink-0"
+              className="w-12 h-12 bg-white text-[#111212] rounded-full flex items-center justify-center hover:bg-[#b2f6e3] transition-colors flex-shrink-0"
             >
               <span className="text-lg">↗</span>
             </button>
@@ -143,7 +143,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
-              className="flex items-center gap-2 bg-white/8 hover:bg-white/15 text-white/70 hover:text-white px-4 py-2.5 rounded-full text-xs font-medium transition-all duration-200"
+              className="flex items-center gap-2 bg-white/8 hover:bg-white/15 text-white/70 hover:text-white px-4 py-2.5 rounded-full text-xs font-medium transition-all duration-300"
             >
               {s.icon}
               <span className="text-[11px] uppercase tracking-wide font-bold">↗</span>
@@ -167,7 +167,7 @@ export default function Footer() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="block text-white/50 hover:text-white text-sm font-medium mb-3 transition-colors duration-200"
+                  className="block text-white/50 hover:text-white text-sm font-medium mb-3 transition-colors duration-300"
                 >
                   {link.label}
                 </a>
@@ -183,7 +183,7 @@ export default function Footer() {
                 href={o.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-white/50 hover:text-white text-sm font-medium mb-3 transition-colors duration-200"
+                className="block text-white/50 hover:text-white text-sm font-medium mb-3 transition-colors duration-300"
               >
                 {o.label}
               </a>
@@ -203,7 +203,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="h-px bg-white/10 mb-6" />
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[#ffffff]/30 text-xs">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-white/30 text-xs">
           <p>© {new Date().getFullYear()} Rise at Seven</p>
           <div className="flex gap-5">
             <a href="/privacy-policy/" className="hover:text-white transition-colors">Privacy Policy</a>

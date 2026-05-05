@@ -25,7 +25,7 @@ function LogoItem({ logo }) {
 
   if (failed) {
     return (
-      <span className="text-[#0d0f15] font-black text-sm sm:text-lg tracking-tight opacity-35 hover:opacity-65 transition-opacity duration-300 flex-shrink-0 whitespace-nowrap select-none">
+      <span className="text-[#282828] font-black text-sm sm:text-lg tracking-tight opacity-35 hover:opacity-65 transition-opacity duration-300 flex-shrink-0 whitespace-nowrap select-none">
         {logo.name.toUpperCase()}
       </span>
     );
@@ -48,16 +48,16 @@ export default function BrandsAndIntro() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section className="bg-[#e9edf4] pt-12 pb-0" ref={ref}>
+    <section className="bg-[#efeeec] pt-12 pb-0" ref={ref}>
 
       {/* "The agency behind..." label */}
       <motion.div
         className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 mb-5"
         initial={{ opacity: 0, y: 10 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.4, ease: [0.135, 0.9, 0.15, 1] }}
       >
-        <p className="text-[#0d0f15]/50 text-sm font-medium">The agency behind ...</p>
+        <p className="text-[#282828]/50 text-sm font-medium">The agency behind ...</p>
       </motion.div>
 
       {/* ── Seamless logo marquee ── */}
@@ -87,8 +87,8 @@ export default function BrandsAndIntro() {
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-[clamp(40px,5.5vw,72px)] font-black text-[#0d0f15] leading-[0.95] tracking-[-0.03em]"
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.135, 0.9, 0.15, 1] }}
+            className="text-[clamp(40px,5.5vw,72px)] font-black text-[#282828] leading-[0.95] tracking-[-0.03em]"
           >
             Driving Demand<br />&amp; Discovery
           </motion.h2>
@@ -96,24 +96,24 @@ export default function BrandsAndIntro() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.135, 0.9, 0.15, 1] }}
             className="flex flex-col justify-between h-full"
           >
-            <p className="text-[#0d0f15]/70 text-lg leading-relaxed mb-8">
+            <p className="text-[#282828]/70 text-lg leading-relaxed mb-8">
               A global team of search-first content marketers engineering semantic relevancy &amp; category signals for both the internet and people
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <a
                 href="/about/"
                 id="intro-our-story-btn"
-                className="flex items-center justify-center gap-2 bg-white text-[#0d0f15] text-sm font-semibold px-6 py-3.5 rounded-full hover:bg-[#0d0f15] hover:text-white transition-all duration-300 shadow-sm border border-black/10"
+                className="flex items-center justify-center gap-2 bg-white text-[#282828] text-sm font-semibold px-6 py-3.5 rounded-full hover:bg-[#282828] hover:text-white transition-all duration-300 shadow-sm border border-black/10"
               >
                 Our Story <span className="text-base">↗</span>
               </a>
               <a
                 href="/services/"
                 id="intro-services-btn"
-                className="flex items-center justify-center gap-2 bg-white text-[#0d0f15] text-sm font-semibold px-6 py-3.5 rounded-full hover:bg-[#0d0f15] hover:text-white transition-all duration-300 shadow-sm border border-black/10"
+                className="flex items-center justify-center gap-2 bg-white text-[#282828] text-sm font-semibold px-6 py-3.5 rounded-full hover:bg-[#282828] hover:text-white transition-all duration-300 shadow-sm border border-black/10"
               >
                 Our Services <span className="text-base">↗</span>
               </a>

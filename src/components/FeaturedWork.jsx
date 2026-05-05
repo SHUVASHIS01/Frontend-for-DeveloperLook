@@ -114,10 +114,10 @@ function WorkCard({ item, index }) {
       href={item.href}
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease: [0.135, 0.9, 0.15, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="work-card relative block overflow-hidden card-radius bg-[#1a1d26] cursor-pointer"
+      className="work-card relative block overflow-hidden rounded-2xl bg-[#1f1f1f] cursor-pointer"
       style={{ aspectRatio: '4/3' }}
     >
       {/* Image */}
@@ -127,7 +127,7 @@ function WorkCard({ item, index }) {
         className="absolute inset-0 w-full h-full object-cover"
         style={{
           transform: hovered ? 'scale(1.04)' : 'scale(1)',
-          transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          transition: 'transform 0.6s cubic-bezier(.135,.9,.15,1)',
         }}
         loading="lazy"
       />
@@ -136,7 +136,7 @@ function WorkCard({ item, index }) {
       <div
         className="absolute inset-0 transition-opacity duration-400"
         style={{
-          background: 'linear-gradient(to top, rgba(13,15,21,0.85) 0%, rgba(13,15,21,0.2) 50%, rgba(13,15,21,0.1) 100%)',
+          background: 'linear-gradient(to top, rgba(18,18,18,0.85) 0%, rgba(18,18,18,0.2) 50%, rgba(18,18,18,0.1) 100%)',
         }}
       />
 
@@ -170,7 +170,7 @@ function WorkCard({ item, index }) {
         className="absolute top-4 left-4 w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-md z-10 transition-all duration-300"
         style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'scale(1)' : 'scale(0.8)' }}
       >
-        <svg className="w-4 h-4 text-[#0d0f15]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <svg className="w-4 h-4 text-[#282828]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
         </svg>
       </div>
@@ -182,19 +182,27 @@ export default function FeaturedWork() {
   const [titleRef, titleInView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="featured-work" className="bg-[#e9edf4] pb-6">
+    <section id="featured-work" className="bg-[#efeeec] pb-6">
       {/* Dark rounded container — exactly like the real site */}
-      <div className="mx-3 sm:mx-4 lg:mx-6 bg-[#0d0f15] rounded-3xl overflow-hidden">
+      <div className="mx-3 sm:mx-4 lg:mx-6 bg-[#121212] rounded-3xl overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-12 lg:py-16">
           {/* Header */}
           <motion.div
             ref={titleRef}
             initial={{ opacity: 0, y: 20 }}
             animate={titleInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="flex items-center justify-between mb-8"
+            transition={{ duration: 0.5, ease: [0.135, 0.9, 0.15, 1] }}
+            className="flex items-center justify-between mb-10"
           >
-            <h2 className="text-white text-2xl font-bold">Featured Work</h2>
+            <h2 className="text-white text-[clamp(28px,4vw,48px)] font-black tracking-[-0.03em] leading-tight">
+              Featured Work
+            </h2>
+            <a
+              href="/work/"
+              className="hidden sm:inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold px-5 py-2.5 rounded-full border border-white/15 transition-all duration-300"
+            >
+              View All <span>↗</span>
+            </a>
           </motion.div>
 
           {/* Grid */}
@@ -214,7 +222,7 @@ export default function FeaturedWork() {
             <a
               href="/work/"
               id="explore-work-btn"
-              className="inline-flex items-center gap-2 bg-white text-[#0d0f15] text-sm font-semibold px-7 py-3.5 rounded-full hover:bg-[#b2f6e3] transition-colors duration-300"
+              className="inline-flex items-center gap-2 bg-white text-[#282828] text-sm font-semibold px-7 py-3.5 rounded-full hover:bg-[#b2f6e3] transition-colors duration-300"
             >
               Explore Our Work
               <span className="text-base">↗</span>
