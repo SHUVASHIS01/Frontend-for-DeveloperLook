@@ -25,7 +25,7 @@ function LogoItem({ logo }) {
 
   if (failed) {
     return (
-      <span className="text-[#282828] font-black text-sm sm:text-lg tracking-tight opacity-35 hover:opacity-65 transition-opacity duration-300 flex-shrink-0 whitespace-nowrap select-none">
+      <span className="text-[#282828] font-medium text-sm sm:text-lg tracking-tight opacity-35 hover:opacity-65 transition-opacity duration-300 flex-shrink-0 whitespace-nowrap select-none">
         {logo.name.toUpperCase()}
       </span>
     );
@@ -83,12 +83,12 @@ export default function BrandsAndIntro() {
         <div className="h-px bg-black/10 mb-14" />
 
         {/* Driving Demand & Discovery */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start pb-16">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.135, 0.9, 0.15, 1] }}
-            className="text-[clamp(40px,5.5vw,72px)] font-black text-[#282828] leading-[0.95] tracking-[-0.03em]"
+            className="text-[clamp(36px,5vw,72px)] font-medium text-[#282828] leading-[0.95] tracking-tight"
           >
             Driving Demand<br />&amp; Discovery
           </motion.h2>
@@ -97,25 +97,31 @@ export default function BrandsAndIntro() {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.135, 0.9, 0.15, 1] }}
-            className="flex flex-col justify-between h-full"
+            className="flex flex-col justify-between h-full gap-8"
           >
-            <p className="text-[#282828]/70 text-lg leading-relaxed mb-8">
+            <p className="text-[#282828]/60 text-base lg:text-lg leading-relaxed">
               A global team of search-first content marketers engineering semantic relevancy &amp; category signals for both the internet and people
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <a
                 href="/about/"
                 id="intro-our-story-btn"
-                className="flex items-center justify-center gap-2 bg-white text-[#282828] text-sm font-semibold px-6 py-3.5 rounded-full hover:bg-[#282828] hover:text-white transition-all duration-300 shadow-sm border border-black/10"
+                className="flex items-center justify-center gap-2 bg-[#282828] text-white text-sm font-medium px-6 py-3.5 rounded-full hover:bg-black transition-all duration-300"
               >
-                Our Story <span className="text-base">↗</span>
+                Our Story
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 10 10" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2 8L8 2M8 2H3M8 2v5"/>
+                </svg>
               </a>
               <a
                 href="/services/"
                 id="intro-services-btn"
-                className="flex items-center justify-center gap-2 bg-white text-[#282828] text-sm font-semibold px-6 py-3.5 rounded-full hover:bg-[#282828] hover:text-white transition-all duration-300 shadow-sm border border-black/10"
+                className="flex items-center justify-center gap-2 bg-white text-[#282828] text-sm font-medium px-6 py-3.5 rounded-full hover:bg-[#282828] hover:text-white transition-all duration-300 border border-black/10"
               >
-                Our Services <span className="text-base">↗</span>
+                Our Services
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 10 10" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2 8L8 2M8 2H3M8 2v5"/>
+                </svg>
               </a>
             </div>
           </motion.div>
