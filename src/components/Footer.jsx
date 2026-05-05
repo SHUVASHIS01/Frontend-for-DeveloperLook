@@ -106,9 +106,9 @@ export default function Footer() {
         <div className="grid grid-cols-12 pt-14 pb-6 lg:py-10 px-4 md:px-7 gap-x-3 md:gap-x-5 gap-y-3 md:gap-y-7">
 
           {/* Left: newsletter + socials */}
-          <div className="flex flex-col items-start justify-start col-span-12 mb-6 lg:mb-0 lg:col-span-4 gap-y-5">
+          <div className="flex flex-col items-start justify-start col-span-12 mb-10 lg:mb-0 lg:col-span-4 gap-y-3 md:gap-y-5">
 
-            <h2 className="text-white text-2xl xl:text-3xl font-medium tracking-tight leading-none">
+            <h2 className="inline-flex flex-wrap text-balance text-white text-2xl xl:text-3xl font-medium tracking-tight leading-none">
               Stay updated with Rise news
             </h2>
 
@@ -123,13 +123,12 @@ export default function Footer() {
                 onChange={e => setEmail(e.target.value)}
                 placeholder="Your Email Address"
                 required
-                className="appearance-none w-full bg-[#282828] rounded-full text-white font-medium tracking-tight leading-none text-lg px-5 py-4 lg:text-xl lg:px-6 lg:py-5 placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/20 transition"
+                className="appearance-none w-full bg-[#282828] rounded-full text-white font-medium tracking-tight leading-none text-lg px-5 py-4 lg:text-xl lg:px-6 lg:py-5 placeholder:text-white/50 focus:outline-none focus:ring-[3px] focus:ring-white/15 transition"
               />
               <div className="absolute top-0 right-0 p-2">
                 <button
                   type="submit"
                   className="w-9 h-9 lg:w-13 lg:h-13 bg-[#b2f6e3] text-[#111212] rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-white hover:rotate-90"
-                  style={{ width: '2.25rem', height: '2.25rem' }}
                 >
                   <ArrowIcon />
                 </button>
@@ -145,9 +144,9 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="inline-flex items-center gap-x-2 rounded-xl text-xs px-2 py-1 bg-white text-[#111212] hover:rounded-sm transition-all duration-300"
+                  className="inline-flex items-center gap-x-2.5 rounded-xl text-xs px-2 py-1 bg-white text-[#111212] hover:rounded-sm transition-all duration-300"
                 >
-                  {s.icon}
+                  <span className="inline-flex items-center">{s.icon}</span>
                   <ArrowIcon />
                 </a>
               ))}
