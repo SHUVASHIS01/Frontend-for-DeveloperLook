@@ -10,7 +10,7 @@
   --color-text: #282828;
   --color-text-muted: #6a6a6a;
   --color-white: #ffffff;
-  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'saans', ui-sans-serif, system-ui, sans-serif;
   --ease-smooth: cubic-bezier(.135,.9,.15,1);
 }
 
@@ -25,7 +25,7 @@ html {
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'saans', ui-sans-serif, system-ui, sans-serif;
   background-color: #efeeec;
   color: #282828;
   overflow-x: hidden;
