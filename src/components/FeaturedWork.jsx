@@ -155,8 +155,8 @@ function WorkCard({ item, index }) {
 
       {/* Bottom text */}
       <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
-        <p className="text-white/60 text-xs font-medium mb-1">{item.period}</p>
-        <h3 className="text-white text-xl sm:text-2xl font-black leading-tight">{item.client}</h3>
+        <p className="text-white/50 text-xs font-normal mb-1">{item.period}</p>
+        <h3 className="text-white text-lg sm:text-xl font-medium leading-tight tracking-tight">{item.client}</h3>
         <p
           className="text-white/70 text-sm mt-1.5 transition-all duration-300"
           style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateY(0)' : 'translateY(6px)' }}
@@ -194,14 +194,17 @@ export default function FeaturedWork() {
             transition={{ duration: 0.5, ease: [0.135, 0.9, 0.15, 1] }}
             className="flex items-center justify-between mb-10"
           >
-            <h2 className="text-white text-[clamp(28px,4vw,48px)] font-black tracking-[-0.03em] leading-tight">
+            <h2 className="text-white text-[clamp(28px,4vw,52px)] font-medium tracking-tight leading-tight">
               Featured Work
             </h2>
             <a
               href="/work/"
-              className="hidden sm:inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold px-5 py-2.5 rounded-full border border-white/15 transition-all duration-300"
+              className="hidden sm:inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium px-5 py-2.5 rounded-full border border-white/15 transition-all duration-300"
             >
-              View All <span>↗</span>
+              View All
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 10 10" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2 8L8 2M8 2H3M8 2v5"/>
+              </svg>
             </a>
           </motion.div>
 
@@ -222,10 +225,12 @@ export default function FeaturedWork() {
             <a
               href="/work/"
               id="explore-work-btn"
-              className="inline-flex items-center gap-2 bg-white text-[#282828] text-sm font-semibold px-7 py-3.5 rounded-full hover:bg-[#b2f6e3] transition-colors duration-300"
+              className="inline-flex items-center gap-2 bg-white text-[#282828] text-sm font-medium px-7 py-3.5 rounded-full hover:bg-[#b2f6e3] transition-colors duration-300"
             >
               Explore Our Work
-              <span className="text-base">↗</span>
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 10 10" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2 8L8 2M8 2H3M8 2v5"/>
+              </svg>
             </a>
           </motion.div>
         </div>

@@ -50,15 +50,18 @@ export default function WhatsNew() {
           transition={{ duration: 0.6, ease: [0.135, 0.9, 0.15, 1] }}
           className="flex items-end justify-between mb-10"
         >
-          <h2 className="text-[clamp(36px,5vw,64px)] font-black text-[#282828] leading-tight tracking-[-0.03em]">
+          <h2 className="text-[clamp(36px,5vw,64px)] font-medium text-[#282828] leading-tight tracking-tight">
             What's New
           </h2>
           <a
             href="/blog/"
             id="explore-blog-btn"
-            className="hidden sm:inline-flex items-center gap-2 bg-white text-[#282828] text-sm font-semibold px-6 py-3 rounded-full hover:bg-[#282828] hover:text-white transition-all duration-300 shadow-sm border border-black/10"
+            className="hidden sm:inline-flex items-center gap-2 bg-[#282828] text-white text-sm font-medium px-6 py-3 rounded-full hover:bg-black transition-all duration-300"
           >
-            Explore More Thoughts ↗
+            Explore More Thoughts
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 10 10" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2 8L8 2M8 2H3M8 2v5"/>
+            </svg>
           </a>
         </motion.div>
 
@@ -71,7 +74,7 @@ export default function WhatsNew() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.1, ease: [0.135, 0.9, 0.15, 1] }}
-              className="group flex-shrink-0 w-[78vw] sm:w-auto block overflow-hidden rounded-2xl bg-white hover:shadow-lg transition-shadow duration-300"
+              className="group flex-shrink-0 w-[78vw] sm:w-auto block overflow-hidden rounded-2xl bg-white transition-all duration-300"
             >
               {/* Image */}
               <div className="relative overflow-hidden" style={{ aspectRatio: '16/9' }}>
@@ -83,7 +86,7 @@ export default function WhatsNew() {
                 />
                 {/* Category tag */}
                 <div className="absolute top-3 left-3">
-                  <span className={`text-xs font-bold px-3 py-1.5 rounded-full ${categoryColors[post.category] || 'bg-white text-[#282828]'}`}>
+                  <span className={`text-xs font-medium px-3 py-1.5 rounded-full ${categoryColors[post.category] || 'bg-white text-[#282828]'}`}>
                     {post.category}
                   </span>
                 </div>
@@ -91,17 +94,17 @@ export default function WhatsNew() {
 
               {/* Content */}
               <div className="p-5">
-                <h3 className="text-[#282828] text-base font-bold leading-snug mb-4 group-hover:text-[#282828]/70 transition-colors line-clamp-3">
+                <h3 className="text-[#282828] text-base font-medium leading-snug mb-4 group-hover:text-[#282828]/70 transition-colors line-clamp-3">
                   {post.title}
                 </h3>
 
                 {/* Footer */}
                 <div className="flex items-center gap-3 mt-auto">
-                  <div className="w-7 h-7 rounded-full bg-[#efeeec] flex items-center justify-center text-[#282828] text-xs font-black flex-shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-[#efeeec] flex items-center justify-center text-[#282828] text-xs font-medium flex-shrink-0">
                     {post.author.charAt(0)}
                   </div>
                   <div>
-                    <p className="text-[#282828] text-xs font-semibold">{post.author}</p>
+                    <p className="text-[#282828] text-xs font-medium">{post.author}</p>
                     <p className="text-[#282828]/50 text-xs">{post.readTime}</p>
                   </div>
                   <div className="ml-auto">
@@ -119,9 +122,12 @@ export default function WhatsNew() {
         <div className="sm:hidden mt-6 text-center">
           <a
             href="/blog/"
-            className="inline-flex items-center gap-2 bg-white text-[#282828] text-sm font-semibold px-6 py-3 rounded-full border border-black/10"
+            className="inline-flex items-center gap-2 bg-[#282828] text-white text-sm font-medium px-6 py-3 rounded-full"
           >
-            Explore More Thoughts ↗
+            Explore More Thoughts
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 10 10" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2 8L8 2M8 2H3M8 2v5"/>
+            </svg>
           </a>
         </div>
       </div>

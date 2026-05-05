@@ -19,7 +19,7 @@ const TextTicker = () => {
           {items.map((word, i) => (
             <span
               key={i}
-              className={`text-[clamp(36px,5vw,64px)] font-black leading-none tracking-tight flex-shrink-0 ${
+              className={`text-[clamp(36px,5vw,64px)] font-medium leading-none tracking-tight flex-shrink-0 ${
                 word === '&' ? 'text-black' : 'text-white'
               }`}
             >
@@ -40,7 +40,7 @@ const TextTicker = () => {
           {items.map((word, i) => (
             <span
               key={`d-${i}`}
-              className={`text-[clamp(36px,5vw,64px)] font-black leading-none tracking-tight flex-shrink-0 ${
+              className={`text-[clamp(36px,5vw,64px)] font-medium leading-none tracking-tight flex-shrink-0 ${
                 word === '&' ? 'text-black' : 'text-white'
               }`}
             >
