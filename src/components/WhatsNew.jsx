@@ -33,30 +33,30 @@ const blogPosts = [
 ];
 
 const categoryColors = {
-  'News': 'bg-[#0d0f15] text-white',
-  'Food/Hospitality/Drink': 'bg-[#0d0f15] text-white',
+  'News': 'bg-[#282828] text-white',
+  'Food/Hospitality/Drink': 'bg-[#282828] text-white',
 };
 
 export default function WhatsNew() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="whats-new" className="bg-[#e9edf4] py-16 lg:py-20">
+    <section id="whats-new" className="bg-[#efeeec] py-16 lg:py-20">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10" ref={ref}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.135, 0.9, 0.15, 1] }}
           className="flex items-end justify-between mb-10"
         >
-          <h2 className="text-[clamp(36px,5vw,64px)] font-black text-[#0d0f15] leading-tight tracking-[-0.03em]">
+          <h2 className="text-[clamp(36px,5vw,64px)] font-black text-[#282828] leading-tight tracking-[-0.03em]">
             What's New
           </h2>
           <a
             href="/blog/"
             id="explore-blog-btn"
-            className="hidden sm:inline-flex items-center gap-2 bg-white text-[#0d0f15] text-sm font-semibold px-6 py-3 rounded-full hover:bg-[#0d0f15] hover:text-white transition-all duration-300 shadow-sm border border-black/10"
+            className="hidden sm:inline-flex items-center gap-2 bg-white text-[#282828] text-sm font-semibold px-6 py-3 rounded-full hover:bg-[#282828] hover:text-white transition-all duration-300 shadow-sm border border-black/10"
           >
             Explore More Thoughts ↗
           </a>
@@ -70,8 +70,8 @@ export default function WhatsNew() {
               href={post.href}
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group flex-shrink-0 w-[78vw] sm:w-auto block overflow-hidden card-radius bg-white hover:shadow-lg transition-shadow duration-300"
+              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.135, 0.9, 0.15, 1] }}
+              className="group flex-shrink-0 w-[78vw] sm:w-auto block overflow-hidden rounded-2xl bg-white hover:shadow-lg transition-shadow duration-300"
             >
               {/* Image */}
               <div className="relative overflow-hidden" style={{ aspectRatio: '16/9' }}>
@@ -83,7 +83,7 @@ export default function WhatsNew() {
                 />
                 {/* Category tag */}
                 <div className="absolute top-3 left-3">
-                  <span className={`text-xs font-bold px-3 py-1.5 rounded-full ${categoryColors[post.category] || 'bg-white text-[#0d0f15]'}`}>
+                  <span className={`text-xs font-bold px-3 py-1.5 rounded-full ${categoryColors[post.category] || 'bg-white text-[#282828]'}`}>
                     {post.category}
                   </span>
                 </div>
@@ -91,21 +91,21 @@ export default function WhatsNew() {
 
               {/* Content */}
               <div className="p-5">
-                <h3 className="text-[#0d0f15] text-base font-bold leading-snug mb-4 group-hover:text-[#0d0f15]/70 transition-colors line-clamp-3">
+                <h3 className="text-[#282828] text-base font-bold leading-snug mb-4 group-hover:text-[#282828]/70 transition-colors line-clamp-3">
                   {post.title}
                 </h3>
 
                 {/* Footer */}
                 <div className="flex items-center gap-3 mt-auto">
-                  <div className="w-7 h-7 rounded-full bg-[#e9edf4] flex items-center justify-center text-[#0d0f15] text-xs font-black flex-shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-[#efeeec] flex items-center justify-center text-[#282828] text-xs font-black flex-shrink-0">
                     {post.author.charAt(0)}
                   </div>
                   <div>
-                    <p className="text-[#0d0f15] text-xs font-semibold">{post.author}</p>
-                    <p className="text-[#0d0f15]/50 text-xs">{post.readTime}</p>
+                    <p className="text-[#282828] text-xs font-semibold">{post.author}</p>
+                    <p className="text-[#282828]/50 text-xs">{post.readTime}</p>
                   </div>
                   <div className="ml-auto">
-                    <div className="w-7 h-7 bg-[#e9edf4] rounded-full flex items-center justify-center text-xs group-hover:bg-[#0d0f15] group-hover:text-white transition-all duration-200">
+                    <div className="w-7 h-7 bg-[#efeeec] rounded-full flex items-center justify-center text-xs group-hover:bg-[#282828] group-hover:text-white transition-all duration-300">
                       ↗
                     </div>
                   </div>
@@ -119,7 +119,7 @@ export default function WhatsNew() {
         <div className="sm:hidden mt-6 text-center">
           <a
             href="/blog/"
-            className="inline-flex items-center gap-2 bg-white text-[#0d0f15] text-sm font-semibold px-6 py-3 rounded-full border border-black/10"
+            className="inline-flex items-center gap-2 bg-white text-[#282828] text-sm font-semibold px-6 py-3 rounded-full border border-black/10"
           >
             Explore More Thoughts ↗
           </a>

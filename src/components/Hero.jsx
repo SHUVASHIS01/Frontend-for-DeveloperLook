@@ -54,7 +54,7 @@ export default function Hero() {
      */
     <section
       className="relative overflow-hidden"
-      style={{ minHeight: '100svh', backgroundColor: '#0d0f15', marginTop: '-64px' }}
+      style={{ minHeight: '100svh', backgroundColor: '#111212', marginTop: '-64px' }}
     >
       {/* ── Blurred backgrounds ──
           All images are rendered simultaneously; only `current` is opaque.
@@ -89,7 +89,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.135, 0.9, 0.15, 1] }}
           className="mb-10 flex flex-col items-center"
         >
           <p className="text-white/70 text-[9px] sm:text-[11px] font-bold uppercase tracking-[0.3em] mb-4 leading-relaxed">
@@ -111,7 +111,7 @@ export default function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.12 }}
+          transition={{ duration: 0.7, delay: 0.12, ease: [0.135, 0.9, 0.15, 1] }}
           className="text-[clamp(52px,10.5vw,148px)] font-black text-white leading-[0.88] tracking-[-0.04em]"
         >
           We Create
@@ -121,7 +121,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.135, 0.9, 0.15, 1] }}
           className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-6 gap-y-1 sm:flex-nowrap"
         >
           <span className="text-[clamp(52px,10.5vw,148px)] font-black text-white leading-[0.88] tracking-[-0.04em] flex-shrink-0">
@@ -167,7 +167,7 @@ export default function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.135, 0.9, 0.15, 1] }}
           className="text-white/80 text-base sm:text-xl lg:text-2xl font-medium mt-5 tracking-wide"
         >
           on every searchable platform
@@ -204,7 +204,7 @@ export default function Hero() {
       {/* Curved transition into light bg */}
       <div className="absolute bottom-0 left-0 right-0 z-10">
         <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-          <path d="M0 60 C360 0 1080 0 1440 60 L1440 60 L0 60 Z" fill="#e9edf4" />
+          <path d="M0 60 C360 0 1080 0 1440 60 L1440 60 L0 60 Z" fill="#efeeec" />
         </svg>
       </div>
     </section>

@@ -54,8 +54,7 @@ function ServicesMegaMenu({ items, viewAll }) {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 8 }}
-      transition={{ duration: 0.18, ease: 'easeOut' }}
-      /* Positioned below the trigger; -translate-x-1/2 centres it on the button */
+      transition={{ duration: 0.18, ease: [0.135, 0.9, 0.15, 1] }}
       className="absolute top-full mt-2 z-50"
       style={{ left: '50%', transform: 'translateX(-30%)' }}
     >
@@ -64,7 +63,7 @@ function ServicesMegaMenu({ items, viewAll }) {
 
         {/* Left: service links */}
         <div className="flex-1 p-8 pt-7">
-          <p className="text-[#0d0f15]/40 text-[10px] font-bold uppercase tracking-[0.18em] mb-5">
+          <p className="text-[#282828]/40 text-[10px] font-bold uppercase tracking-[0.18em] mb-5">
             Core Services
           </p>
           <div className="grid grid-cols-2 gap-x-6 gap-y-3.5">
@@ -72,7 +71,7 @@ function ServicesMegaMenu({ items, viewAll }) {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-[#0d0f15] text-[15px] font-semibold leading-snug hover:text-[#0d0f15]/50 transition-colors duration-150"
+                className="text-[#282828] text-[15px] font-semibold leading-snug hover:text-[#282828]/50 transition-colors duration-300"
               >
                 {item.label}
               </a>
@@ -92,7 +91,7 @@ function ServicesMegaMenu({ items, viewAll }) {
           <div className="absolute bottom-5 left-4 right-4">
             <a
               href={viewAll.href}
-              className="flex items-center justify-center gap-2 bg-[#0d0f15] text-white text-sm font-semibold px-5 py-3 rounded-full w-full hover:bg-[#1a1d26] transition-colors duration-200"
+              className="flex items-center justify-center gap-2 bg-[#121212] text-white text-sm font-semibold px-5 py-3 rounded-full w-full hover:bg-[#282828] transition-colors duration-300"
             >
               {viewAll.label} ↗
             </a>
@@ -110,14 +109,14 @@ function Dropdown({ items }) {
       initial={{ opacity: 0, y: 6, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 6, scale: 0.98 }}
-      transition={{ duration: 0.15, ease: 'easeOut' }}
+      transition={{ duration: 0.15, ease: [0.135, 0.9, 0.15, 1] }}
       className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white shadow-xl rounded-2xl overflow-hidden min-w-[220px] z-50 border border-black/5"
     >
       {items.map((item) => (
         <a
           key={item.label}
           href={item.href}
-          className="block px-5 py-3 text-sm font-medium text-[#0d0f15] hover:bg-[#f5f5f5] transition-colors border-b border-black/5 last:border-0"
+          className="block px-5 py-3 text-sm font-medium text-[#282828] hover:bg-[#efeeec] transition-colors border-b border-black/5 last:border-0"
         >
           {item.label}
         </a>
@@ -151,7 +150,7 @@ export default function Navbar() {
   return (
     <>
       {/* ── Alert bar ── */}
-      <div className="bg-[#b2f6e3] text-[#0d0f15] text-center py-2.5 px-4 text-xs sm:text-sm font-semibold">
+      <div className="bg-[#b2f6e3] text-[#282828] text-center py-2.5 px-4 text-xs sm:text-sm font-semibold">
         <a href="/multi-channel-search-report-2026-/" id="alert-bar-link" className="hover:underline">
           🚨 Where are your customers actually searching?{' '}
           <span className="underline font-bold">Download the report</span>
@@ -161,14 +160,14 @@ export default function Navbar() {
       {/* ── Sticky header ── */}
       <header
         className={`sticky top-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
+          scrolled ? 'bg-[#efeeec]/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
         }`}
       >
         <nav className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between h-[64px]">
 
           {/* Logo */}
           <a href="/" aria-label="Rise at Seven"
-             className="font-bold text-[17px] tracking-tight flex-shrink-0 text-[#0d0f15]">
+             className="font-bold text-[17px] tracking-tight flex-shrink-0 text-[#282828]">
             Rise at Seven
             <sup className="text-[8px] ml-0.5 opacity-60">®</sup>
           </a>
@@ -184,10 +183,10 @@ export default function Navbar() {
                   onMouseLeave={closeDropdown}
                 >
                   <button
-                    className={`flex items-center gap-1 px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-150 ${
+                    className={`flex items-center gap-1 px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200 ${
                       activeDropdown === link.key
-                        ? 'bg-white border border-black/12 shadow-sm text-[#0d0f15]'
-                        : 'text-[#0d0f15] hover:text-[#0d0f15]/60'
+                        ? 'bg-white border border-black/12 shadow-sm text-[#282828]'
+                        : 'text-[#282828] hover:text-[#282828]/60'
                     }`}
                   >
                     {link.label}
@@ -205,14 +204,14 @@ export default function Navbar() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className={`relative px-3.5 py-1.5 text-sm font-medium text-[#0d0f15] hover:text-[#0d0f15]/60 transition-colors duration-150 ${
+                  className={`relative px-3.5 py-1.5 text-sm font-medium text-[#282828] hover:text-[#282828]/60 transition-colors duration-200 ${
                     link.featured
-                      ? 'border border-[#0d0f15]/25 rounded-full hover:border-[#0d0f15]/50'
+                      ? 'border border-[#282828]/25 rounded-full hover:border-[#282828]/50'
                       : ''
                   }`}
                 >
                   {link.badge && (
-                    <span className="absolute -top-2 -right-1 bg-[#b2f6e3] text-[#0d0f15] text-[8px] font-black px-1.5 py-0.5 rounded-full leading-none">
+                    <span className="absolute -top-2 -right-1 bg-[#b2f6e3] text-[#282828] text-[8px] font-black px-1.5 py-0.5 rounded-full leading-none">
                       {link.badge}
                     </span>
                   )}
@@ -227,7 +226,7 @@ export default function Navbar() {
             <a
               href="/connect-with-us/"
               id="nav-cta-btn"
-              className="hidden sm:inline-flex items-center gap-1.5 bg-white hover:bg-[#0d0f15] hover:text-white text-[#0d0f15] text-sm font-semibold px-5 py-2.5 rounded-full border border-black/15 transition-all duration-200"
+              className="hidden sm:inline-flex items-center gap-1.5 bg-white hover:bg-[#282828] hover:text-white text-[#282828] text-sm font-semibold px-5 py-2.5 rounded-full border border-black/15 transition-all duration-300"
             >
               Get In Touch
               <span className="text-base">↗</span>
@@ -259,7 +258,7 @@ export default function Navbar() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25 }}
-              className="lg:hidden bg-white border-t border-black/8 overflow-hidden"
+              className="lg:hidden bg-[#efeeec] border-t border-black/8 overflow-hidden"
             >
               <div className="max-h-[80svh] overflow-y-auto px-5 py-3 flex flex-col gap-1">
                 {navLinks.map((link) =>
@@ -267,7 +266,7 @@ export default function Navbar() {
                     <div key={link.key}>
                       <button
                         onClick={() => setMobileExpanded(mobileExpanded === link.key ? null : link.key)}
-                        className="w-full flex items-center justify-between py-3 text-sm font-semibold text-[#0d0f15]"
+                        className="w-full flex items-center justify-between py-3 text-sm font-semibold text-[#282828]"
                       >
                         {link.label}
                         <span className="text-base font-medium">{mobileExpanded === link.key ? '−' : '+'}</span>
@@ -284,7 +283,7 @@ export default function Navbar() {
                               <a
                                 key={item.label}
                                 href={item.href}
-                                className="block pl-4 py-2.5 text-sm text-[#6b7280] hover:text-[#0d0f15] transition-colors"
+                                className="block pl-4 py-2.5 text-sm text-[#6a6a6a] hover:text-[#282828] transition-colors"
                               >
                                 {item.label}
                               </a>
@@ -297,11 +296,11 @@ export default function Navbar() {
                     <a
                       key={link.label}
                       href={link.href}
-                      className="flex items-center gap-2 py-3 text-sm font-semibold text-[#0d0f15]"
+                      className="flex items-center gap-2 py-3 text-sm font-semibold text-[#282828]"
                     >
                       {link.label}
                       {link.badge && (
-                        <span className="bg-[#b2f6e3] text-[#0d0f15] text-[9px] font-black px-1.5 py-0.5 rounded-full">
+                        <span className="bg-[#b2f6e3] text-[#282828] text-[9px] font-black px-1.5 py-0.5 rounded-full">
                           {link.badge}
                         </span>
                       )}
@@ -310,7 +309,7 @@ export default function Navbar() {
                 )}
                 <a
                   href="/connect-with-us/"
-                  className="mt-3 flex items-center justify-center gap-2 bg-[#0d0f15] text-white text-sm font-semibold px-5 py-3 rounded-full"
+                  className="mt-3 flex items-center justify-center gap-2 bg-[#282828] text-white text-sm font-semibold px-5 py-3 rounded-full"
                 >
                   Get In Touch ↗
                 </a>
