@@ -2,34 +2,39 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-/* ── Logos ───────────────────────────────────────────────────────────────── */
+/* ── Logos — Simple Icons CDN (free, no auth, SVG icons) ────────────────── */
+/* URL: https://cdn.simpleicons.org/{slug}/282828  → dark-coloured SVG       */
+const si = (slug) => `https://cdn.simpleicons.org/${slug}/282828`;
+
 const logos = [
-  { name: 'Red Bull',           src: 'https://logo.clearbit.com/redbull.com' },
-  { name: 'JD Sports',          src: 'https://logo.clearbit.com/jdsports.co.uk' },
-  { name: 'Kroger',             src: 'https://logo.clearbit.com/kroger.com' },
-  { name: 'HubSpot',            src: 'https://logo.clearbit.com/hubspot.com' },
-  { name: 'Xbox',               src: 'https://logo.clearbit.com/xbox.com' },
-  { name: 'Samsung',            src: 'https://logo.clearbit.com/samsung.com' },
-  { name: 'Nike',               src: 'https://logo.clearbit.com/nike.com' },
-  { name: 'Spotify',            src: 'https://logo.clearbit.com/spotify.com' },
-  { name: 'PlayStation',        src: 'https://logo.clearbit.com/playstation.com' },
-  { name: 'Airbnb',             src: 'https://logo.clearbit.com/airbnb.com' },
-  { name: 'Shopify',            src: 'https://logo.clearbit.com/shopify.com' },
-  { name: 'Stripe',             src: 'https://logo.clearbit.com/stripe.com' },
-  { name: 'Notion',             src: 'https://logo.clearbit.com/notion.so' },
-  { name: 'Figma',              src: 'https://logo.clearbit.com/figma.com' },
-  { name: 'SIXT',               src: 'https://logo.clearbit.com/sixt.com' },
-  { name: 'Revolution Beauty',  src: 'https://logo.clearbit.com/revolutionbeauty.com' },
-  { name: 'Dojo',               src: 'https://logo.clearbit.com/dojo.tech' },
-  { name: 'Capital One',        src: 'https://logo.clearbit.com/capitalone.com' },
+  { name: 'Red Bull',    src: si('redbull')      },
+  { name: 'HubSpot',     src: si('hubspot')       },
+  { name: 'Xbox',        src: si('xbox')          },
+  { name: 'Samsung',     src: si('samsung')       },
+  { name: 'Nike',        src: si('nike')          },
+  { name: 'Spotify',     src: si('spotify')       },
+  { name: 'PlayStation', src: si('playstation')   },
+  { name: 'Airbnb',      src: si('airbnb')        },
+  { name: 'Shopify',     src: si('shopify')       },
+  { name: 'Stripe',      src: si('stripe')        },
+  { name: 'Notion',      src: si('notion')        },
+  { name: 'Figma',       src: si('figma')         },
+  { name: 'Apple',       src: si('apple')         },
+  { name: 'Google',      src: si('google')        },
+  { name: 'Amazon',      src: si('amazon')        },
+  { name: 'Netflix',     src: si('netflix')       },
+  { name: 'Adidas',      src: si('adidas')        },
+  { name: 'TikTok',      src: si('tiktok')        },
+  { name: 'Discord',     src: si('discord')       },
+  { name: 'Twitch',      src: si('twitch')        },
 ];
 
 const loopLogos = [...logos, ...logos];
 
-/* ── Logo image — returns null if image fails (no text fallback in marquee) ─ */
+/* ── Logo image ──────────────────────────────────────────────────────────── */
 function LogoItem({ logo }) {
   const [failed, setFailed] = React.useState(false);
-  if (failed) return null; /* hide entirely — only images animate */
+  if (failed) return null;
 
   return (
     <img
@@ -39,11 +44,10 @@ function LogoItem({ logo }) {
       loading="lazy"
       onError={() => setFailed(true)}
       style={{
-        height: 28,
+        height: 30,
         width: 'auto',
         objectFit: 'contain',
-        filter: 'grayscale(1)',
-        opacity: 0.5,
+        opacity: 0.45,
         flexShrink: 0,
         userSelect: 'none',
         transition: 'opacity 0.3s',
