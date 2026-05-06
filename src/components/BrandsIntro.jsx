@@ -24,28 +24,12 @@ const logos = [
   { name: 'Capital One',        src: 'https://logo.clearbit.com/capitalone.com' },
 ];
 
-/* Duplicated so the seamless loop never shows a gap */
 const loopLogos = [...logos, ...logos];
 
-/* ── Logo item (falls back to bold text if image fails) ──────────────────── */
+/* ── Logo image — returns null if image fails (no text fallback in marquee) ─ */
 function LogoItem({ logo }) {
   const [failed, setFailed] = React.useState(false);
-
-  if (failed) {
-    return (
-      <span style={{
-        fontWeight: 700,
-        fontSize: 13,
-        letterSpacing: '-0.01em',
-        color: 'rgba(40,40,40,0.38)',
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-        userSelect: 'none',
-      }}>
-        {logo.name.toUpperCase()}
-      </span>
-    );
-  }
+  if (failed) return null; /* hide entirely — only images animate */
 
   return (
     <img
@@ -59,7 +43,7 @@ function LogoItem({ logo }) {
         width: 'auto',
         objectFit: 'contain',
         filter: 'grayscale(1)',
-        opacity: 0.45,
+        opacity: 0.5,
         flexShrink: 0,
         userSelect: 'none',
         transition: 'opacity 0.3s',
@@ -70,12 +54,54 @@ function LogoItem({ logo }) {
 }
 
 /* ── Arrow icon ──────────────────────────────────────────────────────────── */
-const ArrowSVG = ({ size = 12 }) => (
-  <svg width={size} height={size} viewBox="0 0 10 10" fill="none"
+const ArrowSVG = () => (
+  <svg width={12} height={12} viewBox="0 0 10 10" fill="none"
     stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
     <path d="M2 8L8 2M8 2H3M8 2v5" />
   </svg>
 );
+
+/* ── Slide-up button — same effect as footer links, no color change ───────── */
+function SlideButton({ href, children, pill }) {
+  const pillStyle = pill ? {
+    background: '#fff',
+    border: '1px solid rgba(0,0,0,0.12)',
+    padding: '11px 22px',
+    borderRadius: 999,
+  } : {
+    padding: '11px 4px',
+  };
+
+  return (
+    <a
+      href={href}
+      className="group inline-flex items-center"
+      style={{
+        ...pillStyle,
+        color: '#282828',
+        textDecoration: 'none',
+        fontSize: 14,
+        fontWeight: 500,
+        cursor: 'pointer',
+      }}
+    >
+      {/* overflow-hidden on the inner span clips the incoming copy — same pattern as footer FooterLink */}
+      <span className="relative inline-flex items-center gap-2 overflow-hidden" style={{ lineHeight: 1.2 }}>
+        {/* Outgoing — slides up on hover */}
+        <span className="inline-flex items-center gap-2 transition-transform duration-300 group-hover:-translate-y-full">
+          {children}
+        </span>
+        {/* Incoming — rises from below on hover */}
+        <span
+          className="absolute inset-0 inline-flex items-center gap-2 translate-y-full transition-transform duration-300 group-hover:translate-y-0"
+          aria-hidden="true"
+        >
+          {children}
+        </span>
+      </span>
+    </a>
+  );
+}
 
 /* ── Main component ──────────────────────────────────────────────────────── */
 export default function BrandsAndIntro() {
@@ -102,12 +128,13 @@ export default function BrandsAndIntro() {
             fontWeight: 500,
             color: 'rgba(40,40,40,0.45)',
             whiteSpace: 'nowrap',
+            fontFamily: "'saans', ui-sans-serif, system-ui, sans-serif",
           }}>
             The agency behind
           </p>
         </div>
 
-        {/* Scrolling logo strip — fills remaining width */}
+        {/* Scrolling logo strip — fills remaining width, images only */}
         <div style={{
           flex: 1,
           overflow: 'hidden',
@@ -116,8 +143,7 @@ export default function BrandsAndIntro() {
           WebkitMaskImage:
             'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
         }}>
-          {/* logo-track drives the CSS animation (right → left, 38 s) */}
-          <div className="logo-track" style={{ display: 'flex', alignItems: 'center', gap: 52 }}>
+          <div className="logo-track" style={{ display: 'flex', alignItems: 'center', gap: 56 }}>
             {loopLogos.map((logo, i) => (
               <LogoItem key={i} logo={logo} />
             ))}
@@ -140,11 +166,12 @@ export default function BrandsAndIntro() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.65, delay: 0.08, ease: [0.135, 0.9, 0.15, 1] }}
             style={{
-              fontSize: 'clamp(16px,1.55vw,22px)',
-              fontWeight: 600,
-              lineHeight: 1.28,
-              letterSpacing: '-0.02em',
+              fontSize: 'clamp(15px,1.4vw,20px)',
+              fontWeight: 500,
+              lineHeight: 1.3,
+              letterSpacing: '-0.015em',
               color: '#282828',
+              fontFamily: "'saans', ui-sans-serif, system-ui, sans-serif",
             }}
           >
             A global team of search-first content marketers engineering semantic
@@ -158,18 +185,18 @@ export default function BrandsAndIntro() {
             transition={{ duration: 0.65, delay: 0.18, ease: [0.135, 0.9, 0.15, 1] }}
             style={{ display: 'flex', flexDirection: 'column', gap: 28 }}
           >
-            {/* Heading: "Driving Demand & Discovery [inline-img]" */}
+            {/* Heading with inline image after "Discovery" */}
             <h2 style={{
               fontSize: 'clamp(40px,5.5vw,90px)',
               fontWeight: 700,
               letterSpacing: '-0.03em',
               lineHeight: 1,
               color: '#282828',
+              fontFamily: "'saans', ui-sans-serif, system-ui, sans-serif",
             }}>
               Driving Demand &amp;{' '}
               <span style={{ display: 'inline', whiteSpace: 'nowrap' }}>
                 Discovery
-                {/* Inline rounded image, just like the real site */}
                 <span style={{
                   display: 'inline-block',
                   width: 'clamp(50px,4.8vw,78px)',
@@ -191,51 +218,14 @@ export default function BrandsAndIntro() {
               </span>
             </h2>
 
-            {/* CTA buttons */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-              {/* Pill button */}
-              <a
-                href="/about/"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  background: '#fff',
-                  border: '1px solid rgba(0,0,0,0.12)',
-                  color: '#282828',
-                  fontSize: 14, fontWeight: 500,
-                  padding: '11px 22px',
-                  borderRadius: 999,
-                  textDecoration: 'none',
-                  transition: 'background 0.25s, color 0.25s',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = '#282828';
-                  e.currentTarget.style.color = '#fff';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = '#fff';
-                  e.currentTarget.style.color = '#282828';
-                }}
-              >
+            {/* CTA buttons — slide-up hover, no color change */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <SlideButton href="/about/" pill>
                 Our Story <ArrowSVG />
-              </a>
-
-              {/* Ghost / text link */}
-              <a
-                href="/services/"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  color: '#282828',
-                  fontSize: 14, fontWeight: 500,
-                  padding: '11px 4px',
-                  textDecoration: 'none',
-                  opacity: 1,
-                  transition: 'opacity 0.2s',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.opacity = '0.55'; }}
-                onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
-              >
+              </SlideButton>
+              <SlideButton href="/services/">
                 Our Services <ArrowSVG />
-              </a>
+              </SlideButton>
             </div>
           </motion.div>
         </div>
