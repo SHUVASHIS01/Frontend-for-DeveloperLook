@@ -15,7 +15,7 @@ const blogPosts = [
     authorBg: 'linear-gradient(135deg,#c9b99a,#e2d4c0)',
     title: "Ryan McNamara Is Now Rise at Seven's Global Operations Director",
     href: '/blog/global-operations-director-promotion/',
-    img: 'https://images.unsplash.com/photo-1573497491765-dccce02b29df?w=700&q=85&fit=crop&crop=faces',
+    img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=700&q=85&fit=crop&crop=faces',
     featured: true,
   },
   {
@@ -68,8 +68,8 @@ function CustomCursor({ ref: cursorRef }) {
         top: 0, left: 0,
         width: 48, height: 48,
         borderRadius: '50%',
-        background: '#282828',
-        color: '#fff',
+        background: '#b2f6e3',
+        color: '#282828',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         pointerEvents: 'none',
         zIndex: 9999,
@@ -368,8 +368,30 @@ export default function WhatsNew() {
             letterSpacing: '-0.03em',
             lineHeight: 1,
             color: '#282828',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.22em',
+            flexWrap: 'wrap',
           }}>
-            What's New
+            <span>What's</span>
+            {/* Inline image pill between the two words */}
+            <span style={{
+              display: 'inline-block',
+              width: 'clamp(52px,4.5vw,82px)',
+              height: 'clamp(52px,4.5vw,82px)',
+              borderRadius: 14,
+              overflow: 'hidden',
+              flexShrink: 0,
+              position: 'relative',
+              top: '0.04em',
+            }}>
+              <img
+                src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=200&q=85&fit=crop"
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </span>
+            <span>New</span>
           </h2>
           <a
             href="/blog/"

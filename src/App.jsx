@@ -19,8 +19,8 @@ function App() {
         <FeaturedWork />
         <Services />
         <WhyUs />
-        <ScrollRevealText />
         <WhatsNew />
+        <ScrollRevealText />
       </main>
       <Footer />
     </div>
