@@ -14,28 +14,35 @@
   --ease-smooth: cubic-bezier(.135,.9,.15,1);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/*
+  All base/reset rules MUST live inside @layer base so that
+  Tailwind utility classes (which are in @layer utilities) can
+  override them. Unlayered CSS beats any @layer rule regardless
+  of specificity — that's why bare * { padding:0 } was silently
+  killing every px-* / py-* / p-* utility across the whole site.
+*/
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
 
-html {
-  scroll-behavior: smooth;
-}
+  html {
+    scroll-behavior: smooth;
+  }
 
-body {
-  font-family: 'saans', ui-sans-serif, system-ui, sans-serif;
-  background-color: #efeeec;
-  color: #282828;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+  body {
+    font-family: 'saans', ui-sans-serif, system-ui, sans-serif;
+    background-color: #efeeec;
+    color: #282828;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #efeeec; }
-::-webkit-scrollbar-thumb { background: #282828; border-radius: 2px; }
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #efeeec; }
+  ::-webkit-scrollbar-thumb { background: #282828; border-radius: 2px; }
+}
 
 /* Hero video overlay */
 .hero-overlay {
