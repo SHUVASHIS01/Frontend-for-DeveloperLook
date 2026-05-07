@@ -1,18 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-/* ── Background hero images (cycle every 4 s) ────────────────────────────── */
-/* Vivid close-up people shots — clearly visible through the dark overlay    */
-const HERO_IMAGES = [
-  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1400&q=90&fit=crop',
-  'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=1400&q=90&fit=crop&crop=faces',
-  'https://images.unsplash.com/photo-1530099486328-e021101a494a?w=1400&q=90&fit=crop&crop=faces',
-];
-const FALLBACK_BG = [
-  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1400&q=85&fit=crop',
-  'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=1400&q=85&fit=crop',
-  'https://images.unsplash.com/photo-1530099486328-e021101a494a?w=1400&q=85&fit=crop',
-];
 
 /* ── Pill image pool — one is picked randomly on each page load ──────────── */
 const PILL_IMAGES = [
@@ -100,27 +88,11 @@ const UKContentAward = () => (
 
 /* ── Component ───────────────────────────────────────────────────────────── */
 export default function Hero() {
-  const [current, setCurrent] = useState(0);
-  const [bgSrcs, setBgSrcs]   = useState(HERO_IMAGES);
-
-  /* Pill image: random once on mount — stays static, new on each page refresh */
+  /* One random image per page load — shared by pill AND background.
+     Static during the session; refreshing the page gives a new pick.      */
   const [pillImg] = useState(
     () => PILL_IMAGES[Math.floor(Math.random() * PILL_IMAGES.length)]
   );
-
-  /* Cycle background every 4 s */
-  useEffect(() => {
-    const id = setInterval(() => setCurrent(c => (c + 1) % bgSrcs.length), 4000);
-    return () => clearInterval(id);
-  }, [bgSrcs.length]);
-
-  const handleBgError = (i) => {
-    setBgSrcs(prev => {
-      const next = [...prev];
-      next[i] = FALLBACK_BG[i] ?? FALLBACK_BG[0];
-      return next;
-    });
-  };
 
   return (
     <section className="bg-[#efeeec] p-2" style={{ marginTop: '-72px' }}>
@@ -128,19 +100,15 @@ export default function Hero() {
         className="relative w-full overflow-hidden rounded-3xl bg-[#111212]"
         style={{ minHeight: '100svh' }}
       >
-        {/* ── Background: less blur, more visible, cycling ── */}
+        {/* ── Background: same image as the pill, static, softly blurred ── */}
         <div className="absolute inset-0 z-0 scale-105">
-          {bgSrcs.map((src, i) => (
-            <img key={i} src={src} alt="" aria-hidden="true"
-              onError={() => handleBgError(i)}
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{
-                filter: 'blur(5px) saturate(1.2) brightness(0.62)',
-                opacity: i === current ? 1 : 0,
-                transition: 'opacity 1.6s ease',
-              }}
-            />
-          ))}
+          <img
+            src={pillImg}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ filter: 'blur(5px) saturate(1.2) brightness(0.62)' }}
+          />
         </div>
 
         {/* Subtle dark overlay */}
@@ -164,7 +132,7 @@ export default function Hero() {
             <div className="flex items-center gap-x-3">
               <LaurelSVG />
               {/* Four award badges between the laurels */}
-              <div className="flex items-center gap-x-4 sm:gap-x-5 px-4 border-l border-r border-white/20">
+              <div className="flex items-center gap-x-4 sm:gap-x-5 px-4">
                 <GlobalSearchAward />
                 <TheDrum />
                 <UKSocialMediaAward />
@@ -190,10 +158,8 @@ export default function Hero() {
             <div className="flex flex-wrap items-center justify-center gap-x-3 mt-1">
               <span>Category</span>
 
-              {/* Pill image: static per session, random on each page refresh */}
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+              {/* Pill image: static — same random pick as the background */}
+              <div
                 className="inline-flex shrink-0 relative overflow-hidden bg-black/20"
                 style={{
                   width:        'clamp(56px, 7.5vw, 110px)',
@@ -206,7 +172,7 @@ export default function Hero() {
                   alt=""
                   className="absolute inset-0 w-full h-full object-cover"
                 />
-              </motion.div>
+              </div>
 
               <span>Leaders</span>
             </div>
