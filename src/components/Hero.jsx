@@ -1,42 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-/* Real hero images from the site's CDN */
+/* ── Background hero images (cycle every 4 s) ────────────────────────────── */
+/* Vivid close-up people shots — clearly visible through the dark overlay    */
 const HERO_IMAGES = [
-  'https://rise-atseven.transforms.svdcdn.com/production/images/Emirates-airpline-in-flight.avif?w=1330&h=700&q=90&auto=format&fit=crop',
-  'https://rise-atseven.transforms.svdcdn.com/production/images/spaseekers.png?w=1330&h=700&q=90&auto=format&fit=crop',
-  'https://rise-atseven.transforms.svdcdn.com/production/images/Pooky-Rechargable-Doorstop-Cordless-100-Straight-Empire-Pendant-Silk-Ikat-Shade-in-Black-and-Cream-Atlas-44-Single-chukka-Cordless-95-scaled-1-1.jpg?w=1330&h=700&q=90&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1400&q=90&fit=crop',
+  'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=1400&q=90&fit=crop&crop=faces',
+  'https://images.unsplash.com/photo-1530099486328-e021101a494a?w=1400&q=90&fit=crop&crop=faces',
+];
+const FALLBACK_BG = [
+  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1400&q=85&fit=crop',
+  'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=1400&q=85&fit=crop',
+  'https://images.unsplash.com/photo-1530099486328-e021101a494a?w=1400&q=85&fit=crop',
 ];
 
-/* Fallback in case CDN fails */
-const FALLBACK_IMAGES = [
-  'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=85&fit=crop',
-  'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1400&q=85&fit=crop',
-  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=85&fit=crop',
+/* ── Pill image pool — one is picked randomly on each page load ──────────── */
+const PILL_IMAGES = [
+  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300&q=85&fit=crop&crop=faces',
+  'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=300&q=85&fit=crop&crop=faces',
+  'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=300&q=85&fit=crop',
+  'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=300&q=85&fit=crop',
+  'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=300&q=85&fit=crop&crop=faces',
+  'https://images.unsplash.com/photo-1530099486328-e021101a494a?w=300&q=85&fit=crop&crop=faces',
+  'https://images.unsplash.com/photo-1596386461350-326ccb383e9f?w=300&q=85&fit=crop&crop=faces',
 ];
 
-/* Real award logos from their CDN */
-const AWARD_LOGOS = [
-  {
-    src: 'https://rise-atseven.transforms.svdcdn.com/production/images/Placeholder-logos/global-search-awards.png?w=400&q=80&fm=webp&fit=crop',
-    alt: 'Global Search Awards',
-  },
-  {
-    src: 'https://rise-atseven.transforms.svdcdn.com/production/images/Placeholder-logos/Mask-group.png?w=400&q=80&fm=webp&fit=crop',
-    alt: 'The Drum',
-  },
-  {
-    src: 'https://rise-atseven.transforms.svdcdn.com/production/images/Logos/Awards/White/UKSocial-Media-Awards-White.png?w=400&q=80&fm=webp&fit=crop',
-    alt: 'UK Social Media Awards',
-  },
-  {
-    src: 'https://rise-atseven.transforms.svdcdn.com/production/images/Logos/Awards/White/UK-Content-Awards-White.png?w=400&q=80&fm=webp&fit=crop',
-    alt: 'UK Content Awards',
-    desktopOnly: true,
-  },
-];
-
-/* Laurel SVG — exact from source */
+/* ── Laurel SVG ──────────────────────────────────────────────────────────── */
 const LaurelSVG = ({ flip }) => (
   <svg viewBox="0 0 28 38" fill="none" xmlns="http://www.w3.org/2000/svg"
     className="w-5 fill-current text-white"
@@ -45,40 +34,108 @@ const LaurelSVG = ({ flip }) => (
   </svg>
 );
 
+/* ── Inline award badge components ──────────────────────────────────────── */
+const GlobalSearchAward = () => (
+  <div className="flex items-center gap-1.5 text-white">
+    <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+      <path d="M1 1L8 10L1 19" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M7 1L14 10L7 19" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+    <div style={{ fontSize: 6.5, fontWeight: 800, letterSpacing: '0.08em', lineHeight: 1.35, textTransform: 'uppercase' }}>
+      GLOBAL<br/>SEARCH<br/>AWARDS
+    </div>
+  </div>
+);
+
+const TheDrum = () => (
+  <div className="flex flex-col items-start gap-0.5 text-white">
+    {/* Battlements / crenellation */}
+    <svg width="38" height="9" viewBox="0 0 38 9" fill="white">
+      <rect x="0"  y="0" width="5" height="9" rx="0.5"/>
+      <rect x="7"  y="0" width="5" height="9" rx="0.5"/>
+      <rect x="14" y="0" width="5" height="9" rx="0.5"/>
+      <rect x="21" y="0" width="5" height="9" rx="0.5"/>
+      <rect x="28" y="0" width="5" height="9" rx="0.5"/>
+      <rect x="35" y="0" width="3" height="9" rx="0.5"/>
+    </svg>
+    <div style={{ fontSize: 7, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+      THE DRUM
+    </div>
+  </div>
+);
+
+const UKSocialMediaAward = () => (
+  <div className="flex items-center gap-1.5 text-white">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="white">
+      <circle cx="2"  cy="2"  r="2"/>
+      <circle cx="8"  cy="2"  r="2"/>
+      <circle cx="14" cy="2"  r="2"/>
+      <circle cx="2"  cy="8"  r="2"/>
+      <circle cx="8"  cy="8"  r="2"/>
+      <circle cx="14" cy="8"  r="2"/>
+      <circle cx="2"  cy="14" r="2"/>
+      <circle cx="8"  cy="14" r="2"/>
+      <circle cx="14" cy="14" r="2"/>
+    </svg>
+    <div style={{ fontSize: 6.5, fontWeight: 800, letterSpacing: '0.06em', lineHeight: 1.35, textTransform: 'uppercase' }}>
+      UK SOCIAL<br/>MEDIA AWARDS
+    </div>
+  </div>
+);
+
+const UKContentAward = () => (
+  <div className="flex items-center gap-1.5 text-white">
+    {/* UK badge */}
+    <svg width="20" height="22" viewBox="0 0 20 22" fill="none">
+      <path d="M2 2H18V13C18 17.5 10 21 10 21C10 21 2 17.5 2 13V2Z"
+        stroke="white" strokeWidth="1.8" strokeLinejoin="round"/>
+      <text x="4" y="12" fill="white" fontSize="6" fontWeight="900"
+        fontFamily="ui-sans-serif,sans-serif">UK</text>
+    </svg>
+    <div style={{ fontSize: 6.5, fontWeight: 800, letterSpacing: '0.08em', lineHeight: 1.35, textTransform: 'uppercase' }}>
+      CONTENT<br/>AWARDS
+    </div>
+  </div>
+);
+
+/* ── Component ───────────────────────────────────────────────────────────── */
 export default function Hero() {
-  const [current, setCurrent]   = useState(0);
-  const [imgSrcs, setImgSrcs]   = useState(HERO_IMAGES);
+  const [current, setCurrent] = useState(0);
+  const [bgSrcs, setBgSrcs]   = useState(HERO_IMAGES);
 
+  /* Pill image: random once on mount — stays static, new on each page refresh */
+  const [pillImg] = useState(
+    () => PILL_IMAGES[Math.floor(Math.random() * PILL_IMAGES.length)]
+  );
+
+  /* Cycle background every 4 s */
   useEffect(() => {
-    const id = setInterval(() => setCurrent(c => (c + 1) % imgSrcs.length), 4000);
+    const id = setInterval(() => setCurrent(c => (c + 1) % bgSrcs.length), 4000);
     return () => clearInterval(id);
-  }, [imgSrcs.length]);
+  }, [bgSrcs.length]);
 
-  const handleImgError = (i) => {
-    setImgSrcs(prev => {
+  const handleBgError = (i) => {
+    setBgSrcs(prev => {
       const next = [...prev];
-      next[i] = FALLBACK_IMAGES[i] || FALLBACK_IMAGES[0];
+      next[i] = FALLBACK_BG[i] ?? FALLBACK_BG[0];
       return next;
     });
   };
 
   return (
-    /*
-     * The hero section has padding (p-2) and the card itself is rounded-3xl.
-     * marginTop: -72px pulls it behind the sticky navbar (72px = nav height).
-     */
     <section className="bg-[#efeeec] p-2" style={{ marginTop: '-72px' }}>
       <div
         className="relative w-full overflow-hidden rounded-3xl bg-[#111212]"
         style={{ minHeight: '100svh' }}
       >
-        {/* ── Background image crossfade ── */}
+        {/* ── Background: less blur, more visible, cycling ── */}
         <div className="absolute inset-0 z-0 scale-105">
-          {imgSrcs.map((src, i) => (
-            <img key={i} src={src} alt="" aria-hidden="true" onError={() => handleImgError(i)}
+          {bgSrcs.map((src, i) => (
+            <img key={i} src={src} alt="" aria-hidden="true"
+              onError={() => handleBgError(i)}
               className="absolute inset-0 w-full h-full object-cover"
               style={{
-                filter: 'blur(60px) saturate(1.2) brightness(0.35)',
+                filter: 'blur(5px) saturate(1.2) brightness(0.62)',
                 opacity: i === current ? 1 : 0,
                 transition: 'opacity 1.6s ease',
               }}
@@ -86,8 +143,8 @@ export default function Hero() {
           ))}
         </div>
 
-        {/* Dim overlay */}
-        <div className="absolute inset-0 z-[1] bg-[#111212]/25" />
+        {/* Subtle dark overlay */}
+        <div className="absolute inset-0 z-[1] bg-[#111212]/30" />
 
         {/* ── Main content ── */}
         <div
@@ -104,25 +161,22 @@ export default function Hero() {
             <p className="uppercase text-xs font-medium leading-tight tracking-tight max-w-52 text-balance text-center mb-3 text-white">
               #1 Most recommended content marketing agency
             </p>
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-3">
               <LaurelSVG />
-              <div className="flex items-center gap-x-3 sm:gap-x-4 px-3 sm:px-4 border-l border-r border-white/20">
-                {AWARD_LOGOS.map((award) => (
-                  <div key={award.alt} className={`w-12 relative ${award.desktopOnly ? 'hidden lg:block' : ''}`}
-                    style={{ aspectRatio: '20/9' }}>
-                    <img src={award.src} alt={award.alt}
-                      className="w-full h-full object-contain absolute inset-0"
-                      style={{ opacity: 0, transition: 'opacity 0.3s' }}
-                      onLoad={e => { e.target.style.opacity = '1'; }}
-                    />
-                  </div>
-                ))}
+              {/* Four award badges between the laurels */}
+              <div className="flex items-center gap-x-4 sm:gap-x-5 px-4 border-l border-r border-white/20">
+                <GlobalSearchAward />
+                <TheDrum />
+                <UKSocialMediaAward />
+                <div className="hidden sm:block">
+                  <UKContentAward />
+                </div>
               </div>
               <LaurelSVG flip />
             </div>
           </motion.div>
 
-          {/* "We Create" + "Category [pill] Leaders" */}
+          {/* "We Create Category [pill] Leaders" */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -136,23 +190,22 @@ export default function Hero() {
             <div className="flex flex-wrap items-center justify-center gap-x-3 mt-1">
               <span>Category</span>
 
-              {/* Floating pill image */}
+              {/* Pill image: static per session, random on each page refresh */}
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-                className="inline-flex shrink-0 relative overflow-hidden bg-black/10"
+                className="inline-flex shrink-0 relative overflow-hidden bg-black/20"
                 style={{
-                  width:  'clamp(56px, 7.5vw, 110px)',
-                  height: 'clamp(56px, 7.5vw, 110px)',
+                  width:        'clamp(56px, 7.5vw, 110px)',
+                  height:       'clamp(56px, 7.5vw, 110px)',
                   borderRadius: 'clamp(10px, 1.5vw, 20px)',
                 }}
               >
-                {imgSrcs.map((src, i) => (
-                  <img key={i} src={src} alt="" onError={() => handleImgError(i)}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    style={{ opacity: i === current ? 1 : 0, transition: 'opacity 1s ease' }}
-                  />
-                ))}
+                <img
+                  src={pillImg}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               </motion.div>
 
               <span>Leaders</span>
