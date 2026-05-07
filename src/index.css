@@ -124,7 +124,7 @@
 .logo-track {
   display: flex;
   width: max-content;
-  animation: logoScroll 35s linear infinite;
+  animation: logoScroll 48s linear infinite;
   will-change: transform;
 }
 .logo-track:hover {

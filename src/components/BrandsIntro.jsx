@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 
 /* ── Logos — Simple Icons CDN (free, no auth, SVG icons) ────────────────── */
 /* URL: https://cdn.simpleicons.org/{slug}/282828  → dark-coloured SVG       */
-const si = (slug) => `https://cdn.simpleicons.org/${slug}/282828`;
+const si = (slug) => `https://cdn.simpleicons.org/${slug}/666666`;
 
 const logos = [
   { name: 'Red Bull',    src: si('redbull')       },
@@ -61,9 +61,10 @@ function LogoItem({ logo }) {
       onError={() => setFailed(true)}
       style={{
         height: 30,
+        maxWidth: 120,
         width: 'auto',
         objectFit: 'contain',
-        opacity: 0.45,
+        opacity: 0.28,
         flexShrink: 0,
         userSelect: 'none',
         transition: 'opacity 0.3s',
@@ -163,7 +164,7 @@ export default function BrandsAndIntro() {
           WebkitMaskImage:
             'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
         }}>
-          <div className="logo-track" style={{ display: 'flex', alignItems: 'center', gap: 56 }}>
+          <div className="logo-track" style={{ display: 'flex', alignItems: 'center', gap: 88 }}>
             {loopLogos.map((logo, i) => (
               <LogoItem key={i} logo={logo} />
             ))}
