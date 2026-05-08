@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import BrandsIntro from './components/BrandsIntro'
 import FeaturedWork from './components/FeaturedWork'
 import Services from './components/Services'
+import ChasingMarquee from './components/ChasingMarquee'
 import WhyUs from './components/WhyUs'
 import ScrollRevealText from './components/ScrollRevealText'
 import WhatsNew from './components/WhatsNew'
@@ -18,6 +19,7 @@ function App() {
         <BrandsIntro />
         <FeaturedWork />
         <Services />
+        <ChasingMarquee />
         <WhyUs />
         <WhatsNew />
         <ScrollRevealText />
