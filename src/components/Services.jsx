@@ -107,19 +107,16 @@ function ServiceItem({ service }) {
       ref={itemRef}
       href={service.href}
       style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr',
-        gridTemplateRows: '1fr',
+        display: 'block',
+        position: 'relative',
         textDecoration: 'none',
         cursor: 'pointer',
-        position: 'relative',
       }}
     >
       {/* ── Content row — always on top ── */}
       <div
         ref={contentRef}
         style={{
-          gridColumn: '1', gridRow: '1',
           position: 'relative', zIndex: 2,
           padding: 'clamp(12px,1vw,16px) clamp(12px,1.2vw,18px)',
           display: 'flex', alignItems: 'center', gap: 0,
@@ -163,16 +160,16 @@ function ServiceItem({ service }) {
         </span>
       </div>
 
-      {/* ── Background — full pill shape, fades in on hover ── */}
+      {/* ── Background — full pill shape, absolutely positioned so it doesn't affect row height ── */}
       <div
         ref={bgRef}
         style={{
-          gridColumn: '1', gridRow: '1',
-          position: 'relative', zIndex: 1,
+          position: 'absolute', inset: '2px 0',
+          zIndex: 1,
           borderRadius: 9999,
           overflow: 'hidden',
           opacity: 0,
-          margin: '2px 0',
+          pointerEvents: 'none',
         }}
       >
         <img
@@ -180,6 +177,7 @@ function ServiceItem({ service }) {
           src={service.img}
           alt=""
           style={{
+            position: 'absolute', inset: 0,
             width: '100%', height: '100%',
             objectFit: 'cover', display: 'block',
             opacity: 0.62,
