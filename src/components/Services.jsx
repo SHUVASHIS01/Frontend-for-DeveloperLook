@@ -50,36 +50,48 @@ for (let i = 0; i < services.length; i += 2) rows.push(services.slice(i, i + 2))
 /* ── Arrow SVG ───────────────────────────────────────────────────────────── */
 const ArrowSVG = ({ size = 14 }) => (
   <svg width={size} height={size} viewBox="0 0 10 10" fill="none"
-    stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+    stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
     <path d="M2 8L8 2M8 2H3M8 2v5" />
   </svg>
 );
 
 /* ── ServiceItem ─────────────────────────────────────────────────────────── */
+/*
+  Matches the real site's exact hover mechanic:
+  - Arrow: absolute, starts at (-100%, 100%, -45deg) → (0, 0, 0deg) on hover
+  - Label: always x:40 on desktop, shifts to x:56 on hover, turns white
+  - Background: full pill (border-radius 9999px), image at opacity 0.6, slight scale on hover
+  - Color transition on the content row via GSAP
+*/
 function ServiceItem({ service }) {
-  const itemRef  = useRef(null);
-  const bgRef    = useRef(null);
-  const labelRef = useRef(null);
-  const arrowRef = useRef(null);
+  const itemRef    = useRef(null);
+  const bgRef      = useRef(null);
+  const imgRef     = useRef(null);
+  const labelRef   = useRef(null);
+  const arrowRef   = useRef(null);
+  const contentRef = useRef(null);
 
   useEffect(() => {
     const el = itemRef.current;
     if (!el) return;
 
-    /* Initial states */
-    gsap.set(bgRef.current,    { opacity: 0, borderRadius: 28 });
-    gsap.set(arrowRef.current, { opacity: 0, x: -8 });
+    // Initial states
+    gsap.set(bgRef.current,    { opacity: 0 });
+    gsap.set(arrowRef.current, { x: '-100%', y: '100%', rotation: -45 });
+    gsap.set(labelRef.current, { x: 40, color: '#282828' });
 
     const onEnter = () => {
-      gsap.to(bgRef.current,    { opacity: 1, borderRadius: 28, duration: 0.45, ease: 'power3.out' });
-      gsap.to(labelRef.current, { color: '#ffffff', x: 8, duration: 0.3, ease: 'power2.out' });
-      gsap.to(arrowRef.current, { opacity: 1, x: 0, duration: 0.3, ease: 'power2.out' });
+      gsap.to(bgRef.current,    { opacity: 1, duration: 0.5, ease: 'power2.out' });
+      gsap.to(imgRef.current,   { scale: 1.05, duration: 0.65, ease: 'power2.out' });
+      gsap.to(arrowRef.current, { x: '0%', y: '0%', rotation: 0, duration: 0.42, ease: 'power3.out' });
+      gsap.to(labelRef.current, { x: 56, color: '#ffffff', duration: 0.4, ease: 'power2.out' });
     };
 
     const onLeave = () => {
-      gsap.to(bgRef.current,    { opacity: 0, duration: 0.4, ease: 'power2.out' });
-      gsap.to(labelRef.current, { color: '#282828', x: 0, duration: 0.3, ease: 'power2.out' });
-      gsap.to(arrowRef.current, { opacity: 0, x: -8, duration: 0.3, ease: 'power2.out' });
+      gsap.to(bgRef.current,    { opacity: 0, duration: 0.45, ease: 'power2.out' });
+      gsap.to(imgRef.current,   { scale: 1, duration: 0.5, ease: 'power2.out' });
+      gsap.to(arrowRef.current, { x: '-100%', y: '100%', rotation: -45, duration: 0.35, ease: 'power2.in' });
+      gsap.to(labelRef.current, { x: 40, color: '#282828', duration: 0.35, ease: 'power2.out' });
     };
 
     el.addEventListener('mouseenter', onEnter);
@@ -95,55 +107,85 @@ function ServiceItem({ service }) {
       ref={itemRef}
       href={service.href}
       style={{
-        display: 'block',
-        position: 'relative',
-        overflow: 'visible',
-        padding: 'clamp(22px,3vw,40px) clamp(16px,2.2vw,28px)',
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gridTemplateRows: '1fr',
         textDecoration: 'none',
         cursor: 'pointer',
+        position: 'relative',
       }}
     >
-      {/* Background image — fades in on hover, rounded corners applied here */}
+      {/* ── Content row — always on top ── */}
       <div
-        ref={bgRef}
+        ref={contentRef}
         style={{
-          position: 'absolute', inset: 0,
-          borderRadius: 28,
-          overflow: 'hidden',
+          gridColumn: '1', gridRow: '1',
+          position: 'relative', zIndex: 2,
+          padding: 'clamp(18px,2.4vw,32px) clamp(14px,2vw,24px)',
+          display: 'flex', alignItems: 'center', gap: 0,
         }}
       >
-        <img
-          src={service.img}
-          alt=""
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        />
-        {/* Gradient: dark left → lighter right */}
+        {/* Arrow container — overflow hidden clips the diagonal fly-in */}
         <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(90deg, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.6) 45%, rgba(10,10,10,0.28) 100%)',
-        }} />
-      </div>
+          position: 'relative',
+          width: 'clamp(22px,2.2vw,32px)',
+          height: 'clamp(22px,2.2vw,32px)',
+          flexShrink: 0,
+          overflow: 'hidden',
+        }}>
+          <span
+            ref={arrowRef}
+            style={{
+              position: 'absolute', top: 0, left: 0,
+              color: '#fff',
+              lineHeight: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: '100%', height: '100%',
+            }}
+          >
+            <ArrowSVG size={20} />
+          </span>
+        </div>
 
-      {/* Content row */}
-      <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 12 }}>
-        {/* Arrow — slides in on hover */}
-        <span ref={arrowRef} style={{ color: '#fff', flexShrink: 0, lineHeight: 0 }}>
-          <ArrowSVG size={18} />
-        </span>
-        {/* Label */}
+        {/* Label — starts offset x:40, shifts to x:56 on hover */}
         <span
           ref={labelRef}
           style={{
-            fontSize: 'clamp(20px,3vw,44px)',
-            fontWeight: 600,
+            fontSize: 'clamp(26px,3.4vw,52px)',
+            fontWeight: 500,
             letterSpacing: '-0.025em',
-            lineHeight: 1.1,
+            lineHeight: 1,
             color: '#282828',
             willChange: 'color, transform',
           }}
         >
           {service.label}
         </span>
+      </div>
+
+      {/* ── Background — full pill shape, fades in on hover ── */}
+      <div
+        ref={bgRef}
+        style={{
+          gridColumn: '1', gridRow: '1',
+          position: 'relative', zIndex: 1,
+          borderRadius: 9999,
+          overflow: 'hidden',
+          opacity: 0,
+          margin: '4px 0',
+        }}
+      >
+        <img
+          ref={imgRef}
+          src={service.img}
+          alt=""
+          style={{
+            width: '100%', height: '100%',
+            objectFit: 'cover', display: 'block',
+            opacity: 0.62,
+            transformOrigin: 'center center',
+          }}
+        />
       </div>
     </a>
   );
@@ -162,12 +204,12 @@ export default function Services() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: [0.135, 0.9, 0.15, 1] }}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}
+          style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', marginBottom: 24 }}
         >
           {/* "Our [img] Services" */}
           <h2 style={{
             fontSize: 'clamp(48px,7vw,100px)',
-            fontWeight: 600,
+            fontWeight: 500,
             letterSpacing: '-0.03em',
             lineHeight: 1,
             color: '#282828',
@@ -175,6 +217,7 @@ export default function Services() {
             alignItems: 'center',
             gap: '0.18em',
             flexWrap: 'wrap',
+            margin: 0,
           }}>
             <span>Our</span>
             <span style={{
@@ -196,7 +239,7 @@ export default function Services() {
             <span>Services</span>
           </h2>
 
-          {/* View All Services — slide-up hover, no color change */}
+          {/* View All Services — slide-up text, no color change, border-radius shrinks on hover */}
           <a
             href="/services/"
             className="group"
@@ -212,13 +255,23 @@ export default function Services() {
               whiteSpace: 'nowrap',
               flexShrink: 0,
               overflow: 'hidden',
+              transition: 'border-radius 0.3s ease',
             }}
+            onMouseEnter={e => { e.currentTarget.style.borderRadius = '12px'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderRadius = '9999px'; }}
           >
             <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', gap: 8, overflow: 'hidden', lineHeight: 1.2 }}>
-              <span className="inline-flex items-center gap-2 transition-transform duration-300 group-hover:-translate-y-full" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <span
+                className="inline-flex items-center gap-2 transition-transform duration-300 group-hover:-translate-y-full"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
+              >
                 View All Services <ArrowSVG size={12} />
               </span>
-              <span className="absolute inset-0 inline-flex items-center gap-2 translate-y-full transition-transform duration-300 group-hover:translate-y-0" aria-hidden="true" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <span
+                className="absolute inset-0 inline-flex items-center gap-2 translate-y-full transition-transform duration-300 group-hover:translate-y-0"
+                aria-hidden="true"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
+              >
                 View All Services <ArrowSVG size={12} />
               </span>
             </span>
@@ -236,10 +289,11 @@ export default function Services() {
         >
           {rows.map((row, rowIdx) => (
             <div key={rowIdx}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', position: 'relative' }}>
-                {/* Vertical column divider */}
+              {/* 2-column grid with gap-x-2 and vertical column divider */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 8px', position: 'relative' }}>
+                {/* Vertical column divider — inset 48px each side like the real site */}
                 <div style={{
-                  position: 'absolute', left: '50%', top: 0, bottom: 0,
+                  position: 'absolute', left: '50%', top: '12px', bottom: '12px',
                   width: 1, background: 'rgba(0,0,0,0.10)',
                   pointerEvents: 'none',
                 }} />
@@ -247,8 +301,8 @@ export default function Services() {
                   <ServiceItem key={service.id} service={service} />
                 ))}
               </div>
-              {/* Row divider */}
-              <div style={{ height: 1, background: 'rgba(0,0,0,0.10)' }} />
+              {/* Row divider — inset 48px each side matching real site's px-12 */}
+              <div style={{ height: 1, background: 'rgba(0,0,0,0.10)', margin: '0 48px' }} />
             </div>
           ))}
         </motion.div>
