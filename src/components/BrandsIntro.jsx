@@ -64,7 +64,7 @@ function LogoItem({ logo }) {
         maxWidth: 120,
         width: 'auto',
         objectFit: 'contain',
-        opacity: 0.28,
+        opacity: 1,
         flexShrink: 0,
         userSelect: 'none',
         transition: 'opacity 0.3s',
@@ -147,7 +147,7 @@ export default function BrandsAndIntro() {
           <p style={{
             fontSize: 11,
             fontWeight: 500,
-            color: 'rgba(40,40,40,0.45)',
+            color: 'rgba(40,40,40,0.9)',
             whiteSpace: 'nowrap',
             fontFamily: "'saans', ui-sans-serif, system-ui, sans-serif",
           }}>
