@@ -67,21 +67,19 @@ function ServiceItem({ service }) {
     if (!el) return;
 
     /* Initial states */
-    gsap.set(bgRef.current,    { opacity: 0 });
-    gsap.set(arrowRef.current, { opacity: 0, x: -10 });
+    gsap.set(bgRef.current,    { opacity: 0, borderRadius: 28 });
+    gsap.set(arrowRef.current, { opacity: 0, x: -8 });
 
     const onEnter = () => {
-      gsap.to(bgRef.current,    { opacity: 1, duration: 0.4,  ease: 'power2.out' });
-      gsap.to(el,               { borderRadius: 22, duration: 0.4, ease: 'power2.out' });
-      gsap.to(labelRef.current, { color: '#ffffff', x: 6,  duration: 0.3, ease: 'power2.out' });
+      gsap.to(bgRef.current,    { opacity: 1, borderRadius: 28, duration: 0.45, ease: 'power3.out' });
+      gsap.to(labelRef.current, { color: '#ffffff', x: 8, duration: 0.3, ease: 'power2.out' });
       gsap.to(arrowRef.current, { opacity: 1, x: 0, duration: 0.3, ease: 'power2.out' });
     };
 
     const onLeave = () => {
-      gsap.to(bgRef.current,    { opacity: 0, duration: 0.4,  ease: 'power2.out' });
-      gsap.to(el,               { borderRadius: 0,  duration: 0.4, ease: 'power2.out' });
-      gsap.to(labelRef.current, { color: '#282828', x: 0,  duration: 0.3, ease: 'power2.out' });
-      gsap.to(arrowRef.current, { opacity: 0, x: -10, duration: 0.3, ease: 'power2.out' });
+      gsap.to(bgRef.current,    { opacity: 0, duration: 0.4, ease: 'power2.out' });
+      gsap.to(labelRef.current, { color: '#282828', x: 0, duration: 0.3, ease: 'power2.out' });
+      gsap.to(arrowRef.current, { opacity: 0, x: -8, duration: 0.3, ease: 'power2.out' });
     };
 
     el.addEventListener('mouseenter', onEnter);
@@ -99,41 +97,47 @@ function ServiceItem({ service }) {
       style={{
         display: 'block',
         position: 'relative',
-        overflow: 'hidden',
-        padding: 'clamp(20px,2.8vw,36px) clamp(14px,2vw,24px)',
+        overflow: 'visible',
+        padding: 'clamp(22px,3vw,40px) clamp(16px,2.2vw,28px)',
         textDecoration: 'none',
         cursor: 'pointer',
-        willChange: 'border-radius',
       }}
     >
-      {/* Background image — fades in on hover */}
-      <div ref={bgRef} style={{ position: 'absolute', inset: 0 }}>
+      {/* Background image — fades in on hover, rounded corners applied here */}
+      <div
+        ref={bgRef}
+        style={{
+          position: 'absolute', inset: 0,
+          borderRadius: 28,
+          overflow: 'hidden',
+        }}
+      >
         <img
           src={service.img}
           alt=""
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />
-        {/* Gradient: dark left (text) → lighter right (image shows) */}
+        {/* Gradient: dark left → lighter right */}
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(90deg, rgba(12,12,12,0.9) 0%, rgba(12,12,12,0.65) 45%, rgba(12,12,12,0.35) 100%)',
+          background: 'linear-gradient(90deg, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.6) 45%, rgba(10,10,10,0.28) 100%)',
         }} />
       </div>
 
       {/* Content row */}
-      <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 14 }}>
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 12 }}>
         {/* Arrow — slides in on hover */}
         <span ref={arrowRef} style={{ color: '#fff', flexShrink: 0, lineHeight: 0 }}>
-          <ArrowSVG size={20} />
+          <ArrowSVG size={18} />
         </span>
         {/* Label */}
         <span
           ref={labelRef}
           style={{
-            fontSize: 'clamp(22px,3.2vw,46px)',
-            fontWeight: 700,
-            letterSpacing: '-0.03em',
-            lineHeight: 1,
+            fontSize: 'clamp(20px,3vw,44px)',
+            fontWeight: 600,
+            letterSpacing: '-0.025em',
+            lineHeight: 1.1,
             color: '#282828',
             willChange: 'color, transform',
           }}
@@ -163,7 +167,7 @@ export default function Services() {
           {/* "Our [img] Services" */}
           <h2 style={{
             fontSize: 'clamp(48px,7vw,100px)',
-            fontWeight: 700,
+            fontWeight: 600,
             letterSpacing: '-0.03em',
             lineHeight: 1,
             color: '#282828',
@@ -192,11 +196,12 @@ export default function Services() {
             <span>Services</span>
           </h2>
 
-          {/* View All Services */}
+          {/* View All Services — slide-up hover, no color change */}
           <a
             href="/services/"
+            className="group"
             style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
+              display: 'inline-flex', alignItems: 'center',
               background: '#fff',
               border: '1px solid rgba(0,0,0,0.12)',
               color: '#282828',
@@ -205,13 +210,18 @@ export default function Services() {
               borderRadius: 999,
               textDecoration: 'none',
               whiteSpace: 'nowrap',
-              transition: 'background 0.25s, color 0.25s',
               flexShrink: 0,
+              overflow: 'hidden',
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#282828'; e.currentTarget.style.color = '#fff'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = '#282828'; }}
           >
-            View All Services <ArrowSVG size={12} />
+            <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', gap: 8, overflow: 'hidden', lineHeight: 1.2 }}>
+              <span className="inline-flex items-center gap-2 transition-transform duration-300 group-hover:-translate-y-full" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                View All Services <ArrowSVG size={12} />
+              </span>
+              <span className="absolute inset-0 inline-flex items-center gap-2 translate-y-full transition-transform duration-300 group-hover:translate-y-0" aria-hidden="true" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                View All Services <ArrowSVG size={12} />
+              </span>
+            </span>
           </a>
         </motion.div>
 
@@ -226,7 +236,13 @@ export default function Services() {
         >
           {rows.map((row, rowIdx) => (
             <div key={rowIdx}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', position: 'relative' }}>
+                {/* Vertical column divider */}
+                <div style={{
+                  position: 'absolute', left: '50%', top: 0, bottom: 0,
+                  width: 1, background: 'rgba(0,0,0,0.10)',
+                  pointerEvents: 'none',
+                }} />
                 {row.map(service => (
                   <ServiceItem key={service.id} service={service} />
                 ))}
