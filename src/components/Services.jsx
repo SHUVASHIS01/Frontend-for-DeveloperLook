@@ -121,7 +121,7 @@ function ServiceItem({ service }) {
         style={{
           gridColumn: '1', gridRow: '1',
           position: 'relative', zIndex: 2,
-          padding: 'clamp(18px,2.4vw,32px) clamp(14px,2vw,24px)',
+          padding: 'clamp(14px,1.6vw,22px) clamp(12px,1.6vw,20px)',
           display: 'flex', alignItems: 'center', gap: 0,
         }}
       >
@@ -151,7 +151,7 @@ function ServiceItem({ service }) {
         <span
           ref={labelRef}
           style={{
-            fontSize: 'clamp(26px,3.4vw,52px)',
+            fontSize: 'clamp(22px,2.8vw,44px)',
             fontWeight: 500,
             letterSpacing: '-0.025em',
             lineHeight: 1,
@@ -172,7 +172,7 @@ function ServiceItem({ service }) {
           borderRadius: 9999,
           overflow: 'hidden',
           opacity: 0,
-          margin: '4px 0',
+          margin: '2px 0',
         }}
       >
         <img
