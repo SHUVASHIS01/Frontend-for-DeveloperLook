@@ -49,8 +49,8 @@ export default function ChasingMarquee() {
   const cursorRef    = useRef(null);
   const animRef      = useRef(null);
   const [hovered, setHovered]   = useState(false);
-  const mousePos = useRef({ x: 0, y: 0 });
-  const cursorPos = useRef({ x: 0, y: 0 });
+  const mousePos = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+  const cursorPos = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
 
   /* ── Marquee GSAP loop ── */
   useEffect(() => {
@@ -97,6 +97,8 @@ export default function ChasingMarquee() {
         gsap.set(cursorRef.current, {
           x: cursorPos.current.x,
           y: cursorPos.current.y,
+          xPercent: -50,
+          yPercent: -50,
         });
       }
     };
@@ -131,7 +133,6 @@ export default function ChasingMarquee() {
           zIndex: 9999,
           pointerEvents: 'none',
           opacity: 0,
-          transform: 'translate(-50%, -50%)',
           background: '#b2f6e3',
           color: '#121212',
           fontSize: 13,
