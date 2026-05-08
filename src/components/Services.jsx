@@ -121,15 +121,15 @@ function ServiceItem({ service }) {
         style={{
           gridColumn: '1', gridRow: '1',
           position: 'relative', zIndex: 2,
-          padding: 'clamp(14px,1.6vw,22px) clamp(12px,1.6vw,20px)',
+          padding: 'clamp(12px,1vw,16px) clamp(12px,1.2vw,18px)',
           display: 'flex', alignItems: 'center', gap: 0,
         }}
       >
         {/* Arrow container — overflow hidden clips the diagonal fly-in */}
         <div style={{
           position: 'relative',
-          width: 'clamp(22px,2.2vw,32px)',
-          height: 'clamp(22px,2.2vw,32px)',
+          width: 'clamp(18px,1.8vw,26px)',
+          height: 'clamp(18px,1.8vw,26px)',
           flexShrink: 0,
           overflow: 'hidden',
         }}>
@@ -151,7 +151,7 @@ function ServiceItem({ service }) {
         <span
           ref={labelRef}
           style={{
-            fontSize: 'clamp(22px,2.8vw,44px)',
+            fontSize: 'clamp(20px,2.5vw,40px)',
             fontWeight: 500,
             letterSpacing: '-0.025em',
             lineHeight: 1,
