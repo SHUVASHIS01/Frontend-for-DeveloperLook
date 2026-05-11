@@ -1,0 +1,319 @@
+/* ============================================================
+   responsive.css — Mobile (≤768px) & Tablet (≤1024px) overrides
+   All selectors target className attributes added to components
+   or existing IDs / data attributes already in the markup.
+   ============================================================ */
+
+/* ── Global ── */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+
+/* Alert bar: allow text to wrap on very small screens */
+@media (max-width: 768px) {
+  .navbar-alert {
+    font-size: 11px;
+    padding-left: 12px;
+    padding-right: 12px;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  /* Reduce header height a touch */
+  .navbar-header {
+    height: 60px !important;
+  }
+
+  /* CTA "Get in touch" is hidden below sm: already handled by hidden sm:inline-flex */
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 4px !important;
+  }
+
+  /* Reduce top/bottom padding inside the hero content */
+  .hero-content {
+    padding-top: 90px !important;
+    padding-bottom: 60px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Bottom-right offices: show on mobile but reduce size */
+  .hero-bottom-right {
+    font-size: 11px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+  }
+
+  /* Award badges row: reduce gaps */
+  .hero-award-badges {
+    gap: 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    padding-top: 80px !important;
+  }
+}
+
+/* ============================================================
+   BRANDS INTRO
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Stack "The agency behind" label above the logo strip */
+  .brands-top-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .brands-label {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    min-width: unset !important;
+  }
+
+  /* Logo strip: ensure it spans full width */
+  .brands-logo-strip {
+    width: 100% !important;
+    /* Remove mask on mobile so it looks clean */
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  /* Body two-col → single col (already grid-cols-1 below lg, but ensure padding) */
+  .brands-body {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Heading size min clamp floor is 40px; on mobile ensure no overflow */
+  .brands-heading {
+    font-size: clamp(32px, 8vw, 56px) !important;
+  }
+
+  /* Discovery image pill — shrink */
+  .brands-discovery-img {
+    width: clamp(36px, 6vw, 52px) !important;
+    height: clamp(36px, 6vw, 52px) !important;
+  }
+}
+
+/* ============================================================
+   FEATURED WORK
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Disable the GSAP sticky pin on mobile — just show cards stacked */
+  #featured-work {
+    height: auto !important;
+    min-height: unset !important;
+  }
+
+  /* fw-grid: already handles mobile via the <style> tag in the component,
+     but reinforce single-column layout */
+  .fw-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Left panel: reduce font size for client names */
+  .fw-client-name {
+    font-size: clamp(36px, 8vw, 60px) !important;
+  }
+
+  /* Right panel: reduce image height */
+  .fw-image-card {
+    height: clamp(220px, 50vw, 360px) !important;
+  }
+
+  /* Reduce section padding */
+  .fw-section {
+    padding: 16px 0 !important;
+  }
+
+  /* Dark card container margin */
+  .fw-container {
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .fw-client-name {
+    font-size: clamp(40px, 5vw, 72px) !important;
+  }
+}
+
+/* ============================================================
+   SERVICES
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Header row: stack title + button vertically */
+  .services-header {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* "View All Services" button: full width on mobile */
+  .services-view-all {
+    align-self: flex-start !important;
+  }
+
+  /* Service rows: 2-col → 1-col */
+  .services-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Service label: reduce size to prevent overflow */
+  .services-label {
+    font-size: clamp(24px, 6vw, 40px) !important;
+    white-space: normal !important;
+    line-height: 1.1 !important;
+  }
+
+  /* Reduce section padding */
+  #services {
+    padding-top: clamp(40px, 6vw, 60px) !important;
+    padding-bottom: clamp(40px, 6vw, 60px) !important;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .services-label {
+    font-size: clamp(28px, 3.5vw, 48px) !important;
+    white-space: normal !important;
+  }
+}
+
+/* ============================================================
+   CHASING MARQUEE
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Marquee text: reduce font size minimum */
+  .chasing-text {
+    font-size: clamp(48px, 10vw, 90px) !important;
+  }
+
+  /* Marquee image: reduce size */
+  .chasing-img {
+    width: clamp(56px, 12vw, 96px) !important;
+    height: clamp(56px, 12vw, 96px) !important;
+  }
+
+  /* Section: reduce padding */
+  .chasing-section-wrap {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+}
+
+/* ============================================================
+   WHY US — carousel card width handled inline in WhyUs.jsx
+   ============================================================ */
+
+/* ============================================================
+   WHATS NEW
+   ============================================================ */
+@media (max-width: 768px) {
+  /* 3-col → horizontal scroll-snap carousel */
+  .whats-new-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 16px !important;
+    padding-bottom: 12px !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .whats-new-grid > * {
+    scroll-snap-align: center !important;
+    flex-shrink: 0 !important;
+    width: 80vw !important;
+    max-width: 340px !important;
+  }
+
+  /* Header row: stack title + button */
+  .whats-new-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+
+  /* "Explore More Thoughts" button: auto width */
+  .whats-new-cta {
+    white-space: normal !important;
+  }
+
+  #whats-new {
+    padding-top: clamp(40px, 6vw, 60px) !important;
+    padding-bottom: clamp(40px, 6vw, 60px) !important;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  /* 3-col → 2-col on tablet */
+  .whats-new-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Nav columns: ensure 2-up on small mobile, 3-up on larger mobile */
+  .footer-nav-cols {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px !important;
+    width: 100% !important;
+  }
+
+  /* Footer outer padding */
+  .footer-outer {
+    padding: 4px !important;
+  }
+
+  /* Giant wordmark: ensure no overflow */
+  .footer-wordmark {
+    overflow: hidden !important;
+  }
+
+  /* Bottom bar: stack on mobile */
+  .footer-bottom {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-nav-cols {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ============================================================
+   GENERAL OVERFLOW GUARD
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Prevent any section from busting layout */
+  section {
+    max-width: 100vw;
+  }
+}

@@ -1,4 +1,5 @@
 import './index.css'
+import './responsive.css'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import BrandsIntro from './components/BrandsIntro'
@@ -6,8 +7,8 @@ import FeaturedWork from './components/FeaturedWork'
 import Services from './components/Services'
 import ChasingMarquee from './components/ChasingMarquee'
 import WhyUs from './components/WhyUs'
-import ScrollRevealText from './components/ScrollRevealText'
 import WhatsNew from './components/WhatsNew'
+import ReadyToScroll from './components/ReadyToScroll'
 import Footer from './components/Footer'
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
         <ChasingMarquee />
         <WhyUs />
         <WhatsNew />
-        <ScrollRevealText />
+        <ReadyToScroll />
       </main>
       <Footer />
     </div>

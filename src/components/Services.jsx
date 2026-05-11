@@ -59,8 +59,8 @@ const ArrowSVG = ({ size = 14 }) => (
 /*
   Matches the real site's exact hover mechanic:
   - Arrow: absolute, starts at (-100%, 100%, -45deg) → (0, 0, 0deg) on hover
-  - Label: always x:40 on desktop, shifts to x:56 on hover, turns white
-  - Background: full pill (border-radius 9999px), image at opacity 0.6, slight scale on hover
+  - Label: always starts at x:0, shifts to x:48 on hover, turns white
+  - Background: full pill (border-radius 9999px), image at opacity 0.45, black base
   - Color transition on the content row via GSAP
 */
 function ServiceItem({ service }) {
@@ -78,20 +78,20 @@ function ServiceItem({ service }) {
     // Initial states
     gsap.set(bgRef.current,    { opacity: 0 });
     gsap.set(arrowRef.current, { x: '-100%', y: '100%', rotation: -45 });
-    gsap.set(labelRef.current, { x: 40, color: '#282828' });
+    gsap.set(labelRef.current, { x: 0, color: '#282828' });
 
     const onEnter = () => {
       gsap.to(bgRef.current,    { opacity: 1, duration: 0.5, ease: 'power2.out' });
       gsap.to(imgRef.current,   { scale: 1.05, duration: 0.65, ease: 'power2.out' });
       gsap.to(arrowRef.current, { x: '0%', y: '0%', rotation: 0, duration: 0.42, ease: 'power3.out' });
-      gsap.to(labelRef.current, { x: 56, color: '#ffffff', duration: 0.4, ease: 'power2.out' });
+      gsap.to(labelRef.current, { x: 48, color: '#ffffff', duration: 0.4, ease: 'power2.out' });
     };
 
     const onLeave = () => {
       gsap.to(bgRef.current,    { opacity: 0, duration: 0.45, ease: 'power2.out' });
       gsap.to(imgRef.current,   { scale: 1, duration: 0.5, ease: 'power2.out' });
       gsap.to(arrowRef.current, { x: '-100%', y: '100%', rotation: -45, duration: 0.35, ease: 'power2.in' });
-      gsap.to(labelRef.current, { x: 40, color: '#282828', duration: 0.35, ease: 'power2.out' });
+      gsap.to(labelRef.current, { x: 0, color: '#282828', duration: 0.35, ease: 'power2.out' });
     };
 
     el.addEventListener('mouseenter', onEnter);
@@ -118,17 +118,18 @@ function ServiceItem({ service }) {
         ref={contentRef}
         style={{
           position: 'relative', zIndex: 2,
-          padding: 'clamp(12px,1vw,16px) clamp(12px,1.2vw,18px)',
-          display: 'flex', alignItems: 'center', gap: 0,
+          padding: 'clamp(12px,1vw,16px) 0', // No horizontal padding so it aligns exactly left
+          display: 'flex', alignItems: 'center',
         }}
       >
-        {/* Arrow container — overflow hidden clips the diagonal fly-in */}
+        {/* Arrow container — absolute so it doesn't push the text container! */}
         <div style={{
-          position: 'relative',
-          width: 'clamp(18px,1.8vw,26px)',
-          height: 'clamp(18px,1.8vw,26px)',
-          flexShrink: 0,
+          position: 'absolute',
+          left: 0,
+          width: 'clamp(24px,2.5vw,36px)',
+          height: 'clamp(24px,2.5vw,36px)',
           overflow: 'hidden',
+          pointerEvents: 'none', // text catches hover
         }}>
           <span
             ref={arrowRef}
@@ -140,20 +141,23 @@ function ServiceItem({ service }) {
               width: '100%', height: '100%',
             }}
           >
-            <ArrowSVG size={20} />
+            <ArrowSVG size={24} />
           </span>
         </div>
 
-        {/* Label — starts offset x:40, shifts to x:56 on hover */}
+        {/* Label — starts offset x:0, shifts to x:48 on hover */}
         <span
           ref={labelRef}
+          className="services-label"
           style={{
-            fontSize: 'clamp(20px,2.5vw,40px)',
+            position: 'relative', // for z-index just in case
+            fontSize: 'clamp(30px,3.5vw,60px)',
             fontWeight: 500,
             letterSpacing: '-0.025em',
             lineHeight: 1,
             color: '#282828',
             willChange: 'color, transform',
+            whiteSpace: 'nowrap', // ALWAYS single line
           }}
         >
           {service.label}
@@ -170,6 +174,7 @@ function ServiceItem({ service }) {
           overflow: 'hidden',
           opacity: 0,
           pointerEvents: 'none',
+          backgroundColor: '#000',
         }}
       >
         <img
@@ -180,7 +185,7 @@ function ServiceItem({ service }) {
             position: 'absolute', inset: 0,
             width: '100%', height: '100%',
             objectFit: 'cover', display: 'block',
-            opacity: 0.62,
+            opacity: 0.45,
             transformOrigin: 'center center',
           }}
         />
@@ -202,6 +207,7 @@ export default function Services() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: [0.135, 0.9, 0.15, 1] }}
+          className="services-header"
           style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', marginBottom: 24 }}
         >
           {/* "Our [img] Services" */}
@@ -287,20 +293,12 @@ export default function Services() {
         >
           {rows.map((row, rowIdx) => (
             <div key={rowIdx}>
-              {/* 2-column grid with gap-x-2 and vertical column divider */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 8px', position: 'relative' }}>
-                {/* Vertical column divider — inset 48px each side like the real site */}
-                <div style={{
-                  position: 'absolute', left: '50%', top: '12px', bottom: '12px',
-                  width: 1, background: 'rgba(0,0,0,0.10)',
-                  pointerEvents: 'none',
-                }} />
+              {/* 2-column grid with gap-x-2 */}
+              <div className="services-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 8px', position: 'relative' }}>
                 {row.map(service => (
                   <ServiceItem key={service.id} service={service} />
                 ))}
               </div>
-              {/* Row divider — inset 48px each side matching real site's px-12 */}
-              <div style={{ height: 1, background: 'rgba(0,0,0,0.10)', margin: '0 48px' }} />
             </div>
           ))}
         </motion.div>

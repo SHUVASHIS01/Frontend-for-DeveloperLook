@@ -135,10 +135,10 @@ export default function BrandsAndIntro() {
     >
 
       {/* ══ TOP ROW: label + marquee on the same horizontal line ══ */}
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 'clamp(28px,4vw,52px)' }}>
+      <div className="brands-top-row" style={{ display: 'flex', alignItems: 'center', marginBottom: 'clamp(28px,4vw,52px)' }}>
 
         {/* "The agency behind" — fixed left label */}
-        <div style={{
+        <div className="brands-label" style={{
           flexShrink: 0,
           paddingLeft: 'clamp(16px,4vw,48px)',
           paddingRight: 20,
@@ -156,7 +156,7 @@ export default function BrandsAndIntro() {
         </div>
 
         {/* Scrolling logo strip — fills remaining width, images only */}
-        <div style={{
+        <div className="brands-logo-strip" style={{
           flex: 1,
           overflow: 'hidden',
           maskImage:
@@ -173,13 +173,13 @@ export default function BrandsAndIntro() {
       </div>
 
       {/* ══ BODY ══ */}
-      <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 clamp(16px,4vw,48px)' }}>
+      <div className="brands-body" style={{ maxWidth: 1400, margin: '0 auto', padding: '0 clamp(16px,4vw,48px)' }}>
 
         {/* Divider */}
         <div style={{ height: 1, background: 'rgba(0,0,0,0.10)', marginBottom: 'clamp(36px,5vw,64px)' }} />
 
         {/* ── Two-column grid: description LEFT · heading RIGHT ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start pb-20 lg:pb-28">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start pb-20 md:pb-28">
 
           {/* LEFT — description paragraph */}
           <motion.p
@@ -207,7 +207,7 @@ export default function BrandsAndIntro() {
             style={{ display: 'flex', flexDirection: 'column', gap: 28 }}
           >
             {/* Heading with inline image after "Discovery" */}
-            <h2 style={{
+            <h2 className="brands-heading" style={{
               fontSize: 'clamp(40px,5.5vw,90px)',
               fontWeight: 700,
               letterSpacing: '-0.03em',

@@ -95,7 +95,7 @@ export default function Hero() {
   );
 
   return (
-    <section className="bg-[#efeeec] p-2" style={{ marginTop: '-72px' }}>
+    <section className="hero-section bg-[#efeeec] p-2" style={{ marginTop: '-72px' }}>
       <div
         className="relative w-full overflow-hidden rounded-3xl bg-[#111212]"
         style={{ minHeight: '100svh' }}
@@ -116,7 +116,7 @@ export default function Hero() {
 
         {/* ── Main content ── */}
         <div
-          className="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-10"
+          className="hero-content relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-10"
           style={{ minHeight: '100svh', paddingTop: '120px', paddingBottom: '120px' }}
         >
           {/* Award strip */}
@@ -129,7 +129,7 @@ export default function Hero() {
             <p className="uppercase text-xs font-medium leading-tight tracking-tight max-w-52 text-balance text-center mb-3 text-white">
               #1 Most recommended content marketing agency
             </p>
-            <div className="flex items-center gap-x-3">
+            <div className="hero-award-badges flex items-center gap-x-3">
               <LaurelSVG />
               {/* Four award badges between the laurels */}
               <div className="flex items-center gap-x-4 sm:gap-x-5 px-4">
@@ -208,7 +208,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.7 }}
-          className="absolute bottom-6 right-5 sm:right-7 lg:right-8 z-10 text-right"
+          className="hero-bottom-right absolute bottom-6 right-5 sm:right-7 lg:right-8 z-10 text-right"
         >
           <p className="text-white text-sm leading-normal">
             <strong className="font-medium">4 Global Offices serving</strong><br />

@@ -57,8 +57,8 @@ const col1 = [
   { label: 'Meet The Risers',href: '/meet-the-team/' },
 ];
 const col2 = [
-  { label: 'Testimonials', href: '/testimonials/', highlight: true },
-  { label: 'Blog',         href: '/blog/' },
+  { label: 'Testimonials',    href: '/testimonials/' },
+  { label: 'Blog & Resources', href: '/blog/' },
   { label: 'Webinars',     href: '/webinars/' },
   { label: 'Careers',      href: '/careers/' },
 ];
@@ -99,7 +99,7 @@ export default function Footer() {
 
   return (
     /* Outer wrapper: p-2 matches the real site's card-with-padding style */
-    <footer id="footer" className="w-full p-2 bg-[#efeeec]">
+    <footer id="footer" className="w-full p-2 bg-[#efeeec]" style={{ position: 'relative', zIndex: 2 }}>
       <div className="w-full bg-[#111212] rounded-3xl overflow-hidden">
 
         {/* ── Main grid ── */}
@@ -154,7 +154,7 @@ export default function Footer() {
           </div>
 
           {/* Right: nav columns */}
-          <div className="flex justify-between col-span-12 flex-wrap md:flex-row md:col-span-11 lg:col-span-6 lg:col-start-6 gap-y-8">
+          <div className="footer-nav-cols flex justify-between col-span-12 flex-wrap md:flex-row md:col-span-11 lg:col-span-6 lg:col-start-6 gap-y-8">
 
             {/* Col 1 */}
             <div className="flex flex-col items-start gap-y-1.5 border-l border-white/20 pl-3 w-1/2 md:w-auto">
@@ -174,12 +174,12 @@ export default function Footer() {
           </div>
 
           {/* ── Giant wordmark ── */}
-          <div className="col-span-12 mt-10 lg:mt-32 text-white">
+          <div className="footer-wordmark col-span-12 mt-10 lg:mt-32 text-white">
             <RiseWordmark />
           </div>
 
           {/* ── Bottom bar ── */}
-          <div className="col-span-12 flex justify-between flex-col mt-4 items-start md:flex-row md:items-center lg:mt-2">
+          <div className="footer-bottom col-span-12 flex justify-between flex-col mt-4 items-start md:flex-row md:items-center lg:mt-2">
 
             <div className="flex gap-x-2 gap-y-1 flex-wrap items-center">
               {[

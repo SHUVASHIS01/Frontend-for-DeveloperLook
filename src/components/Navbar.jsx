@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-/* ── Rise at Seven SVG wordmark (exact paths from source) ──────────────────── */
+/* ── Rise at Seven SVG wordmark ──────────────────────────────────────────── */
 const RiseLogo = ({ className = '' }) => (
   <svg className={`w-full h-full object-contain fill-current ${className}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 21" fill="none">
     <path d="M91.3152 5.40061C91.3152 3.94241 92.5306 2.67359 93.9881 2.67359C95.7162 2.67359 96.797 3.83419 96.797 5.56225H99.7127C99.7127 2.1873 97.3096 0 93.9874 0C90.9371 0 88.3988 2.32257 88.3988 5.42766C88.3988 9.31596 90.883 10.2344 93.9874 11.4221C95.6627 12.07 97.2007 12.5563 97.2007 14.6895C97.2007 16.634 95.9867 18.0651 93.9874 18.0651C91.8813 18.0651 90.7477 16.3905 90.7477 14.446H87.832C87.832 18.0651 90.3426 20.7381 93.9874 20.7381C97.6323 20.7381 100.118 18.2816 100.118 14.6895C100.118 7.10161 91.3145 9.64061 91.3145 5.40061H91.3152Z"/>
@@ -19,116 +19,229 @@ const RiseLogo = ({ className = '' }) => (
   </svg>
 );
 
+/* ── Navigation Data ─────────────────────────────────────────────────────── */
 const navLinks = [
   {
     label: 'Services', key: 'services', href: '/services/', hasDropdown: true,
-    items: [
-      { label: 'Search & Growth Strategy', href: '/services/strategy-growth/' },
-      { label: 'Onsite SEO',               href: '/services/onsite-seo/' },
-      { label: 'Content Experience',        href: '/services/content-experience/' },
-      { label: 'B2B Marketing',             href: '/services/b2b-marketing/' },
-      { label: 'Digital PR',                href: '/services/digital-pr/' },
-      { label: 'Social Media & Campaigns',  href: '/services/social/' },
-      { label: 'Data & Insights',           href: '/services/data-insights/' },
-      { label: 'Social SEO/Search',         href: '/services/social-seo-tiktok-youtube/' },
-    ],
+    megaTitle: 'Core Services',
+    menuWidth: 960,
+    columns: 2,
     viewAll: { label: 'View All Services', href: '/services/' },
-    mega: true,
+    items: [
+      { label: 'Search & Growth Strategy', href: '/services/strategy-growth/', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80' },
+      { label: 'Onsite SEO', href: '/services/onsite-seo/', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80' },
+      { label: 'Content Experience', href: '/services/content-experience/', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80' },
+      { label: 'B2B Marketing', href: '/services/b2b-marketing/', image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80' },
+      { label: 'Digital PR', href: '/services/digital-pr/', image: 'https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?w=600&q=80' },
+      { label: 'Social Media & Campaigns', href: '/services/social/', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&q=80' },
+      { label: 'Data & Insights', href: '/services/data-insights/', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80' },
+      { label: 'Social SEO/Search', href: '/services/social-seo-tiktok-youtube/', image: 'https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=600&q=80' },
+    ],
+  },
+  {
+    label: 'Industries', key: 'industries', href: '/industries/', hasDropdown: true,
+    menuWidth: 680,
+    columns: 1,
+    viewAll: { label: 'View All Industries', href: '/industries/' },
+    items: [
+      { label: 'Retail', href: '/industries/retail/', image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80' },
+      { label: 'Travel', href: '/industries/travel/', image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80' },
+      { label: 'Finance', href: '/industries/finance/', image: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=80' },
+      { label: 'Automotive', href: '/industries/automotive/', image: 'https://images.unsplash.com/photo-1503376713246-815259e86798?w=600&q=80' },
+    ],
   },
   {
     label: 'International', key: 'international', href: '/international/', hasDropdown: true,
+    menuWidth: 680,
+    columns: 1,
+    viewAll: { label: 'View All Regions', href: '/international/' },
     items: [
-      { label: 'US Digital PR',          href: '/international/us-digital-pr/' },
-      { label: 'Spain Digital PR',       href: '/spain-digital-pr/' },
-      { label: 'Germany Digital PR',     href: '/germany-digital-pr/' },
-      { label: 'Netherlands Digital PR', href: '/netherlands-digital-pr/' },
+      { label: 'US Digital PR', href: '/international/us-digital-pr/', image: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=600&q=80' },
+      { label: 'Spain Digital PR', href: '/spain-digital-pr/', image: 'https://images.unsplash.com/photo-1539037116277-4db20202d03e?w=600&q=80' },
+      { label: 'Germany Digital PR', href: '/germany-digital-pr/', image: 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc?w=600&q=80' },
+      { label: 'Netherlands Digital PR', href: '/netherlands-digital-pr/', image: 'https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=600&q=80' },
     ],
   },
   {
     label: 'About', key: 'about', href: '/about/', hasDropdown: true,
+    menuWidth: 680,
+    columns: 1,
+    viewAll: { label: 'Discover More', href: '/about/' },
     items: [
-      { label: 'About Us',        href: '/about/' },
-      { label: 'Meet The Risers', href: '/meet-the-team/' },
-      { label: 'Culture',         href: '/culture/' },
-      { label: 'Testimonials',    href: '/testimonials/' },
+      { label: 'About Us', href: '/about/', image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80' },
+      { label: 'Meet The Risers', href: '/meet-the-team/', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&q=80' },
+      { label: 'Culture', href: '/culture/', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80' },
+      { label: 'Testimonials', href: '/testimonials/', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&q=80' },
     ],
   },
-  { label: 'Work',    key: 'work',    href: '/work/',     badge: '25' },
+  { label: 'Work', key: 'work', href: '/work/', badge: '25' },
   { label: 'Careers', key: 'careers', href: '/careers/' },
-  { label: 'Blog',    key: 'blog',    href: '/blog/' },
+  {
+    label: 'Blog & Resources', key: 'blog', href: '/blog/', hasDropdown: true,
+    menuWidth: 680,
+    columns: 1,
+    viewAll: { label: 'View All Posts', href: '/blog/' },
+    items: [
+      { label: 'Blog', href: '/blog/', image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80' },
+      { label: 'Category Leaderboard', href: '/blog/guides/', image: 'https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&q=80' },
+      { label: 'Multi-Channel Search Report', href: '/webinars/', image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&q=80' },
+    ],
+  },
   { label: 'Webinar', key: 'webinar', href: '/webinars/' },
 ];
 
-/* ── Services mega-menu ───────────────────────────────────────────────────── */
-function ServicesMegaMenu({ items, viewAll }) {
+/* ── Dynamic Mega Menu ───────────────────────────────────────────────────── */
+function MegaMenu({ link }) {
+  const { items, viewAll, megaTitle, menuWidth, columns } = link;
+  const [hoveredImage, setHoveredImage] = useState(items[0]?.image);
+
+  // Reset image when switching dropdowns
+  useEffect(() => {
+    setHoveredImage(items[0]?.image);
+  }, [link.key]);
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 8 }}
-      transition={{ duration: 0.18, ease: [0.135, 0.9, 0.15, 1] }}
-      className="absolute top-full mt-2 z-50"
-      style={{ left: '50%', transform: 'translateX(-30%)' }}
+      initial={{ opacity: 0, y: 10, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 10, scale: 0.98 }}
+      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      className="absolute top-full mt-2 z-50 left-1/2 -translate-x-1/2 origin-top"
+      style={{ width: `${menuWidth}px` }}
     >
-      <div className="bg-white rounded-3xl shadow-2xl border border-black/6 overflow-hidden flex" style={{ width: '720px' }}>
-        <div className="flex-1 p-8 pt-7">
-          <p className="text-[#282828]/40 text-[10px] font-semibold uppercase tracking-[0.18em] mb-5">Core Services</p>
-          <div className="grid grid-cols-2 gap-x-6 gap-y-3">
+      <div className="bg-white rounded-[28px] shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-black/5 flex overflow-hidden min-h-[340px]">
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.05, delayChildren: 0.1 } }
+          }}
+          className={`flex-1 p-10 pt-8 ${columns === 1 ? 'flex flex-col justify-center' : ''}`}
+        >
+          {megaTitle && (
+            <motion.p 
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1, transition: { duration: 0.4 } }
+              }}
+              className="text-[#282828]/50 text-xs font-semibold uppercase tracking-wider mb-6"
+            >
+              {megaTitle}
+            </motion.p>
+          )}
+          <div className={`grid gap-x-8 gap-y-4 ${columns === 2 ? 'grid-cols-2' : 'grid-cols-1'}`}>
             {items.map(item => (
               <a key={item.label} href={item.href}
-                className="text-[#282828] text-sm font-medium leading-snug hover:text-[#282828]/50 transition-colors duration-300">
-                {item.label}
+                onMouseEnter={() => setHoveredImage(item.image)}
+                className={`group block overflow-hidden py-0.5 ${
+                  columns === 2 ? 'text-[17px]' : 'text-[28px] leading-[1.1]'
+                }`}
+              >
+                <motion.div
+                  variants={{
+                    hidden: { y: '120%' },
+                    visible: { y: '0%', transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+                  }}
+                  className="relative block overflow-hidden"
+                >
+                  <span className="block text-[#121212] font-semibold tracking-tight transition-transform duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-full">
+                    {item.label}
+                  </span>
+                  <span className="absolute inset-0 block text-[#282828]/50 font-semibold tracking-tight transition-transform duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)] translate-y-full group-hover:translate-y-0">
+                    {item.label}
+                  </span>
+                </motion.div>
               </a>
             ))}
           </div>
-        </div>
-        <div className="relative w-[270px] flex-shrink-0">
-          <img src="https://rise-atseven.transforms.svdcdn.com/production/images/Rise-Team.jpg?w=580&q=85&fit=crop"
-            onError={e => { e.target.src = 'https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=580&q=85&fit=crop'; }}
-            alt="Rise at Seven team" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-          <div className="absolute bottom-5 left-4 right-4">
-            <a href={viewAll.href}
-              className="flex items-center justify-center gap-2 bg-[#121212] text-white text-sm font-medium px-5 py-3 rounded-full w-full hover:bg-[#282828] transition-colors duration-300">
-              {viewAll.label} ↗
-            </a>
-          </div>
+        </motion.div>
+        
+        <div className="relative w-[340px] flex-shrink-0 p-3">
+           <div className="w-full h-full relative rounded-[20px] overflow-hidden bg-gray-100">
+              <AnimatePresence initial={false}>
+                <motion.img
+                  key={hoveredImage}
+                  src={hoveredImage}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.4 }}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </AnimatePresence>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity duration-300 hover:opacity-100" />
+              
+              <div className="absolute bottom-5 left-5 right-5">
+                <a href={viewAll.href}
+                  className="group flex items-center justify-center gap-2 bg-[#121212] text-white text-[13px] font-semibold px-5 py-3.5 rounded-full w-full hover:bg-black transition-all duration-300 hover:scale-105">
+                  <div className="relative overflow-hidden flex items-center">
+                    <span className="flex items-center gap-1 transition-transform duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-full">
+                      {viewAll.label} <span className="text-[10px] mt-0.5">↗</span>
+                    </span>
+                    <span className="absolute inset-0 flex items-center justify-center gap-1 transition-transform duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)] translate-y-full group-hover:translate-y-0 text-white">
+                      {viewAll.label} <span className="text-[10px] mt-0.5">↗</span>
+                    </span>
+                  </div>
+                </a>
+              </div>
+           </div>
         </div>
       </div>
     </motion.div>
   );
 }
 
-/* ── Small dropdown ───────────────────────────────────────────────────────── */
-function Dropdown({ items }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 6, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 6, scale: 0.98 }}
-      transition={{ duration: 0.15, ease: [0.135, 0.9, 0.15, 1] }}
-      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white shadow-xl rounded-2xl overflow-hidden min-w-[210px] z-50 border border-black/5"
-    >
-      {items.map(item => (
-        <a key={item.label} href={item.href}
-          className="block px-5 py-3 text-sm font-medium text-[#282828] hover:bg-[#efeeec] transition-colors border-b border-black/5 last:border-0">
-          {item.label}
-        </a>
-      ))}
-    </motion.div>
-  );
-}
+/* ── Chevron icon ────────────────────────────────────────────────────────── */
+const ChevronDown = ({ isOpen }) => (
+  <svg
+    width={18} height={18} viewBox="0 0 18 18" fill="none"
+    stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round"
+    style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease' }}
+  >
+    <path d="M4 7l5 5 5-5" />
+  </svg>
+);
 
 /* ── Navbar ───────────────────────────────────────────────────────────────── */
 export default function Navbar() {
   const [scrolled,       setScrolled]       = useState(false);
+  const [hidden,         setHidden]         = useState(false);
   const [mobileOpen,     setMobileOpen]     = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileExpanded, setMobileExpanded] = useState(null);
+  
   const hoverTimeout = useRef(null);
+  const lastScrollY = useRef(0);
 
+  // Scroll detection for Smart Sticky Header
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    let lastScrollYVal = window.scrollY;
+    let ticking = false;
+
+    const updateScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 10);
+
+      if (currentScrollY <= 150) {
+        setHidden(false); // Always show when near the top
+      } else if (currentScrollY > lastScrollYVal + 5) {
+        setHidden(true);  // Scrolling down
+      } else if (currentScrollY < lastScrollYVal - 5) {
+        setHidden(false); // Scrolling up
+      }
+
+      lastScrollYVal = currentScrollY > 0 ? currentScrollY : 0;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScroll);
+        ticking = true;
+      }
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -139,9 +252,10 @@ export default function Navbar() {
   }, [mobileOpen]);
 
   const openDropdown  = (key) => { clearTimeout(hoverTimeout.current); setActiveDropdown(key); };
-  const closeDropdown = ()    => { hoverTimeout.current = setTimeout(() => setActiveDropdown(null), 120); };
+  const closeDropdown = ()    => { hoverTimeout.current = setTimeout(() => setActiveDropdown(null), 150); };
 
   const onDark = !scrolled;
+  const activeLink = activeDropdown ? navLinks.find(l => l.key === activeDropdown) : null;
 
   return (
     <>
@@ -149,17 +263,21 @@ export default function Navbar() {
       <div className="pt-2.5 px-2.5 w-full bg-[#efeeec]">
         <a
           href="/multi-channel-search-report-2026-/"
-          className="flex justify-center items-center text-xs w-full py-2 px-5 text-center tracking-tight leading-none font-semibold rounded-2xl bg-[#b2f6e3] text-[#121212] hover:rounded-md transition-all duration-300"
+          className="navbar-alert flex justify-center items-center text-xs w-full py-2 px-5 text-center tracking-tight leading-none font-semibold rounded-2xl bg-[#b2f6e3] text-[#121212] hover:rounded-md transition-all duration-300"
         >
           🚨 Where are your customers actually searching? Download the report
         </a>
       </div>
 
-      {/* ── Sticky header ── */}
-      <header className="sticky top-0 z-50">
-        {/* Nav pill */}
+      {/* ── Sticky Smart Header ── */}
+      <header 
+        className={`w-full sticky top-0 z-50 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          hidden ? '-translate-y-[150%]' : 'translate-y-0'
+        }`}
+        onMouseLeave={closeDropdown}
+      >
         <div className={`w-full flex items-center justify-between relative z-20 px-4 transition-all duration-700 lg:px-3 lg:rounded-full ${
-          scrolled ? 'bg-white/60 backdrop-blur-lg' : ''
+          scrolled ? 'bg-white/60 backdrop-blur-md shadow-sm border-b lg:border border-black/5' : ''
         }`} style={{ height: '72px' }}>
 
           {/* Logo */}
@@ -171,57 +289,57 @@ export default function Navbar() {
           </a>
 
           {/* Desktop nav links */}
-          <div className="relative ml-6 hidden lg:inline-flex" onMouseLeave={closeDropdown}>
-            {/* Sliding bg pill */}
-            <div className={`absolute top-0 left-0 h-full rounded-full pointer-events-none transition-all duration-300 bg-[#f7f7f7] opacity-0 ${activeDropdown ? 'opacity-100' : ''}`}
-              id="hover-bg" />
-
-            {navLinks.map((link) => (
-              <div key={link.key} className="z-10 relative">
-                <a
-                  href={link.href}
-                  onMouseEnter={() => link.hasDropdown ? openDropdown(link.key) : openDropdown(null)}
-                  className={`inline-flex items-center tracking-tight leading-tight py-2 font-medium relative duration-300 px-4 transition-colors ${
-                    onDark
-                      ? activeDropdown === link.key ? 'text-[#121212]' : 'text-white hover:text-white/70'
-                      : 'text-[#121212] hover:text-[#121212]/60'
-                  }`}
-                >
-                  {link.label}
-                  {link.hasDropdown && <span className="ml-1 text-xs">+</span>}
-                  {link.badge && (
-                    <span className={`absolute -top-1 right-0 translate-x-1/2 bg-[#b2f6e3] text-[#121212] text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none transition-transform duration-300`}>
-                      {link.badge}
-                    </span>
+          <div className="relative ml-6 hidden lg:inline-flex items-center gap-1">
+            {navLinks.map((link) => {
+              const isActive = activeDropdown === link.key;
+              return (
+                <div key={link.key} className="z-10 relative" onMouseEnter={() => openDropdown(link.key)}>
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-pill"
+                      className={`absolute inset-0 rounded-full z-[-1] ${onDark ? 'bg-white' : 'bg-[#efeeec]'}`}
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
                   )}
-                </a>
-                <AnimatePresence>
-                  {activeDropdown === link.key && link.hasDropdown && (
-                    link.mega
-                      ? <ServicesMegaMenu items={link.items} viewAll={link.viewAll} />
-                      : <Dropdown items={link.items} />
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
+                  <a
+                    href={link.href}
+                    className={`inline-flex items-center tracking-tight leading-tight py-2.5 px-4 font-semibold relative duration-300 transition-colors ${
+                      isActive 
+                        ? 'text-[#121212]'
+                        : (onDark ? 'text-white hover:text-white/80' : 'text-[#121212] hover:text-[#121212]/60')
+                    }`}
+                  >
+                    {link.label}
+                    {link.hasDropdown && <span className="ml-1 text-[10px]">+</span>}
+                    {link.badge && (
+                      <span className={`absolute -top-1 right-0 translate-x-1/2 bg-[#b2f6e3] text-[#121212] text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none transition-transform duration-300`}>
+                        {link.badge}
+                      </span>
+                    )}
+                  </a>
+                </div>
+              );
+            })}
           </div>
 
           {/* CTA + hamburger */}
           <div className="flex items-center gap-2">
-            {/* On dark hero: white bg CTA. On light: dark bg CTA */}
             <a
               href="/connect-with-us/"
-              className={`hidden sm:inline-flex items-center gap-2 text-sm font-medium px-5 py-2.5 rounded-3xl border-0 transition-all duration-300 hover:rounded-xl ${
-                onDark
-                  ? 'bg-white text-[#121212] hover:bg-[#efeeec]'
-                  : 'bg-[#121212] text-white hover:bg-[#282828]'
+              className={`group hidden lg:inline-flex items-center gap-2 text-[14px] font-semibold px-6 py-2.5 rounded-3xl transition-all duration-300 hover:scale-105 shadow-sm border border-black/5 ${
+                onDark ? 'bg-white text-[#121212]' : 'bg-[#121212] text-white'
               }`}
             >
-              Get in touch
-              <span className="text-xs mt-0.5">↗</span>
+              <div className="relative overflow-hidden flex items-center">
+                <span className="flex items-center gap-1 transition-transform duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-full">
+                  Get in touch <span className="text-[10px] mt-0.5 font-bold">↗</span>
+                </span>
+                <span className={`absolute inset-0 flex items-center gap-1 transition-transform duration-[400ms] ease-[cubic-bezier(0.76,0,0.24,1)] translate-y-full group-hover:translate-y-0 ${onDark ? 'text-[#121212]' : 'text-white'}`}>
+                  Get in touch <span className="text-[10px] mt-0.5 font-bold">↗</span>
+                </span>
+              </div>
             </a>
 
-            {/* Hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className={`lg:hidden w-10 h-8 flex flex-col items-center justify-center gap-1.5 rounded transition-colors ${onDark ? 'text-white' : 'text-[#121212]'}`}
@@ -233,6 +351,13 @@ export default function Navbar() {
           </div>
         </div>
 
+        {/* ── Global Mega Menu Container ── */}
+        <AnimatePresence>
+          {activeLink && activeLink.hasDropdown && (
+            <MegaMenu link={activeLink} />
+          )}
+        </AnimatePresence>
+
         {/* ── Mobile menu ── */}
         <AnimatePresence>
           {mobileOpen && (
@@ -241,63 +366,144 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="fixed inset-0 z-50 p-2 backdrop-blur-sm lg:hidden"
+              style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 9999,
+                padding: 8,
+                backdropFilter: 'blur(6px)',
+                WebkitBackdropFilter: 'blur(6px)',
+              }}
             >
-              <div className="w-full h-full bg-[#111212]/90 rounded-3xl px-4 py-3 flex flex-col items-start justify-between overflow-y-auto">
-                {/* Top row */}
-                <div className="w-full">
-                  <div className="flex items-center justify-between mb-8 pt-2">
-                    <a href="/" className="w-32 text-white">
-                      <div style={{ aspectRatio: '168/21' }}><RiseLogo /></div>
-                    </a>
-                    <button onClick={() => setMobileOpen(false)}
-                      className="w-10 h-8 flex flex-col items-center justify-center gap-1.5">
-                      <span className="block w-5 h-0.5 bg-white rotate-45 translate-y-1.5" />
-                      <span className="block w-5 h-0.5 bg-white -rotate-45 -translate-y-0" />
-                    </button>
-                  </div>
+              {/* Dark card — full height inner container */}
+              <div style={{
+                width: '100%',
+                height: '100%',
+                background: 'rgba(14,14,14,0.97)',
+                borderRadius: 24,
+                display: 'flex',
+                flexDirection: 'column',
+                overflowY: 'auto',
+                padding: '16px 20px 24px',
+                boxSizing: 'border-box',
+              }}>
 
-                  <div className="flex flex-col gap-y-1">
-                    {navLinks.map(link => (
-                      <div key={link.key} className="w-full">
-                        <div className="flex items-center justify-between">
-                          <a href={link.href} className="text-white text-4xl tracking-tight font-medium leading-none md:text-5xl">
-                            {link.label}
-                          </a>
-                          {link.hasDropdown && (
-                            <button
-                              onClick={() => setMobileExpanded(mobileExpanded === link.key ? null : link.key)}
-                              className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs border border-white/40 transition"
-                            >
-                              {mobileExpanded === link.key ? '−' : '+'}
-                            </button>
-                          )}
-                        </div>
-                        <AnimatePresence>
-                          {mobileExpanded === link.key && link.items && (
-                            <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }}
-                              className="overflow-hidden">
-                              <div className="grid gap-y-1 py-4">
-                                {link.items.map(item => (
-                                  <a key={item.label} href={item.href}
-                                    className="inline-flex tracking-tight leading-tight font-medium text-white/70 text-xl hover:text-white">
-                                    {item.label}
-                                  </a>
-                                ))}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    ))}
-                  </div>
+                {/* ── Header: logo + close ── */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingBottom: 16,
+                  borderBottom: '1px solid rgba(255,255,255,0.08)',
+                }}>
+                  <a href="/" style={{ width: 120, color: '#fff', display: 'block' }}>
+                    <div style={{ aspectRatio: '168/21' }}><RiseLogo /></div>
+                  </a>
+                  <button
+                    onClick={() => setMobileOpen(false)}
+                    style={{
+                      width: 36, height: 36,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: 'transparent', border: 'none', cursor: 'pointer',
+                      color: '#ffffff', flexShrink: 0,
+                    }}
+                    aria-label="Close menu"
+                  >
+                    <svg width={18} height={18} viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round">
+                      <path d="M2 2l14 14M16 2L2 16" />
+                    </svg>
+                  </button>
                 </div>
 
-                {/* Bottom CTA */}
-                <a href="/connect-with-us/"
-                  className="mt-6 w-full flex items-center justify-center gap-2 bg-white text-[#121212] text-sm font-medium px-5 py-3.5 rounded-full">
-                  Get in touch ↗
-                </a>
+                {/* ── Nav items ── */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  flex: 1,
+                  borderBottom: '1px solid rgba(255,255,255,0.08)',
+                }}>
+                  {navLinks.map(link => (
+                    <div key={link.key} style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                      <div style={{
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        paddingTop: 14, paddingBottom: 14,
+                      }}>
+                        <a
+                          href={link.href}
+                          style={{
+                            color: '#ffffff',
+                            fontWeight: 700,
+                            lineHeight: 1,
+                            fontSize: 'clamp(36px,5.8vw,60px)',
+                            letterSpacing: '-0.02em',
+                            textDecoration: 'none',
+                          }}
+                        >
+                          {link.label}
+                        </a>
+                        {link.hasDropdown && (
+                          <button
+                            onClick={() => setMobileExpanded(mobileExpanded === link.key ? null : link.key)}
+                            style={{
+                              width: 34, height: 34, borderRadius: '50%',
+                              border: '1px solid rgba(255,255,255,0.25)',
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              color: 'rgba(255,255,255,0.65)',
+                              flexShrink: 0,
+                              background: 'transparent',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            <ChevronDown isOpen={mobileExpanded === link.key} />
+                          </button>
+                        )}
+                      </div>
+                      <AnimatePresence>
+                        {mobileExpanded === link.key && link.items && (
+                          <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }}
+                            style={{ overflow: 'hidden' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingBottom: 16, paddingLeft: 4 }}>
+                              {link.items.map(item => (
+                                <a key={item.label} href={item.href}
+                                  style={{
+                                    color: 'rgba(255,255,255,0.55)',
+                                    fontSize: 15,
+                                    letterSpacing: '-0.01em',
+                                    fontWeight: 500,
+                                    textDecoration: 'none',
+                                  }}>
+                                  {item.label}
+                                </a>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ))}
+                </div>
+
+                {/* ── Get In Touch CTA ── */}
+                <div style={{ paddingTop: 20, paddingBottom: 4 }}>
+                  <a
+                    href="/connect-with-us/"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      background: '#ffffff',
+                      color: '#121212',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      padding: '12px 22px',
+                      borderRadius: 999,
+                      textDecoration: 'none',
+                      letterSpacing: '-0.01em',
+                    }}
+                  >
+                    Get In Touch <span style={{ fontSize: 12 }}>↗</span>
+                  </a>
+                </div>
               </div>
             </motion.div>
           )}

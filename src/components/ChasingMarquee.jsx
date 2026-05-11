@@ -30,12 +30,12 @@ function MarqueeSet() {
 
   return (
     <>
-      <span style={textStyle}>Chasing Consumers</span>
-      <span style={imgStyle}>
+      <span className="chasing-text" style={textStyle}>Chasing Consumers</span>
+      <span className="chasing-img" style={imgStyle}>
         <img src={MARQUEE_IMG} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} draggable={false} />
       </span>
-      <span style={textStyle}>Not Algorithms</span>
-      <span style={imgStyle}>
+      <span className="chasing-text" style={textStyle}>Not Algorithms</span>
+      <span className="chasing-img" style={imgStyle}>
         <img src={MARQUEE_IMG} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} draggable={false} />
       </span>
     </>
@@ -161,6 +161,7 @@ export default function ChasingMarquee() {
       {/* Section — cursor:none on section + all children hides system cursor everywhere */}
       <section
         ref={sectionRef}
+        className="chasing-section-wrap"
         style={{
           background: '#efeeec',
           overflow: 'hidden',

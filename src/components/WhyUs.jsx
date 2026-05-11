@@ -50,7 +50,60 @@ const Arrow = () => (
 );
 
 /* ── Card ─────────────────────────────────────────────────────────────────── */
-function Card({ data }) {
+function Card({ data, variant = 'default' }) {
+  /* Mobile carousel variant — 4:3 image at top, text below */
+  if (variant === 'mobile') {
+    return (
+      <div style={{
+        background:    data.bg,
+        borderRadius:  20,
+        boxShadow:     '0 12px 40px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.08)',
+        display:       'flex',
+        flexDirection: 'column',
+        overflow:      'hidden',
+        width:         '100%',
+      }}>
+        {/* 4:3 image at top — full card width */}
+        <div style={{ width: '100%', aspectRatio: '4/3', overflow: 'hidden', flexShrink: 0 }}>
+          <img
+            src={data.img}
+            alt=""
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </div>
+
+        {/* Text content below image */}
+        <div style={{ padding: '20px 20px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textAlign: 'center' }}>
+          <h3 style={{
+            color:         data.textColor,
+            fontSize:      'clamp(26px,6vw,36px)',
+            fontWeight:    500,
+            letterSpacing: '-0.03em',
+            lineHeight:    1,
+            margin:        0,
+            width:         '100%',
+          }}>
+            {data.title}
+          </h3>
+          <p style={{ color: data.mutedColor, fontSize: 13, lineHeight: 1.6, margin: 0 }}>
+            {data.body1}
+          </p>
+          <p style={{ color: data.mutedColor, fontSize: 13, lineHeight: 1.6, margin: 0 }}>
+            {data.body2}
+          </p>
+          <a href="/about/" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 5,
+            color: data.textColor, fontSize: 12, fontWeight: 500,
+            textDecoration: 'none', opacity: 0.55, marginTop: 4,
+          }}>
+            Learn more <Arrow />
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  /* Default (desktop stacked) card */
   return (
     <div style={{
       background:     data.bg,
@@ -118,11 +171,16 @@ function Card({ data }) {
 
 /* ── Main component ───────────────────────────────────────────────────────── */
 export default function WhyUs() {
-  const sectionRef = useRef(null);
+  const desktopRef = useRef(null);  // GSAP pin target (desktop only)
   const wrapperRef = useRef(null);
   const cardRefs   = useRef([]);
 
+  // Skip GSAP on mobile AND tablet — only desktop (≥1024px) uses the stacked deck
+  const isSmall = typeof window !== 'undefined' && window.innerWidth < 1024;
+
   useEffect(() => {
+    if (isSmall) return;
+
     const ctx = gsap.context(() => {
       const cards = cardRefs.current.filter(Boolean);
       if (!cards.length) return;
@@ -130,24 +188,13 @@ export default function WhyUs() {
       const SCROLL_PER_CARD = window.innerHeight * 0.85;
       const TOTAL_SCROLL    = SCROLL_PER_CARD * cards.length;
 
-      /* ── Initial deck state — fanned left/right like a held hand of cards ──
-         card[0] (Pioneers)      : front/center, slight clockwise tilt
-         card[1] (Award Winning) : peeking LEFT, counter-clockwise tilt
-         card[2] (Speed)         : peeking RIGHT, more clockwise tilt         */
       gsap.set(cards[0], { zIndex: 3, rotation:  4, x:   0, y:  0, transformOrigin: 'center center' });
       gsap.set(cards[1], { zIndex: 2, rotation: -6, x: -32, y:  8, transformOrigin: 'center center' });
       gsap.set(cards[2], { zIndex: 1, rotation: 12, x:  32, y: 16, transformOrigin: 'center center' });
 
-      /* ── Single timeline bound to one ScrollTrigger ──
-         Using one timeline avoids per-property animation conflicts when
-         the same card's y is animated in multiple phases.
-
-         Timeline duration = 2 units (one unit per card-exit phase).
-         Phase 0→1 : Pioneers exits; Award Winning + Speed shift forward.
-         Phase 1→2 : Award Winning exits; Speed shifts forward.             */
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger:    sectionRef.current,
+          trigger:    desktopRef.current,
           start:      'top top',
           end:        `+=${TOTAL_SCROLL}`,
           pin:        true,
@@ -156,82 +203,109 @@ export default function WhyUs() {
         },
       });
 
-      /* ── Phase 1 — Pioneers slides straight up to stacked position ──
-         Award Winning + Speed fan in from left/right to take their positions  */
       tl.to(cards[0], { y: '-62%', x:  '6%', rotation:  6, ease: 'none', duration: 1 }, 0)
         .to(cards[1], { y:      0, x:    0,  rotation:  8, ease: 'none', duration: 1 }, 0)
         .to(cards[2], { y:     10, x:   14,  rotation: 12, ease: 'none', duration: 1 }, 0);
 
-      /* ── Phase 2 — Pioneers exits fully; Award Winning stacks up ── */
       tl.to(cards[0], { y: '-128%', x: '12%', ease: 'none', duration: 1 }, 1)
         .to(cards[1], { y:  '-62%', x:  '6%', rotation: 10, ease: 'none', duration: 1 }, 1)
         .to(cards[2], { y:       0, x:     0, rotation: 12, ease: 'none', duration: 1 }, 1);
 
-      /* ── Phase 3 — Award Winning exits fully; Speed stacks up ── */
       tl.to(cards[1], { y: '-128%', x: '12%', ease: 'none', duration: 1 }, 2)
         .to(cards[2], { y:  '-62%', x:  '6%', rotation: 14, ease: 'none', duration: 1 }, 2);
 
-    }, sectionRef);
+    }, desktopRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isSmall]);
+
+  /* ── Shared heading style ── */
+  const headingStyle = {
+    textAlign:     'center',
+    fontSize:      'clamp(24px,3vw,32px)',
+    fontWeight:    500,
+    color:         '#282828',
+    letterSpacing: '-0.03em',
+    lineHeight:    1,
+    margin:        0,
+  };
 
   return (
-    <section
-      ref={sectionRef}
-      style={{
-        background:     '#efeeec',
-        minHeight:      '100vh',
-        display:        'flex',
-        flexDirection:  'column',
-        alignItems:     'center',
-        justifyContent: 'center',
-        padding:        'clamp(60px,7vh,100px) clamp(16px,4vw,48px)',
-        overflow:       'hidden',
-      }}
-    >
-      {/* Heading */}
-      <div style={{
-        textAlign:    'center',
-        marginBottom: 'clamp(40px,6vh,72px)',
-        width:        '100%',
-      }}>
-        <h2 style={{
-          fontSize:      'clamp(20px,2vw,28px)',
-          fontWeight:    500,
-          color:         '#282828',
-          letterSpacing: '-0.02em',
-          lineHeight:    1,
-          margin:        0,
-        }}>
+    <section style={{ background: '#efeeec' }}>
+
+      {/* ── Mobile + Tablet carousel (< lg / < 1024px) ── */}
+      <div className="lg:hidden pt-10 pb-6 overflow-hidden">
+        <style>{`
+          .why-us-card-mobile { scroll-snap-align: center; flex-shrink: 0; width: 82vw; max-width: 340px; }
+          @media (min-width: 640px) { .why-us-card-mobile { width: 62vw; max-width: 520px; } }
+        `}</style>
+        <h2 style={{ ...headingStyle, marginBottom: 20, paddingLeft: 16, paddingRight: 16 }}>
           Legacy In The Making
         </h2>
+        <div style={{
+          display:                'flex',
+          overflowX:              'auto',
+          scrollSnapType:         'x mandatory',
+          gap:                    12,
+          paddingBottom:          20,
+          scrollbarWidth:         'none',
+          msOverflowStyle:        'none',
+          WebkitOverflowScrolling:'touch',
+          paddingLeft:            16,
+          paddingRight:           16,
+        }}>
+          {CARDS.map((card) => (
+            <div key={card.id} className="why-us-card-mobile">
+              <Card data={card} variant="mobile" />
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Stacked card deck — first card is relative (sets wrapper height),
-          the rest are absolute (overlaid on top) */}
+      {/* ── Desktop stacked GSAP deck (lg+ / ≥1024px) ── */}
       <div
-        ref={wrapperRef}
+        ref={desktopRef}
+        className="hidden lg:flex"
         style={{
-          position: 'relative',
-          width:    'clamp(340px,52vw,660px)',
+          background:     '#efeeec',
+          minHeight:      '100vh',
+          flexDirection:  'column',
+          alignItems:     'center',
+          justifyContent: 'center',
+          padding:        'clamp(60px,7vh,100px) clamp(16px,4vw,48px)',
+          overflow:       'hidden',
         }}
       >
-        {CARDS.map((card, i) => (
-          <div
-            key={card.id}
-            ref={el => { cardRefs.current[i] = el; }}
-            style={{
-              position:    i === 0 ? 'relative' : 'absolute',
-              top:         0,
-              left:        0,
-              right:       0,
-              willChange:  'transform',
-            }}
-          >
-            <Card data={card} />
-          </div>
-        ))}
+        {/* Heading */}
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(40px,6vh,72px)', width: '100%' }}>
+          <h2 style={{ ...headingStyle, fontSize: 'clamp(20px,2vw,28px)' }}>
+            Legacy In The Making
+          </h2>
+        </div>
+
+        {/* Stacked card deck */}
+        <div
+          ref={wrapperRef}
+          className="why-us-wrapper"
+          style={{ position: 'relative', width: 'clamp(340px,52vw,660px)' }}
+        >
+          {CARDS.map((card, i) => (
+            <div
+              key={card.id}
+              ref={el => { cardRefs.current[i] = el; }}
+              className="why-us-card-slot"
+              style={{
+                position:  i === 0 ? 'relative' : 'absolute',
+                top:       0,
+                left:      0,
+                right:     0,
+                willChange:'transform',
+              }}
+            >
+              <Card data={card} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
