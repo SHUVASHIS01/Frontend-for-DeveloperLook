@@ -1,240 +1,496 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const workItems = [
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── Work data ───────────────────────────────────────────────────────────── */
+const WORK = [
   {
-    id: 'sixt',
-    category: 'Car rental',
-    period: '[2023-2025]',
-    client: 'SIXT',
-    href: '/work/sixt/',
-    img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80&fit=crop',
-    result: 'An extra 3m clicks regionally through SEO',
+    id:         'sixt',
+    client:     'SIXT',
+    period:     '[2023–2025]',
+    category:   'Car rental',
+    result:     'An extra 3m clicks regionally through SEO',
+    href:       '/work/sixt/',
+    img:        'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1400&q=85&fit=crop',
+    overlayBg:  '#c8702a',
   },
   {
-    id: 'dojo',
-    category: 'Card Machines',
-    period: '[2021-2025]',
-    client: 'Dojo – B2B',
-    href: '/work/dojo/',
-    img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80&fit=crop',
-    result: 'A B2B success story for Dojo card machines',
+    id:         'dojo',
+    client:     'Dojo – B2B',
+    period:     '[2021–2025]',
+    category:   'Card Machines',
+    result:     'A B2B success story for Dojo card machines',
+    href:       '/work/dojo/',
+    img:        'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1400&q=85&fit=crop',
+    overlayBg:  '#5bbfb5',
   },
   {
-    id: 'magnet',
-    category: '',
-    period: '[2023-2024]',
-    client: 'Magnet Trade – B2B',
-    href: '/work/magnet-trade-b2b/',
-    img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80&fit=crop',
-    result: 'A full service SEO success story 170%+ increase',
+    id:         'magnet',
+    client:     'Magnet',
+    period:     '[2023–2024]',
+    category:   'Kitchen',
+    result:     'Full-service SEO success story — 170%+ increase',
+    href:       '/work/magnet-trade-b2b/',
+    img:        'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1400&q=85&fit=crop',
+    overlayBg:  '#3a3a5c',
   },
   {
-    id: 'esim',
-    category: 'Esims',
-    period: '[2023-2025]',
-    client: 'Leading E Sim brand globally',
-    href: '/work/esim-case-study/',
-    img: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80&fit=crop',
-    result: 'Increasing brand and non brand visibility UK/ES',
+    id:         'jd',
+    client:     'JD Sports',
+    period:     '[2025]',
+    category:   'Trainers',
+    result:     '65% up YoY in clicks for JDSports FR, IT, ES',
+    href:       '/work/jd-sports-/',
+    img:        'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1400&q=85&fit=crop',
+    overlayBg:  '#c8a020',
   },
   {
-    id: 'jd',
-    category: 'Trainers',
-    period: '[2025]',
-    client: 'JD Sports',
-    href: '/work/jd-sports-/',
-    img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80&fit=crop',
-    result: '65% up YoY in clicks for JDSports FR, IT, ES',
-  },
-  {
-    id: 'parkdean1',
-    category: 'Easter Breaks',
-    period: '[2019-2025]',
-    client: 'Parkdean Resorts',
-    href: '/work/parkdean-resorts-easter-breaks/',
-    img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80&fit=crop',
-    result: 'Dominating Google and AI search',
-  },
-  {
-    id: 'pooky',
-    category: 'Rechargeable Lights',
-    period: '[2025]',
-    client: 'Pooky',
-    href: '/work/pooky/',
-    img: 'https://images.unsplash.com/photo-1513506003901-1e6a35eb4d55?w=800&q=80&fit=crop',
-    result: 'Driving demand for Pooky Rechargeable Lights',
-  },
-  {
-    id: 'parkdean2',
-    category: 'UK holidays',
-    period: '[2019-2025]',
-    client: 'Parkdean Resorts',
-    href: '/work/parkdean-resorts-social-search/',
-    img: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80&fit=crop',
-    result: 'Social search and multi channel content to #1',
-  },
-  {
-    id: 'revolution',
-    category: 'Beauty Dupes',
-    period: '[2022-2025]',
-    client: 'Revolution Beauty',
-    href: '/work/revolution-beauty/',
-    img: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80&fit=crop',
-    result: "Building the UK's leading beauty dupe brand",
-  },
-  {
-    id: 'lloyds',
-    category: 'STI tests',
-    period: '[2022-23]',
-    client: 'Lloyds Pharmacy',
-    href: '/work/lloyds-pharmacy/',
-    img: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80&fit=crop',
-    result: 'Driving category leadership for STI tests',
-  },
-  {
-    id: 'plt',
-    category: 'Outfits',
-    period: '[2021-2023]',
-    client: 'PrettyLittleThing',
-    href: '/work/prettylittlething/',
-    img: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80&fit=crop',
-    result: 'Driving discovery for everything "outfits" for PLT',
+    id:         'revolution',
+    client:     'Revolution Beauty',
+    period:     '[2022–2025]',
+    category:   'Beauty',
+    result:     "Building the UK's leading beauty dupe brand",
+    href:       '/work/revolution-beauty/',
+    img:        'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1400&q=85&fit=crop',
+    overlayBg:  '#8b2252',
   },
 ];
 
-function WorkCard({ item, index }) {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 });
-  const [hovered, setHovered] = useState(false);
+/* ── Arrow SVG ───────────────────────────────────────────────────────────── */
+const Arrow = ({ size = 16, color = '#121212' }) => (
+  <svg width={size} height={size} viewBox="0 0 10 10" fill="none"
+    stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M2 8L8 2M8 2H3M8 2v5" />
+  </svg>
+);
 
-  return (
-    <motion.a
-      ref={ref}
-      href={item.href}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease: [0.135, 0.9, 0.15, 1] }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="work-card relative block overflow-hidden rounded-2xl bg-[#1f1f1f] cursor-pointer"
-      style={{ aspectRatio: '4/3' }}
-    >
-      {/* Image */}
-      <img
-        src={item.img}
-        alt={item.client}
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{
-          transform: hovered ? 'scale(1.04)' : 'scale(1)',
-          transition: 'transform 0.6s cubic-bezier(.135,.9,.15,1)',
-        }}
-        loading="lazy"
-      />
-
-      {/* Gradient overlay */}
-      <div
-        className="absolute inset-0 transition-opacity duration-400"
-        style={{
-          background: 'linear-gradient(to top, rgba(18,18,18,0.85) 0%, rgba(18,18,18,0.2) 50%, rgba(18,18,18,0.1) 100%)',
-        }}
-      />
-
-      {/* Top right: category tag */}
-      {item.category && (
-        <div className="absolute top-4 right-4 flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1.5 z-10">
-          <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <span className="text-white text-xs font-semibold">{item.category}</span>
-          <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-          </svg>
-        </div>
-      )}
-
-      {/* Bottom text */}
-      <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
-        <p className="text-white/50 text-xs font-normal mb-1">{item.period}</p>
-        <h3 className="text-white text-lg sm:text-xl font-medium leading-tight tracking-tight">{item.client}</h3>
-        <p
-          className="text-white/70 text-sm mt-1.5 transition-all duration-300"
-          style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateY(0)' : 'translateY(6px)' }}
-        >
-          {item.result}
-        </p>
-      </div>
-
-      {/* Arrow button */}
-      <div
-        className="absolute top-4 left-4 w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-md z-10 transition-all duration-300"
-        style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'scale(1)' : 'scale(0.8)' }}
-      >
-        <svg className="w-4 h-4 text-[#282828]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-        </svg>
-      </div>
-    </motion.a>
-  );
-}
-
+/* ── Component ───────────────────────────────────────────────────────────── */
 export default function FeaturedWork() {
-  const [titleRef, titleInView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const sectionRef  = useRef(null);
+  const labelRefs   = useRef([]);
+  const cardRefs    = useRef([]);
+  const cursorRef   = useRef(null);
+  const activeIdx   = useRef(0);
+
+  useEffect(() => {
+    const labels = labelRefs.current.filter(Boolean);
+    const cards  = cardRefs.current.filter(Boolean);
+    if (!labels.length || !cards.length) return;
+
+    /* ── Initial label states ── */
+    gsap.set(labels,      { opacity: 0.18 });
+    gsap.set(labels[0],   { opacity: 1 });
+
+    /* ── Activate helper ── */
+    const activate = (i) => {
+      if (activeIdx.current === i) return;
+      activeIdx.current = i;
+      gsap.to(labels,    { opacity: 0.18, duration: 0.45, ease: 'power2.out' });
+      gsap.to(labels[i], { opacity: 1,    duration: 0.45, ease: 'power2.out' });
+    };
+
+    /* ── ScrollTrigger per card — no pinning ── */
+    const triggers = cards.map((card, i) =>
+      ScrollTrigger.create({
+        trigger:     card,
+        start:       'top 60%',
+        end:         'bottom 40%',
+        onEnter:     () => activate(i),
+        onEnterBack: () => activate(i),
+      })
+    );
+
+    /* ── Custom cursor RAF loop ── */
+    const cursor = cursorRef.current;
+    let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+    let cx = tx, cy = ty;
+    let raf;
+
+    const onMove = (e) => { tx = e.clientX; ty = e.clientY; };
+    const loop   = () => {
+      cx += (tx - cx) * 0.11;
+      cy += (ty - cy) * 0.11;
+      cursor.style.transform = `translate(${cx}px,${cy}px) translate(-50%,-50%)`;
+      raf = requestAnimationFrame(loop);
+    };
+    window.addEventListener('mousemove', onMove);
+    raf = requestAnimationFrame(loop);
+
+    /* ── Card hover animations ── */
+    const cleanups = cards.map((card) => {
+      const overlay  = card.querySelector('[data-overlay]');
+      const img      = card.querySelector('[data-img]');
+      const caption  = card.querySelector('[data-caption]');
+
+      /* Set initial GSAP state so nothing fights CSS */
+      gsap.set(overlay,  { opacity: 0 });
+      gsap.set(caption,  { opacity: 0, y: 14 });
+      gsap.set(img,      { scale: 1, filter: 'brightness(1) blur(0px)' });
+
+      const onEnter = () => {
+        gsap.to(cursor,  { scale: 1,    duration: 0.3,  ease: 'back.out(1.7)' });
+        gsap.to(overlay, { opacity: 1,  duration: 0.45, ease: 'power3.out' });
+        gsap.to(img,     { scale: 1.04, filter: 'brightness(0.28) blur(3px)', duration: 0.5, ease: 'power3.out' });
+        gsap.to(caption, { opacity: 1,  y: 0, duration: 0.38, ease: 'power3.out', delay: 0.06 });
+      };
+
+      const onLeave = () => {
+        gsap.to(cursor,  { scale: 0,    duration: 0.22, ease: 'power2.in' });
+        gsap.to(overlay, { opacity: 0,  duration: 0.38, ease: 'power3.out' });
+        gsap.to(img,     { scale: 1,    filter: 'brightness(1) blur(0px)', duration: 0.42, ease: 'power3.out' });
+        gsap.to(caption, { opacity: 0,  y: 14, duration: 0.28, ease: 'power3.in' });
+      };
+
+      card.addEventListener('mouseenter', onEnter);
+      card.addEventListener('mouseleave', onLeave);
+      return () => {
+        card.removeEventListener('mouseenter', onEnter);
+        card.removeEventListener('mouseleave', onLeave);
+      };
+    });
+
+    /* ── Section enter/leave for cursor visibility ── */
+    const section = sectionRef.current;
+    const onSectionLeave = () => gsap.to(cursor, { scale: 0, duration: 0.2 });
+    section.addEventListener('mouseleave', onSectionLeave);
+
+    return () => {
+      triggers.forEach(t => t.kill());
+      window.removeEventListener('mousemove', onMove);
+      section.removeEventListener('mouseleave', onSectionLeave);
+      cancelAnimationFrame(raf);
+      cleanups.forEach(fn => fn());
+    };
+  }, []);
 
   return (
-    <section id="featured-work" className="bg-[#efeeec] pb-6">
-      {/* Dark rounded container — exactly like the real site */}
-      <div className="mx-3 sm:mx-4 lg:mx-6 bg-[#121212] rounded-3xl overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-12 lg:py-16">
-          {/* Header */}
-          <motion.div
-            ref={titleRef}
-            initial={{ opacity: 0, y: 20 }}
-            animate={titleInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, ease: [0.135, 0.9, 0.15, 1] }}
-            className="flex items-center justify-between mb-10"
-          >
-            <h2 className="text-white text-[clamp(28px,4vw,52px)] font-medium tracking-tight leading-tight">
-              Featured Work
-            </h2>
-            <a
-              href="/work/"
-              className="hidden sm:inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium px-5 py-2.5 rounded-full border border-white/15 transition-all duration-300"
-            >
-              View All
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 10 10" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2 8L8 2M8 2H3M8 2v5"/>
-              </svg>
-            </a>
-          </motion.div>
-
-          {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {workItems.map((item, index) => (
-              <WorkCard key={item.id} item={item} index={index} />
-            ))}
-          </div>
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={titleInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="mt-8 text-center"
-          >
-            <a
-              href="/work/"
-              id="explore-work-btn"
-              className="inline-flex items-center gap-2 bg-white text-[#282828] text-sm font-medium px-7 py-3.5 rounded-full hover:bg-[#b2f6e3] transition-colors duration-300"
-            >
-              Explore Our Work
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 10 10" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2 8L8 2M8 2H3M8 2v5"/>
-              </svg>
-            </a>
-          </motion.div>
-        </div>
+    <>
+      {/* ── Fixed custom cursor ── */}
+      <div
+        ref={cursorRef}
+        style={{
+          position:      'fixed',
+          top: 0, left: 0,
+          zIndex:        9998,
+          pointerEvents: 'none',
+          transform:     'translate(-50%,-50%) scale(0)',
+          width: 56, height: 56,
+          background:    '#ffffff',
+          borderRadius:  '50%',
+          display:       'flex',
+          alignItems:    'center',
+          justifyContent:'center',
+          willChange:    'transform',
+          boxShadow:     '0 4px 20px rgba(0,0,0,0.18)',
+        }}
+      >
+        <Arrow size={16} color="#121212" />
       </div>
-    </section>
+
+      {/* ── Responsive grid styles ── */}
+      <style>{`
+        .fw-grid {
+          display: grid;
+          grid-template-columns: clamp(240px,38%,460px) 1fr;
+          align-items: start;
+        }
+        .fw-left {
+          position: sticky;
+          top: 0;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        @media (max-width: 767px) {
+          .fw-grid {
+            grid-template-columns: 1fr;
+          }
+          .fw-left {
+            position: relative;
+            height: auto;
+            padding-bottom: 0 !important;
+          }
+        }
+      `}</style>
+
+      {/* ── Section wrapper (matches page's dark card style) ── */}
+      <section
+        id="featured-work"
+        ref={sectionRef}
+        className="bg-[#efeeec]"
+        style={{ paddingBottom: 24 }}
+      >
+        {/* overflow:clip keeps rounded corners without breaking sticky */}
+        <div
+          className="mx-3 sm:mx-4 lg:mx-6 rounded-3xl"
+          style={{ background: '#0d0d0d', overflow: 'clip' }}
+        >
+
+          {/* ── 2-col grid: sticky left + scrolling right ── */}
+          <div className="fw-grid">
+
+            {/* ══ LEFT — sticky label panel ══ */}
+            <div
+              className="fw-left"
+              style={{
+                padding:     'clamp(32px,5vw,64px) clamp(24px,4vw,52px)',
+                borderRight: '1px solid rgba(255,255,255,0.07)',
+              }}
+            >
+              {/* Section label */}
+              <p style={{
+                color:         'rgba(255,255,255,0.35)',
+                fontSize:      12,
+                fontWeight:    500,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                marginBottom:  'clamp(28px,4vh,48px)',
+              }}>
+                Featured Work
+              </p>
+
+              {/* Client list */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(6px,1.2vh,14px)' }}>
+                {WORK.map((item, i) => (
+                  <a
+                    key={item.id}
+                    ref={el => { labelRefs.current[i] = el; }}
+                    href={item.href}
+                    style={{ textDecoration: 'none', display: 'block' }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
+                      <span style={{
+                        color:         '#ffffff',
+                        fontSize:      'clamp(22px,2.8vw,40px)',
+                        fontWeight:    700,
+                        letterSpacing: '-0.03em',
+                        lineHeight:    1.1,
+                      }}>
+                        {item.client}
+                      </span>
+                      <span style={{
+                        color:         'rgba(255,255,255,0.4)',
+                        fontSize:      'clamp(9px,0.8vw,12px)',
+                        fontWeight:    400,
+                        letterSpacing: '0.04em',
+                        flexShrink:    0,
+                      }}>
+                        {item.period}
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+
+              {/* View all */}
+              <a
+                href="/work/"
+                style={{
+                  marginTop:     'clamp(28px,4vh,48px)',
+                  display:       'inline-flex',
+                  alignItems:    'center',
+                  gap:           8,
+                  color:         'rgba(255,255,255,0.38)',
+                  fontSize:      12,
+                  fontWeight:    500,
+                  letterSpacing: '0.04em',
+                  textDecoration:'none',
+                  transition:    'color 0.3s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.9)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.38)'}
+              >
+                View all work <Arrow size={10} color="currentColor" />
+              </a>
+            </div>
+
+            {/* ══ RIGHT — scrolling cards ══ */}
+            <div style={{
+              display:       'flex',
+              flexDirection: 'column',
+              gap:           'clamp(16px,2vw,24px)',
+              padding:       'clamp(24px,4vw,48px)',
+            }}>
+              {WORK.map((item, i) => (
+                <a
+                  key={item.id}
+                  ref={el => { cardRefs.current[i] = el; }}
+                  href={item.href}
+                  style={{
+                    position:       'relative',
+                    display:        'block',
+                    borderRadius:   'clamp(16px,1.8vw,28px)',
+                    overflow:       'hidden',
+                    minHeight:      'clamp(320px,62vh,700px)',
+                    cursor:         'none',
+                    textDecoration: 'none',
+                    flexShrink:     0,
+                  }}
+                >
+                  {/* Image */}
+                  <img
+                    data-img
+                    src={item.img}
+                    alt={item.client}
+                    loading="lazy"
+                    style={{
+                      position:        'absolute',
+                      inset:           0,
+                      width:           '100%',
+                      height:          '100%',
+                      objectFit:       'cover',
+                      display:         'block',
+                      transformOrigin: 'center center',
+                    }}
+                  />
+
+                  {/* Subtle bottom gradient (always visible) */}
+                  <div style={{
+                    position:   'absolute',
+                    bottom:     0, left: 0, right: 0,
+                    height:     '45%',
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)',
+                    zIndex:     1,
+                    pointerEvents: 'none',
+                  }} />
+
+                  {/* Default bottom-right: category tag */}
+                  {item.category && (
+                    <div style={{
+                      position:       'absolute',
+                      bottom:         'clamp(14px,2vw,22px)',
+                      right:          'clamp(14px,2vw,22px)',
+                      zIndex:         2,
+                      display:        'flex',
+                      alignItems:     'center',
+                      gap:            6,
+                      background:     'rgba(255,255,255,0.18)',
+                      backdropFilter: 'blur(10px)',
+                      padding:        '6px 14px',
+                      borderRadius:   999,
+                      fontSize:       12,
+                      fontWeight:     500,
+                      color:          '#fff',
+                      letterSpacing:  '0.02em',
+                    }}>
+                      <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
+                        <circle cx="6.5" cy="6.5" r="5" /><path d="M10.5 10.5l3 3" />
+                      </svg>
+                      {item.category}
+                      <Arrow size={10} color="#ffffff" />
+                    </div>
+                  )}
+
+                  {/* Color overlay (GSAP-controlled, starts opacity:0) */}
+                  <div
+                    data-overlay
+                    style={{
+                      position:   'absolute',
+                      inset:      0,
+                      background: item.overlayBg,
+                      zIndex:     3,
+                    }}
+                  />
+
+                  {/* Hover caption (GSAP-controlled, starts opacity:0 y:14) */}
+                  <div
+                    data-caption
+                    style={{
+                      position:        'absolute',
+                      inset:           0,
+                      zIndex:          4,
+                      display:         'flex',
+                      flexDirection:   'column',
+                      justifyContent:  'space-between',
+                      padding:         'clamp(24px,3.5vw,48px)',
+                      pointerEvents:   'none',
+                    }}
+                  >
+                    {/* Result text */}
+                    <p style={{
+                      color:         '#121212',
+                      fontSize:      'clamp(22px,2.8vw,42px)',
+                      fontWeight:    500,
+                      letterSpacing: '-0.03em',
+                      lineHeight:    1.15,
+                      maxWidth:      '72%',
+                    }}>
+                      {item.result}
+                    </p>
+
+                    {/* Bottom row */}
+                    <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                      {/* Mint circle arrow */}
+                      <div style={{
+                        width:           'clamp(56px,5.5vw,80px)',
+                        height:          'clamp(56px,5.5vw,80px)',
+                        background:      '#b2f6e3',
+                        borderRadius:    '50%',
+                        display:         'flex',
+                        alignItems:      'center',
+                        justifyContent:  'center',
+                        flexShrink:      0,
+                        boxShadow:       '0 8px 28px rgba(178,246,227,0.3)',
+                      }}>
+                        <Arrow size={20} color="#121212" />
+                      </div>
+
+                      {/* Category badge (hover version) */}
+                      {item.category && (
+                        <div style={{
+                          display:        'flex',
+                          alignItems:     'center',
+                          gap:            6,
+                          background:     'rgba(255,255,255,0.9)',
+                          padding:        '7px 16px',
+                          borderRadius:   999,
+                          fontSize:       12,
+                          fontWeight:     600,
+                          color:          '#121212',
+                          letterSpacing:  '0.02em',
+                        }}>
+                          <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#121212" strokeWidth={2} strokeLinecap="round">
+                            <circle cx="6.5" cy="6.5" r="5" /><path d="M10.5 10.5l3 3" />
+                          </svg>
+                          {item.category}
+                          <Arrow size={10} color="#121212" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </a>
+              ))}
+
+              {/* Explore CTA at bottom */}
+              <div style={{ textAlign: 'center', paddingTop: 8 }}>
+                <a
+                  href="/work/"
+                  style={{
+                    display:        'inline-flex',
+                    alignItems:     'center',
+                    gap:            8,
+                    background:     '#ffffff',
+                    color:          '#121212',
+                    fontSize:       14,
+                    fontWeight:     500,
+                    padding:        '13px 28px',
+                    borderRadius:   999,
+                    textDecoration: 'none',
+                    transition:     'background 0.3s',
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = '#b2f6e3'}
+                  onMouseLeave={e => e.currentTarget.style.background = '#ffffff'}
+                >
+                  Explore Our Work <Arrow size={11} color="#121212" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
