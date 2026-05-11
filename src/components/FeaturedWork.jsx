@@ -151,15 +151,9 @@ export default function FeaturedWork() {
       };
     });
 
-    /* ── Section enter/leave for cursor visibility ── */
-    const section = sectionRef.current;
-    const onSectionLeave = () => gsap.to(cursor, { scale: 0, duration: 0.2 });
-    section.addEventListener('mouseleave', onSectionLeave);
-
     return () => {
       triggers.forEach(t => t.kill());
       window.removeEventListener('mousemove', onMove);
-      section.removeEventListener('mouseleave', onSectionLeave);
       cancelAnimationFrame(raf);
       cleanups.forEach(fn => fn());
     };
@@ -167,7 +161,7 @@ export default function FeaturedWork() {
 
   return (
     <>
-      {/* ── Fixed custom cursor ── */}
+      {/* ── Custom cursor — mint circle, only visible on card hover ── */}
       <div
         ref={cursorRef}
         style={{
@@ -176,17 +170,16 @@ export default function FeaturedWork() {
           zIndex:        9998,
           pointerEvents: 'none',
           transform:     'translate(-50%,-50%) scale(0)',
-          width: 56, height: 56,
-          background:    '#ffffff',
+          width: 48, height: 48,
+          background:    '#b2f6e3',
           borderRadius:  '50%',
           display:       'flex',
           alignItems:    'center',
           justifyContent:'center',
           willChange:    'transform',
-          boxShadow:     '0 4px 20px rgba(0,0,0,0.18)',
         }}
       >
-        <Arrow size={16} color="#121212" />
+        <Arrow size={16} color="#282828" />
       </div>
 
       {/* ── Responsive grid styles ── */}
@@ -259,7 +252,7 @@ export default function FeaturedWork() {
                     key={item.id}
                     ref={el => { labelRefs.current[i] = el; }}
                     href={item.href}
-                    style={{ textDecoration: 'none', display: 'block' }}
+                    style={{ textDecoration: 'none', display: 'block', width: '100%' }}
                   >
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
                       <span style={{
@@ -423,20 +416,16 @@ export default function FeaturedWork() {
 
                     {/* Bottom row */}
                     <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-                      {/* Mint circle arrow */}
-                      <div style={{
-                        width:           'clamp(56px,5.5vw,80px)',
-                        height:          'clamp(56px,5.5vw,80px)',
-                        background:      '#b2f6e3',
-                        borderRadius:    '50%',
-                        display:         'flex',
-                        alignItems:      'center',
-                        justifyContent:  'center',
-                        flexShrink:      0,
-                        boxShadow:       '0 8px 28px rgba(178,246,227,0.3)',
+                      {/* Client name */}
+                      <span style={{
+                        color:         '#121212',
+                        fontSize:      'clamp(13px,1.2vw,16px)',
+                        fontWeight:    600,
+                        letterSpacing: '-0.01em',
+                        opacity:       0.7,
                       }}>
-                        <Arrow size={20} color="#121212" />
-                      </div>
+                        {item.client}
+                      </span>
 
                       {/* Category badge (hover version) */}
                       {item.category && (
