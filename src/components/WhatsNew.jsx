@@ -277,7 +277,7 @@ export default function WhatsNew() {
       ref={sectionRef}
       style={{
         background: '#efeeec',
-        padding: 'clamp(28px,3vw,48px) 0',
+        padding: 'clamp(72px,7vw,110px) 0',
         position: 'relative',
         zIndex: 7,
         borderRadius: '28px 28px 0 0',
