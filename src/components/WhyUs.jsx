@@ -190,7 +190,7 @@ export default function WhyUs() {
       const cards = cardRefs.current.filter(Boolean);
       if (!cards.length) return;
 
-      const SCROLL_PER_CARD = window.innerHeight * 0.85;
+      const SCROLL_PER_CARD = window.innerHeight * 0.45;
       const TOTAL_SCROLL    = SCROLL_PER_CARD * cards.length;
 
       gsap.set(cards[0], { zIndex: 3, rotation:  4, x:   0, y:  0, transformOrigin: 'center center' });
