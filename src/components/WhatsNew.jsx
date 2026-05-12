@@ -213,8 +213,12 @@ export default function WhatsNew() {
     if (!cursor) return () => entranceAnim.kill();
     gsap.set(cursor, { xPercent: -50, yPercent: -50, scale: 0 });
 
+    const xTo = gsap.quickTo(cursor, 'x', { duration: 0.1, ease: 'none' });
+    const yTo = gsap.quickTo(cursor, 'y', { duration: 0.1, ease: 'none' });
+
     const onMove = (e) => {
-      gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'none', overwrite: true });
+      xTo(e.clientX);
+      yTo(e.clientY);
     };
 
     /* Section enter: make cursor visible but still scaled=0 (cards will scale it up) */
