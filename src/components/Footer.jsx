@@ -99,14 +99,14 @@ export default function Footer() {
 
   return (
     /* Outer wrapper: p-2 matches the real site's card-with-padding style */
-    <footer id="footer" className="w-full p-2 bg-[#efeeec]" style={{ position: 'relative', zIndex: 2 }}>
+    <footer id="footer" className="w-full p-2 bg-[#efeeec]" style={{ position: 'relative', zIndex: 8, borderRadius: '28px 28px 0 0', marginTop: -28 }}>
       <div className="w-full bg-[#111212] rounded-3xl overflow-hidden">
 
         {/* ── Main grid ── */}
-        <div className="grid grid-cols-12 pt-14 pb-6 lg:py-10 px-4 md:px-7 gap-x-3 md:gap-x-5 gap-y-3 md:gap-y-7">
+        <div className="footer-grid grid grid-cols-12 pt-14 pb-6 lg:py-10 px-4 md:px-7 gap-x-3 md:gap-x-5 gap-y-3 md:gap-y-7">
 
           {/* Left: newsletter + socials */}
-          <div className="flex flex-col items-start justify-start col-span-12 mb-10 lg:mb-0 lg:col-span-4 gap-y-3 md:gap-y-5">
+          <div className="footer-newsletter-col flex flex-col items-start justify-start col-span-12 mb-10 lg:mb-0 lg:col-span-4 gap-y-3 md:gap-y-5">
 
             <h2 className="inline-flex flex-wrap text-balance text-white text-2xl xl:text-3xl font-medium tracking-tight leading-none">
               Stay updated with Rise news
@@ -154,7 +154,7 @@ export default function Footer() {
           </div>
 
           {/* Right: nav columns */}
-          <div className="footer-nav-cols flex justify-between col-span-12 flex-wrap md:flex-row md:col-span-11 lg:col-span-6 lg:col-start-6 gap-y-8">
+          <div className="footer-nav-cols flex justify-between col-span-12 flex-wrap md:flex-nowrap md:flex-row md:col-span-11 lg:col-span-6 lg:col-start-6 gap-y-8">
 
             {/* Col 1 */}
             <div className="flex flex-col items-start gap-y-1.5 border-l border-white/20 pl-3 w-1/2 md:w-auto">

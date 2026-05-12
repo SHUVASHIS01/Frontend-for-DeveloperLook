@@ -12,6 +12,9 @@ export default function ReadyToScroll() {
   const lettersRef = useRef([]);
 
   useLayoutEffect(() => {
+    // Skip entirely on mobile/tablet — component is hidden below lg (1024px)
+    if (window.innerWidth < 1024) return;
+
     // 1. Initialize variable font properties
     lettersRef.current.forEach((char) => {
       if (!char) return;
@@ -81,7 +84,10 @@ export default function ReadyToScroll() {
       // so the animation keeps playing while the footer scrolls up over it.
       ScrollTrigger.create({
         trigger: sectionRef.current,
-        start: 'top 95%',
+        // Start as soon as the section enters the viewport bottom —
+        // at this point WhatsNew is still covering this panel, so revealing
+        // the fixed layer here is seamless (it's hidden behind z-index 2).
+        start: 'top bottom',
         endTrigger: '#footer',
         end: 'bottom bottom',
         scrub: 1,
@@ -101,9 +107,12 @@ export default function ReadyToScroll() {
           }
         },
         onEnter: () => {
+          // Make the fixed layer visible as soon as the section enters —
+          // WhatsNew (z-index:2) will still cover it while it's on screen.
           if (contentRef.current) contentRef.current.style.opacity = '1';
         },
         onLeaveBack: () => {
+          // Only hide when scrolled back above WhatsNew entirely.
           if (contentRef.current) {
             contentRef.current.style.opacity = '0';
             contentRef.current.style.bottom = '0px';
@@ -133,6 +142,7 @@ export default function ReadyToScroll() {
 
   // 3. Mouse Proximity Interaction
   useEffect(() => {
+    if (window.innerWidth < 1024) return;
     const handleMouseMove = (e) => {
       const mouseX = e.clientX;
       const mouseY = e.clientY;
@@ -181,7 +191,14 @@ export default function ReadyToScroll() {
     <section
       ref={sectionRef}
       aria-label="Ready to section"
-      style={{ height: '10vh', position: 'relative', background: '#e9e9ea' }}
+      style={{
+        // Height gives scroll distance for the animation to play while
+        // WhatsNew scrolls off the screen above this fixed panel.
+        height: '80vh',
+        position: 'relative',
+        background: '#e9e9ea',
+        zIndex: 1,
+      }}
     >
       {/* Fixed content layer — stays on screen while footer scrolls over it */}
       <div

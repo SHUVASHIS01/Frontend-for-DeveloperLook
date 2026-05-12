@@ -51,20 +51,25 @@ const Arrow = () => (
 
 /* ── Card ─────────────────────────────────────────────────────────────────── */
 function Card({ data, variant = 'default' }) {
-  /* Mobile carousel variant — 4:3 image at top, text below */
+  /* Mobile carousel variant — portrait image at top, text below */
   if (variant === 'mobile') {
     return (
       <div style={{
         background:    data.bg,
-        borderRadius:  20,
-        boxShadow:     '0 12px 40px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.08)',
+        borderRadius:  24,
+        boxShadow:     '0 16px 48px rgba(0,0,0,0.18), 0 4px 12px rgba(0,0,0,0.10)',
         display:       'flex',
         flexDirection: 'column',
         overflow:      'hidden',
         width:         '100%',
       }}>
-        {/* 4:3 image at top — full card width */}
-        <div style={{ width: '100%', aspectRatio: '4/3', overflow: 'hidden', flexShrink: 0 }}>
+        {/* Portrait image — fills top of card */}
+        <div className="why-us-card-img" style={{
+          width:       '100%',
+          overflow:    'hidden',
+          flexShrink:  0,
+          borderRadius: '20px 20px 0 0',
+        }}>
           <img
             src={data.img}
             alt=""
@@ -73,11 +78,11 @@ function Card({ data, variant = 'default' }) {
         </div>
 
         {/* Text content below image */}
-        <div style={{ padding: '20px 20px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textAlign: 'center' }}>
+        <div style={{ padding: '18px 18px 22px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, textAlign: 'center' }}>
           <h3 style={{
             color:         data.textColor,
-            fontSize:      'clamp(26px,6vw,36px)',
-            fontWeight:    500,
+            fontSize:      'clamp(22px,5vw,30px)',
+            fontWeight:    600,
             letterSpacing: '-0.03em',
             lineHeight:    1,
             margin:        0,
@@ -85,10 +90,10 @@ function Card({ data, variant = 'default' }) {
           }}>
             {data.title}
           </h3>
-          <p style={{ color: data.mutedColor, fontSize: 13, lineHeight: 1.6, margin: 0 }}>
+          <p style={{ color: data.mutedColor, fontSize: 12.5, lineHeight: 1.55, margin: 0 }}>
             {data.body1}
           </p>
-          <p style={{ color: data.mutedColor, fontSize: 13, lineHeight: 1.6, margin: 0 }}>
+          <p style={{ color: data.mutedColor, fontSize: 12.5, lineHeight: 1.55, margin: 0 }}>
             {data.body2}
           </p>
           <a href="/about/" style={{
@@ -231,31 +236,44 @@ export default function WhyUs() {
   };
 
   return (
-    <section style={{ background: '#efeeec' }}>
+    <section style={{ background: '#efeeec', borderRadius: '28px 28px 0 0', marginTop: -28, position: 'relative', zIndex: 6 }}>
 
-      {/* ── Mobile + Tablet carousel (< lg / < 1024px) ── */}
-      <div className="lg:hidden pt-10 pb-6 overflow-hidden">
-        <style>{`
-          .why-us-card-mobile { scroll-snap-align: center; flex-shrink: 0; width: 82vw; max-width: 340px; }
-          @media (min-width: 640px) { .why-us-card-mobile { width: 62vw; max-width: 520px; } }
-        `}</style>
-        <h2 style={{ ...headingStyle, marginBottom: 20, paddingLeft: 16, paddingRight: 16 }}>
+      {/* ── Mobile only (<768px): single Pioneers card ── */}
+      <div className="block md:hidden" style={{ padding: '40px 24px 32px' }}>
+        <h2 style={{ ...headingStyle, marginBottom: 24 }}>
           Legacy In The Making
         </h2>
-        <div style={{
-          display:                'flex',
-          overflowX:              'auto',
-          scrollSnapType:         'x mandatory',
-          gap:                    12,
-          paddingBottom:          20,
-          scrollbarWidth:         'none',
-          msOverflowStyle:        'none',
-          WebkitOverflowScrolling:'touch',
-          paddingLeft:            16,
-          paddingRight:           16,
-        }}>
+        <div style={{ maxWidth: 400, margin: '0 auto' }}>
+          <Card data={CARDS[0]} variant="mobile" />
+        </div>
+      </div>
+
+      {/* ── Tablet only (768px–1023px): 2-card horizontal carousel ── */}
+      <div className="hidden md:block lg:hidden" style={{ paddingTop: 40, paddingBottom: 24 }}>
+        <style>{`
+          .why-us-card-tablet { scroll-snap-align: start; flex-shrink: 0; width: 45vw; max-width: 420px; }
+          .why-us-tablet-scroll::-webkit-scrollbar { display: none; }
+        `}</style>
+        <h2 style={{ ...headingStyle, marginBottom: 20, paddingLeft: 24, paddingRight: 24 }}>
+          Legacy In The Making
+        </h2>
+        <div
+          className="why-us-tablet-scroll"
+          style={{
+            display: 'flex',
+            overflowX: 'auto',
+            scrollSnapType: 'x mandatory',
+            gap: 16,
+            paddingLeft: 24,
+            paddingRight: 24,
+            paddingBottom: 8,
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch',
+          }}
+        >
           {CARDS.map((card) => (
-            <div key={card.id} className="why-us-card-mobile">
+            <div key={card.id} className="why-us-card-tablet">
               <Card data={card} variant="mobile" />
             </div>
           ))}

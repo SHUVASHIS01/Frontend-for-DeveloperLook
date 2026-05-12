@@ -23,7 +23,7 @@ function App() {
         <ChasingMarquee />
         <WhyUs />
         <WhatsNew />
-        <ReadyToScroll />
+        <div className="hidden lg:block"><ReadyToScroll /></div>
       </main>
       <Footer />
     </div>

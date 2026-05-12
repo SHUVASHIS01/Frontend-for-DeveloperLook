@@ -50,31 +50,6 @@ const ClockSVG = () => (
   </svg>
 );
 
-/* ── Custom cursor ────────────────────────────────────────────────────────── */
-function CustomCursor({ ref: cursorRef }) {
-  return (
-    <div
-      ref={cursorRef}
-      style={{
-        position: 'fixed',
-        top: 0, left: 0,
-        width: 48, height: 48,
-        borderRadius: '50%',
-        background: '#b2f6e3',
-        color: '#282828',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        pointerEvents: 'none',
-        zIndex: 9999,
-        transform: 'translate(-50%,-50%) scale(0)',
-        transition: 'background 0.2s',
-        willChange: 'transform',
-      }}
-    >
-      <ArrowSVG size={16} strokeWidth={1.8} />
-    </div>
-  );
-}
-
 /* ── BlogCard ─────────────────────────────────────────────────────────────── */
 function BlogCard({ post, cardRef, imgWrapRef, blurOverlayRef }) {
   return (
@@ -207,42 +182,55 @@ export default function WhatsNew() {
   const blurOverlayRefs = useRef([]);
 
   useEffect(() => {
-    if (window.innerWidth <= 768) return;
+    const isMobile = window.innerWidth <= 768;
     const cards    = cardRefs.current.filter(Boolean);
     const imgWraps = imgWrapRefs.current.filter(Boolean);
     if (!cards.length) return;
 
-    /* 1 ── ScrollTrigger entrance */
-    gsap.fromTo(cards,
-      { opacity: 0, y: 64 },
-      {
-        opacity: 1, y: 0,
-        duration: 0.9,
-        stagger: 0.14,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 78%',
-          once: true,
-        },
-      }
-    );
+    /* 1 ── Set initial hidden state for all cards immediately (before scroll) */
+    gsap.set(cards, { opacity: 0, y: 48 });
 
-    /* 2 ── Removed pulse animation */
+    /* 2 ── Entrance: animate cards in when section scrolls into view */
+    const entranceAnim = gsap.to(cards, {
+      opacity: 1, y: 0,
+      duration: 0.85,
+      stagger: 0.12,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top 85%',
+        once: true,
+      },
+    });
 
-    /* 3 ── Custom cursor tracking */
+    /* 3 — Mobile: entrance only */
+    if (isMobile) {
+      return () => entranceAnim.kill();
+    }
+
+    /* 4 — Desktop: init cursor GSAP state (xPercent/yPercent for centering — no CSS % transforms) */
     const cursor = cursorRef.current;
-    const onMove = (e) => {
-      gsap.to(cursor, {
-        x: e.clientX, y: e.clientY,
-        duration: 0.12,
-        ease: 'power2.out',
-        overwrite: 'auto',
-      });
-    };
-    window.addEventListener('mousemove', onMove);
+    if (!cursor) return () => entranceAnim.kill();
+    gsap.set(cursor, { xPercent: -50, yPercent: -50, scale: 0 });
 
-    /* 4 ── Per-card hover animations */
+    const onMove = (e) => {
+      gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'none', overwrite: true });
+    };
+
+    /* Section enter: make cursor visible but still scaled=0 (cards will scale it up) */
+    const section = sectionRef.current;
+    section.style.cursor = 'none';
+    const onSectionEnter = () => gsap.to(cursor, { autoAlpha: 1, duration: 0.15 });
+    const onSectionLeave = () => {
+      gsap.to(cursor, { scale: 0, autoAlpha: 0, duration: 0.2 });
+      section.style.cursor = '';
+    };
+
+    window.addEventListener('mousemove', onMove);
+    section.addEventListener('mouseenter', onSectionEnter);
+    section.addEventListener('mouseleave', onSectionLeave);
+
+    /* 5 — Per-card hover: blur overlay slides up, card lifts, cursor grows */
     const cleanups = cards.map((card, i) => {
       const img         = imgWraps[i];
       const blurOverlay = blurOverlayRefs.current[i];
@@ -250,43 +238,20 @@ export default function WhatsNew() {
       const titleEl     = card.querySelector('[data-title]');
 
       const onEnter = () => {
-        /* Show cursor */
-        gsap.to(cursor, { scale: 1, duration: 0.25, ease: 'back.out(1.4)' });
-
-        /* Image: zoom (NO filter on the image itself!) */
-        gsap.to(img, { scale: 1.05, duration: 0.4, ease: 'power2.out' });
-
-        /* Blur Overlay: slide up from bottom; rounded top stays as leading edge, clipped when fully covering */
-        gsap.to(blurOverlay, { top: '-30%', duration: 0.55, ease: 'power2.out' });
-
-        /* Card: pop up on Y axis and scale */
-        gsap.to(card, { y: -12, scale: 1.015, duration: 0.3, ease: 'power2.out' });
-
-        /* Arrow */
+        gsap.to(cursor,      { scale: 1,    duration: 0.3,  ease: 'back.out(1.4)' });
+        gsap.to(img,         { scale: 1.06, duration: 0.5,  ease: 'power2.out' });
+        gsap.to(blurOverlay, { top: '-30%', duration: 0.6,  ease: 'power2.out' });
+        gsap.to(card,        { y: -10, scale: 1.015, duration: 0.35, ease: 'power2.out' });
         if (arrowEl) gsap.to(arrowEl, { opacity: 1, duration: 0.25 });
-
-        /* Title: slight upward nudge */
-        if (titleEl) gsap.to(titleEl, { y: -3, color: '#555', duration: 0.3, ease: 'power2.out' });
+        if (titleEl) gsap.to(titleEl, { color: '#555', duration: 0.3 });
       };
-
       const onLeave = () => {
-        /* Hide cursor */
-        gsap.to(cursor, { scale: 0, duration: 0.2, ease: 'power2.in' });
-
-        /* Reset image */
-        gsap.to(img, { scale: 1, duration: 0.4, ease: 'power2.out' });
-
-        /* Blur Overlay: slide back down below container */
-        gsap.to(blurOverlay, { top: '100%', duration: 0.45, ease: 'power2.inOut' });
-
-        /* Reset card */
-        gsap.to(card, { y: 0, scale: 1, duration: 0.3, ease: 'power2.out' });
-
-        /* Reset arrow */
+        gsap.to(cursor,      { scale: 0,    duration: 0.2,  ease: 'power2.in' });
+        gsap.to(img,         { scale: 1,    duration: 0.5,  ease: 'power2.out' });
+        gsap.to(blurOverlay, { top: '100%', duration: 0.5,  ease: 'power2.inOut' });
+        gsap.to(card,        { y: 0, scale: 1, duration: 0.35, ease: 'power2.out' });
         if (arrowEl) gsap.to(arrowEl, { opacity: 0, duration: 0.2 });
-
-        /* Reset title */
-        if (titleEl) gsap.to(titleEl, { y: 0, color: '#282828', duration: 0.3, ease: 'power2.out' });
+        if (titleEl) gsap.to(titleEl, { color: '#282828', duration: 0.3 });
       };
 
       card.addEventListener('mouseenter', onEnter);
@@ -299,8 +264,10 @@ export default function WhatsNew() {
 
     return () => {
       window.removeEventListener('mousemove', onMove);
+      section.removeEventListener('mouseenter', onSectionEnter);
+      section.removeEventListener('mouseleave', onSectionLeave);
       cleanups.forEach(fn => fn());
-      ScrollTrigger.getAll().forEach(t => t.kill());
+      entranceAnim.kill();
     };
   }, []);
 
@@ -308,10 +275,35 @@ export default function WhatsNew() {
     <section
       id="whats-new"
       ref={sectionRef}
-      style={{ background: '#efeeec', padding: 'clamp(60px,6vw,100px) 0' }}
+      style={{
+        background: '#efeeec',
+        padding: 'clamp(60px,6vw,100px) 0',
+        position: 'relative',
+        zIndex: 7,
+        borderRadius: '28px 28px 0 0',
+        marginTop: -28,
+      }}
     >
-      {/* Custom cursor */}
-      <CustomCursor ref={cursorRef} />
+      {/* ── Custom cursor — GSAP controls ALL transforms (no CSS percentage transforms) ── */}
+      <div
+        ref={cursorRef}
+        style={{
+          position:      'fixed',
+          top: 0, left: 0,
+          width: 48, height: 48,
+          borderRadius:  '50%',
+          background:    '#b2f6e3',
+          color:         '#282828',
+          display:       'flex', alignItems: 'center', justifyContent: 'center',
+          pointerEvents: 'none',
+          zIndex:        9999,
+          opacity:       0,
+          visibility:    'hidden',
+          willChange:    'transform',
+        }}
+      >
+        <ArrowSVG size={16} strokeWidth={1.8} />
+      </div>
 
       <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 clamp(16px,4vw,48px)' }}>
 

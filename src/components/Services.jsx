@@ -199,7 +199,7 @@ export default function Services() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.08 });
 
   return (
-    <section id="services" style={{ background: '#efeeec', padding: 'clamp(60px,6vw,100px) 0' }}>
+    <section id="services" style={{ background: '#efeeec', padding: 'clamp(60px,6vw,100px) 0', borderRadius: '28px 28px 0 0', marginTop: -28, position: 'relative', zIndex: 4 }}>
       <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 clamp(16px,4vw,48px)' }} ref={ref}>
 
         {/* ── Header ── */}
@@ -246,7 +246,7 @@ export default function Services() {
           {/* View All Services — slide-up text, no color change, border-radius shrinks on hover */}
           <a
             href="/services/"
-            className="group"
+            className="group services-view-all"
             style={{
               display: 'inline-flex', alignItems: 'center',
               background: '#fff',
@@ -303,6 +303,44 @@ export default function Services() {
           ))}
         </motion.div>
 
+        {/* Bottom divider */}
+        <div style={{ height: 1, background: 'rgba(0,0,0,0.10)' }} />
+
+        {/* ── Mobile-only: View All Services button below the list ── */}
+        <a
+          href="/services/"
+          className="group services-mobile-cta"
+          style={{
+            display: 'none', /* shown via responsive.css on mobile */
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8,
+            background: '#fff',
+            border: '1px solid rgba(0,0,0,0.12)',
+            color: '#282828',
+            fontSize: 14,
+            fontWeight: 500,
+            padding: '15px 24px',
+            borderRadius: 999,
+            textDecoration: 'none',
+            marginTop: 20,
+            boxSizing: 'border-box',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Roll-up animation container */}
+          <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', gap: 6, overflow: 'hidden', lineHeight: 1.2 }}>
+            {/* Outgoing line — slides up on hover */}
+            <span className="inline-flex items-center gap-2 transition-transform duration-300 group-hover:-translate-y-full">
+              View All Services <svg width={11} height={11} viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M2 8L8 2M8 2H3M8 2v5" /></svg>
+            </span>
+            {/* Incoming line — rises from below on hover */}
+            <span className="absolute inset-0 inline-flex items-center gap-2 translate-y-full transition-transform duration-300 group-hover:translate-y-0" aria-hidden="true">
+              View All Services <svg width={11} height={11} viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M2 8L8 2M8 2H3M8 2v5" /></svg>
+            </span>
+          </span>
+        </a>
 
       </div>
     </section>

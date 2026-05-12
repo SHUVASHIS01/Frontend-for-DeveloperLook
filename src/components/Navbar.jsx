@@ -134,9 +134,7 @@ function MegaMenu({ link }) {
             {items.map(item => (
               <a key={item.label} href={item.href}
                 onMouseEnter={() => setHoveredImage(item.image)}
-                className={`group block overflow-hidden py-0.5 ${
-                  columns === 2 ? 'text-[17px]' : 'text-[28px] leading-[1.1]'
-                }`}
+                className="group block overflow-hidden py-0.5 text-[28px] leading-[1.1]"
               >
                 <motion.div
                   variants={{
@@ -272,7 +270,7 @@ export default function Navbar() {
       {/* ── Sticky Smart Header ── */}
       <header 
         className={`w-full sticky top-0 z-50 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          hidden ? '-translate-y-[150%]' : 'translate-y-0'
+          hidden ? '-translate-y-full' : 'translate-y-0'
         }`}
         onMouseLeave={closeDropdown}
       >
@@ -358,157 +356,160 @@ export default function Navbar() {
           )}
         </AnimatePresence>
 
-        {/* ── Mobile menu ── */}
-        <AnimatePresence>
-          {mobileOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              style={{
-                position: 'fixed',
-                inset: 0,
-                zIndex: 9999,
-                padding: 8,
-                backdropFilter: 'blur(6px)',
-                WebkitBackdropFilter: 'blur(6px)',
-              }}
-            >
-              {/* Dark card — full height inner container */}
+      </header>
+
+      {/* ── Mobile menu — rendered OUTSIDE header to escape sticky stacking context ── */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 9999,
+              padding: 8,
+              backdropFilter: 'blur(6px)',
+              WebkitBackdropFilter: 'blur(6px)',
+            }}
+          >
+            {/* Dark card — full height inner container */}
+            <div style={{
+              width: '100%',
+              height: '100%',
+              background: 'rgba(14,14,14,0.97)',
+              borderRadius: 24,
+              display: 'flex',
+              flexDirection: 'column',
+              overflowY: 'auto',
+              padding: '16px 20px 24px',
+              boxSizing: 'border-box',
+            }}>
+
+              {/* ── Header: logo + close ── */}
               <div style={{
-                width: '100%',
-                height: '100%',
-                background: 'rgba(14,14,14,0.97)',
-                borderRadius: 24,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingBottom: 16,
+                borderBottom: '1px solid rgba(255,255,255,0.08)',
+              }}>
+                <a href="/" style={{ width: 120, color: '#fff', display: 'block' }}>
+                  <div style={{ aspectRatio: '168/21' }}><RiseLogo /></div>
+                </a>
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  style={{
+                    width: 36, height: 36,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'transparent', border: 'none', cursor: 'pointer',
+                    color: '#ffffff', flexShrink: 0,
+                  }}
+                  aria-label="Close menu"
+                >
+                  <svg width={18} height={18} viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round">
+                    <path d="M2 2l14 14M16 2L2 16" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* ── Nav items ── */}
+              <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                overflowY: 'auto',
-                padding: '16px 20px 24px',
-                boxSizing: 'border-box',
+                flex: 1,
+                borderBottom: '1px solid rgba(255,255,255,0.08)',
               }}>
-
-                {/* ── Header: logo + close ── */}
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  paddingBottom: 16,
-                  borderBottom: '1px solid rgba(255,255,255,0.08)',
-                }}>
-                  <a href="/" style={{ width: 120, color: '#fff', display: 'block' }}>
-                    <div style={{ aspectRatio: '168/21' }}><RiseLogo /></div>
-                  </a>
-                  <button
-                    onClick={() => setMobileOpen(false)}
-                    style={{
-                      width: 36, height: 36,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      background: 'transparent', border: 'none', cursor: 'pointer',
-                      color: '#ffffff', flexShrink: 0,
-                    }}
-                    aria-label="Close menu"
-                  >
-                    <svg width={18} height={18} viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round">
-                      <path d="M2 2l14 14M16 2L2 16" />
-                    </svg>
-                  </button>
-                </div>
-
-                {/* ── Nav items ── */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flex: 1,
-                  borderBottom: '1px solid rgba(255,255,255,0.08)',
-                }}>
-                  {navLinks.map(link => (
-                    <div key={link.key} style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                      <div style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                        paddingTop: 14, paddingBottom: 14,
-                      }}>
-                        <a
-                          href={link.href}
+                {navLinks.map(link => (
+                  <div key={link.key} style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      paddingTop: 14, paddingBottom: 14,
+                    }}>
+                      <a
+                        href={link.href}
+                        className="mobile-nav-item-link"
+                        style={{
+                          color: '#ffffff',
+                          fontWeight: 700,
+                          lineHeight: 1,
+                          fontSize: 'clamp(36px,5.8vw,60px)',
+                          letterSpacing: '-0.02em',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        {link.label}
+                      </a>
+                      {link.hasDropdown && (
+                        <button
+                          onClick={() => setMobileExpanded(mobileExpanded === link.key ? null : link.key)}
                           style={{
-                            color: '#ffffff',
-                            fontWeight: 700,
-                            lineHeight: 1,
-                            fontSize: 'clamp(36px,5.8vw,60px)',
-                            letterSpacing: '-0.02em',
-                            textDecoration: 'none',
+                            width: 34, height: 34, borderRadius: '50%',
+                            border: '1px solid rgba(255,255,255,0.25)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            color: 'rgba(255,255,255,0.65)',
+                            flexShrink: 0,
+                            background: 'transparent',
+                            cursor: 'pointer',
                           }}
                         >
-                          {link.label}
-                        </a>
-                        {link.hasDropdown && (
-                          <button
-                            onClick={() => setMobileExpanded(mobileExpanded === link.key ? null : link.key)}
-                            style={{
-                              width: 34, height: 34, borderRadius: '50%',
-                              border: '1px solid rgba(255,255,255,0.25)',
-                              display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              color: 'rgba(255,255,255,0.65)',
-                              flexShrink: 0,
-                              background: 'transparent',
-                              cursor: 'pointer',
-                            }}
-                          >
-                            <ChevronDown isOpen={mobileExpanded === link.key} />
-                          </button>
-                        )}
-                      </div>
-                      <AnimatePresence>
-                        {mobileExpanded === link.key && link.items && (
-                          <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }}
-                            style={{ overflow: 'hidden' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingBottom: 16, paddingLeft: 4 }}>
-                              {link.items.map(item => (
-                                <a key={item.label} href={item.href}
-                                  style={{
-                                    color: 'rgba(255,255,255,0.55)',
-                                    fontSize: 15,
-                                    letterSpacing: '-0.01em',
-                                    fontWeight: 500,
-                                    textDecoration: 'none',
-                                  }}>
-                                  {item.label}
-                                </a>
-                              ))}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                          <ChevronDown isOpen={mobileExpanded === link.key} />
+                        </button>
+                      )}
                     </div>
-                  ))}
-                </div>
-
-                {/* ── Get In Touch CTA ── */}
-                <div style={{ paddingTop: 20, paddingBottom: 4 }}>
-                  <a
-                    href="/connect-with-us/"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 6,
-                      background: '#ffffff',
-                      color: '#121212',
-                      fontSize: 13,
-                      fontWeight: 600,
-                      padding: '12px 22px',
-                      borderRadius: 999,
-                      textDecoration: 'none',
-                      letterSpacing: '-0.01em',
-                    }}
-                  >
-                    Get In Touch <span style={{ fontSize: 12 }}>↗</span>
-                  </a>
-                </div>
+                    <AnimatePresence>
+                      {mobileExpanded === link.key && link.items && (
+                        <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }}
+                          style={{ overflow: 'hidden' }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingBottom: 16, paddingLeft: 4 }}>
+                            {link.items.map(item => (
+                              <a key={item.label} href={item.href}
+                                style={{
+                                  color: 'rgba(255,255,255,0.55)',
+                                  fontSize: 15,
+                                  letterSpacing: '-0.01em',
+                                  fontWeight: 500,
+                                  textDecoration: 'none',
+                                }}>
+                                {item.label}
+                              </a>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ))}
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
+
+              {/* ── Get In Touch CTA ── */}
+              <div style={{ paddingTop: 20, paddingBottom: 4 }}>
+                <a
+                  href="/connect-with-us/"
+                  className="mobile-cta-btn"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    background: '#ffffff',
+                    color: '#121212',
+                    fontSize: 13,
+                    fontWeight: 600,
+                    padding: '12px 22px',
+                    borderRadius: 999,
+                    textDecoration: 'none',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  Get In Touch <span style={{ fontSize: 12 }}>↗</span>
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

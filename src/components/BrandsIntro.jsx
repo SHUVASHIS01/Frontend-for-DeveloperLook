@@ -83,7 +83,7 @@ const ArrowSVG = () => (
 );
 
 /* ── Slide-up button — same effect as footer links, no color change ───────── */
-function SlideButton({ href, children, pill }) {
+function SlideButton({ href, children, pill, className = '' }) {
   const pillStyle = pill ? {
     background: '#fff',
     border: '1px solid rgba(0,0,0,0.12)',
@@ -96,7 +96,7 @@ function SlideButton({ href, children, pill }) {
   return (
     <a
       href={href}
-      className="group inline-flex items-center"
+      className={`group inline-flex items-center ${className}`}
       style={{
         ...pillStyle,
         color: '#282828',
@@ -106,7 +106,7 @@ function SlideButton({ href, children, pill }) {
         cursor: 'pointer',
       }}
     >
-      {/* overflow-hidden on the inner span clips the incoming copy — same pattern as footer FooterLink */}
+      {/* overflow-hidden on the inner span clips the incoming copy */}
       <span className="relative inline-flex items-center gap-2 overflow-hidden" style={{ lineHeight: 1.2 }}>
         {/* Outgoing — slides up on hover */}
         <span className="inline-flex items-center gap-2 transition-transform duration-300 group-hover:-translate-y-full">
@@ -131,7 +131,15 @@ export default function BrandsAndIntro() {
   return (
     <section
       ref={ref}
-      style={{ background: '#efeeec', paddingTop: 'clamp(40px,5vw,80px)', paddingBottom: 0 }}
+      style={{
+        background: '#efeeec',
+        paddingTop: 'clamp(40px,5vw,80px)',
+        paddingBottom: 0,
+        borderRadius: '28px 28px 0 0',
+        marginTop: -28,
+        position: 'relative',
+        zIndex: 2,
+      }}
     >
 
       {/* ══ TOP ROW: label + marquee on the same horizontal line ══ */}
@@ -239,12 +247,12 @@ export default function BrandsAndIntro() {
               </span>
             </h2>
 
-            {/* CTA buttons — slide-up hover, no color change */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              <SlideButton href="/about/" pill>
+            {/* CTA buttons — side-by-side on tablet/desktop, stacked on mobile via responsive.css */}
+            <div className="brands-cta-row" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <SlideButton href="/about/" pill className="brands-btn-story">
                 Our Story <ArrowSVG />
               </SlideButton>
-              <SlideButton href="/services/">
+              <SlideButton href="/services/" className="brands-btn-services">
                 Our Services <ArrowSVG />
               </SlideButton>
             </div>

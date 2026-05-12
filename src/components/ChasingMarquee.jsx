@@ -167,6 +167,10 @@ export default function ChasingMarquee() {
           overflow: 'hidden',
           padding: 'clamp(28px,3vw,48px) 0',
           cursor: 'none',
+          borderRadius: '28px 28px 0 0',
+          marginTop: -28,
+          position: 'relative',
+          zIndex: 5,
         }}
       >
         <style>{`

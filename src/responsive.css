@@ -109,6 +109,29 @@ html, body {
     width: clamp(36px, 6vw, 52px) !important;
     height: clamp(36px, 6vw, 52px) !important;
   }
+
+  /* CTA row: column on mobile */
+  .brands-cta-row {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 4px !important;
+  }
+
+  /* "Our Story" — full-width pill button */
+  .brands-btn-story {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 15px 22px !important;
+    font-size: 15px !important;
+  }
+
+  /* "Our Services" — plain centered text link (no pill) */
+  .brands-btn-services {
+    width: 100% !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+    opacity: 0.7;
+  }
 }
 
 /* ============================================================
@@ -162,12 +185,18 @@ html, body {
   /* Header row: stack title + button vertically */
   .services-header {
     grid-template-columns: 1fr !important;
-    gap: 16px !important;
+    gap: 14px !important;
+    align-items: flex-start !important;
   }
 
-  /* "View All Services" button: full width on mobile */
+  /* Hide the header "View All Services" button on mobile — shown below list instead */
   .services-view-all {
-    align-self: flex-start !important;
+    display: none !important;
+  }
+
+  /* Show the mobile-only CTA after the list */
+  .services-mobile-cta {
+    display: flex !important;
   }
 
   /* Service rows: 2-col → 1-col */
@@ -175,11 +204,16 @@ html, body {
     grid-template-columns: 1fr !important;
   }
 
-  /* Service label: reduce size to prevent overflow */
+  /* Service label: clean mobile size, allow wrapping */
   .services-label {
-    font-size: clamp(24px, 6vw, 40px) !important;
+    font-size: clamp(26px, 7vw, 40px) !important;
     white-space: normal !important;
-    line-height: 1.1 !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Divider between each service row */
+  .services-row + .services-row {
+    border-top: 1px solid rgba(0,0,0,0.08);
   }
 
   /* Reduce section padding */
@@ -219,12 +253,29 @@ html, body {
 }
 
 /* ============================================================
-   WHY US — carousel card width handled inline in WhyUs.jsx
+   WHY US
    ============================================================ */
+
+/* WhyUs mobile scroll: hide webkit scrollbar */
+.why-us-mobile-scroll::-webkit-scrollbar { display: none; }
+
+/* Card image: 4:3 on mobile (shows more content per screen), 3:4 portrait on tablet */
+.why-us-card-img {
+  aspect-ratio: 4/3;
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .why-us-card-img {
+    aspect-ratio: 3/4;
+  }
+}
+
 
 /* ============================================================
    WHATS NEW
    ============================================================ */
+/* Hide scrollbar in Chrome/Edge/Safari for What's New carousel */
+.whats-new-grid::-webkit-scrollbar { display: none; }
+
 @media (max-width: 768px) {
   /* 3-col → horizontal scroll-snap carousel */
   .whats-new-grid {
@@ -233,18 +284,24 @@ html, body {
     overflow-x: auto !important;
     scroll-snap-type: x mandatory !important;
     gap: 16px !important;
-    padding-bottom: 12px !important;
+    padding-bottom: 8px !important;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
     -webkit-overflow-scrolling: touch !important;
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
+  /* Each card: exactly 1 card per snap — full viewport minus padding */
   .whats-new-grid > * {
-    scroll-snap-align: center !important;
+    scroll-snap-align: start !important;
     flex-shrink: 0 !important;
-    width: 80vw !important;
-    max-width: 340px !important;
+    width: calc(100vw - 56px) !important;
+    max-width: 360px !important;
+  }
+  /* Card title: bigger on mobile for readability */
+  .whats-new-grid [data-title] {
+    font-size: 15px !important;
+    line-height: 1.4 !important;
   }
 
   /* Header row: stack title + button */
@@ -265,10 +322,25 @@ html, body {
   }
 }
 
+/* Tablet What's New: proper horizontal scroll carousel (same as mobile) */
 @media (max-width: 1024px) and (min-width: 769px) {
-  /* 3-col → 2-col on tablet */
   .whats-new-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 20px !important;
+    padding-bottom: 12px !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  .whats-new-grid > * {
+    scroll-snap-align: start !important;
+    flex-shrink: 0 !important;
+    width: 56vw !important;
+    max-width: 500px !important;
   }
 }
 
@@ -277,17 +349,27 @@ html, body {
    FOOTER
    ============================================================ */
 @media (max-width: 768px) {
-  /* Nav columns: ensure 2-up on small mobile, 3-up on larger mobile */
+  /* Nav columns: 2-up on mobile, each col takes 50% */
   .footer-nav-cols {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: 24px !important;
+    gap: 20px 16px !important;
     width: 100% !important;
+    flex-wrap: unset !important;
   }
 
-  /* Footer outer padding */
-  .footer-outer {
-    padding: 4px !important;
+  /* Each nav column: full width in grid */
+  .footer-nav-cols > div {
+    width: auto !important;
+    border-left: 1px solid rgba(255,255,255,0.15) !important;
+    padding-left: 12px !important;
+  }
+
+  /* Footer inner grid padding */
+  .footer-grid {
+    padding-top: 40px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
 
   /* Giant wordmark: ensure no overflow */
@@ -299,12 +381,86 @@ html, body {
   .footer-bottom {
     flex-direction: column !important;
     gap: 8px !important;
+    text-align: center !important;
+  }
+
+  /* Reduce newsletter heading size */
+  .footer-newsletter-col h2 {
+    font-size: 1.35rem !important;
   }
 }
 
 @media (max-width: 480px) {
   .footer-nav-cols {
     grid-template-columns: 1fr !important;
+  }
+}
+
+/* Tablet footer: newsletter full-width on top, then 3 nav cols below */
+@media (max-width: 1024px) and (min-width: 769px) {
+  /* Newsletter block → full width */
+  .footer-newsletter-col {
+    grid-column: 1 / -1 !important;
+    max-width: 600px !important;
+  }
+
+  /* Nav cols block → full width, 3 even columns */
+  .footer-nav-cols {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    gap: 48px !important;
+    width: 100% !important;
+  }
+
+  /* Each nav column: consistent sizing */
+  .footer-nav-cols > div {
+    flex: 1 !important;
+    min-width: 120px !important;
+    max-width: 220px !important;
+  }
+
+  /* Footer link size at tablet */
+  .footer-nav-cols a {
+    font-size: 1.05rem !important;
+  }
+
+  /* Wordmark: ensure no overflow */
+  .footer-wordmark {
+    overflow: hidden !important;
+  }
+
+  /* Bottom bar: keep horizontal */
+  .footer-bottom {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+  }
+}
+
+/* ============================================================
+   NAVBAR MOBILE MENU — Mobile + Tablet sizing
+   ============================================================ */
+/* Mobile: bigger, bolder nav items that fill the screen card */
+@media (max-width: 768px) {
+  .mobile-nav-item-link {
+    font-size: clamp(32px, 8.5vw, 48px) !important;
+  }
+  /* Full-width "Get In Touch" CTA on mobile */
+  .mobile-cta-btn {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: center !important;
+    border-radius: 999px !important;
+    padding: 16px 24px !important;
+    font-size: 15px !important;
+  }
+}
+/* Tablet: slightly larger than mobile */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .mobile-nav-item-link {
+    font-size: clamp(40px, 5vw, 56px) !important;
   }
 }
 

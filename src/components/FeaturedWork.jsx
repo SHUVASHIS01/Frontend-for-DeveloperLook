@@ -107,48 +107,59 @@ export default function FeaturedWork() {
       gsap.set(tContainer, { y: getCenterY(texts[0]) });
       gsap.set(iContainer, { y: getCenterY(images[0]) });
 
+      // Number of transitions (4 for 5 items)
+      const transitions = WORK.length - 1;
+      // Each transition occupies this much of the timeline
+      const step = 1;
+      // Total timeline duration (drives end calculation)
+      const totalDuration = transitions * step;
+
       // Build Scrub Timeline
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           pin: true,
-          anticipatePin: 1, // Fixes fast scroll up jumping
-          scrub: 1.5,       // Slower scrub for cinematic feel
+          anticipatePin: 1,
+          scrub: 1.2,
           start: 'top top',
-          end: `+=${WORK.length * 100}%`,
-          invalidateOnRefresh: true, // Recalculates offsets on resize
+          // Each transition = 60vh of scroll → animations start fast
+          end: `+=${transitions * 60}%`,
+          invalidateOnRefresh: true,
         }
       });
 
-      // Animate transitions between items synchronously
+      // Animate transitions between items
       texts.forEach((text, i) => {
         if (i === 0) return;
-        
+
+        // Position in timeline: starts at (i-1)*step
+        const pos = (i - 1) * step;
+
         // Translate both containers to center the next active item
         tl.to(tContainer, {
           y: () => getCenterY(texts[i]),
-          duration: 1,
+          duration: step,
           ease: 'none'
-        }, i);
-        
+        }, pos);
+
         tl.to(iContainer, {
           y: () => getCenterY(images[i]),
-          duration: 1,
+          duration: step,
           ease: 'none'
-        }, i);
-        
+        }, pos);
+
         // Crossfade text opacity
         tl.to(texts[i - 1], {
           opacity: 0.2,
-          duration: 1,
+          duration: step,
           ease: 'none'
-        }, i);
-        
+        }, pos);
+
         tl.to(texts[i], {
           opacity: 1,
-          duration: 1,
+          duration: step,
           ease: 'none'
-        }, i);
+        }, pos);
       });
     }, sectionRef);
 
@@ -267,7 +278,11 @@ export default function FeaturedWork() {
           padding: 'clamp(24px, 4vh, 48px) 0', 
           boxSizing: 'border-box',
           display: 'flex',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          borderRadius: '28px 28px 0 0',
+          marginTop: -28,
+          position: 'relative',
+          zIndex: 3,
         }}
       >
         {/* Full-height dark card container */}
