@@ -203,7 +203,7 @@ export default function WhyUs() {
           start:      'top top',
           end:        `+=${TOTAL_SCROLL}`,
           pin:        true,
-          pinSpacing: true,
+          pinSpacing: false,
           scrub:      0.5,
         },
       });
