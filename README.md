@@ -1,5 +1,7 @@
 # DeveloperLook — Frontend
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://frontend-for-developer-look-9z0ij16ij-shuvashis01s-projects.vercel.app/)
+
 > A high-fidelity frontend recreation of [riseatseven.com](https://riseatseven.com/), built with **React 19 + Vite + Tailwind CSS v4 + GSAP**.
 
 ## 🚀 Tech Stack
@@ -96,20 +98,18 @@ The dev server runs at `http://localhost:5173` by default.
 
 ## 🚀 Deployment
 
-Configured for **Netlify** via `netlify.toml`:
+Deployed on **Vercel**. Every push to `main` triggers an automatic redeployment.
 
-```toml
-[build]
-  command = "npm run build"
-  publish = "dist"
+```bash
+# Build command
+npm run build
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# Output directory
+dist/
 ```
 
 ## 🔗 Links
 
+- **🌐 Live Site**: [frontend-for-developer-look-9z0ij16ij-shuvashis01s-projects.vercel.app](https://frontend-for-developer-look-9z0ij16ij-shuvashis01s-projects.vercel.app/)
 - **Reference Site**: [riseatseven.com](https://riseatseven.com/)
 - **Repository**: [GitHub](https://github.com/SHUVASHIS01/Frontend-for-DeveloperLook)
